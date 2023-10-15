@@ -504,7 +504,6 @@ const deleteMedia = (id: number) => {
   axios
     .delete("/unassigned-media-destroy/" + id)
     .then((response: any) => {
-      // Hide sidebar (image detail)
       selectedImage.value = null;
 
       // Update data

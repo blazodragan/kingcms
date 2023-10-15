@@ -178,6 +178,8 @@ trait ProcessMediaTrait
      */
     protected function guardAgainstFileSizeLimit(string $filePath, float $maxFileSize, string $name): void
     {
+      
+
         $validation = Validator::make(
             ['file' => new File($filePath)],
             ['file' => 'max:' . round($maxFileSize / 1024)]

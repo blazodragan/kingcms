@@ -107,7 +107,8 @@ class NewsController extends Controller
         $news->load('media');
 
         $news->load('categories');
-
+        dd($news);
+        
         return Inertia::render('News/Edit', [
             'news' => $news,
             'userOptions' => User::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->name]),
@@ -123,7 +124,6 @@ class NewsController extends Controller
     {
         $news->update($request->validated());
 
-        
         if ($request->input('categories_ids')) {
             $news->categories()->sync($request->input('categories_ids'));
         }

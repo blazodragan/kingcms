@@ -10,6 +10,7 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+        @include('nav')
         @yield('content')
 </body>
  <!-- JavaScript for Dropdown -->

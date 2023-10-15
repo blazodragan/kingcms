@@ -9,7 +9,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import NavItem from '@/Components/NavItem.vue';
-import {HomeIcon, DocumentTextIcon, NewspaperIcon, StarIcon, TagIcon, Cog6ToothIcon, KeyIcon, UserCircleIcon, FolderIcon, BuildingOffice2Icon} from '@heroicons/vue/24/outline';
+import {HomeIcon, DocumentTextIcon, NewspaperIcon, StarIcon, TagIcon, Cog6ToothIcon, DocumentIcon, UserCircleIcon, FolderIcon, LanguageIcon} from '@heroicons/vue/24/outline';
 import ToastList from "@/Components/ToastList.vue";
 
 defineProps({
@@ -21,7 +21,7 @@ const page = usePage();
 
 // Navigation Menu
 const mainNavItems = [
-
+    {href:"pages.index", label: "Pages", children: [], icon: DocumentIcon, permission: 'sanctum'},
     {href:"news.index", label: "News", children: [], icon: NewspaperIcon, permission: 'sanctum'},
     {href:"reviews.index", label: "Reviews", children: [], icon: StarIcon, permission: 'sanctum'},
     {href:"categories.index", label: "Categories", children: [], icon: TagIcon, permission: 'sanctum'},
@@ -33,7 +33,8 @@ const mainNavItems = [
 const allNavItems = [
     {href:"users.index", label: "Users", children: [], icon: UserCircleIcon, permission: 'sanctum'},
     {href:"settings.index", label: "Settings", children: [], icon: Cog6ToothIcon, permission: 'sanctum.settings.edit'},
-    {href:"roles.index", label: "Roles", children: [], icon: KeyIcon, permission: 'sanctum.role.index'},
+    {href:"translations.index", label: "Translations", children: [], icon: LanguageIcon, permission: 'sanctum.settings.edit'},
+
     {href:"permissions.index", label: "Permissions", children: [], icon: DocumentTextIcon, permission: 'sanctum.permission.index'},
     {href:"profile.show", label: "Profile", children: [], icon: UserCircleIcon, permission: 'sanctum'},
 ];
@@ -314,7 +315,7 @@ onUnmounted(() => {
 
                             <!-- Authentication -->
                             <form method="POST" @submit.prevent="logout">
-                                <ResponsiveNavLink as="button">
+                                <ResponsiveNavLink>
                                     Log Out
                                 </ResponsiveNavLink>
                             </form>

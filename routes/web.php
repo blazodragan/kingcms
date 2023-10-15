@@ -16,6 +16,13 @@ use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\UnassignedMediaController;
 use App\Http\Controllers\Media\MediaController;
 use App\Http\Controllers\FAQController;
+use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\NewsSiteController;
+use App\Http\Controllers\PagesController;
+use App\Http\Controllers\TagsController;
+use App\Http\Controllers\Translations\TranslationsController;
 use Laravel\Sanctum\PersonalAccessToken;
 
 /*
@@ -30,9 +37,14 @@ use Laravel\Sanctum\PersonalAccessToken;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/location', [LocationController::class, 'index'])->name('location');
+Route::get('/allnews', [NewsSiteController::class, 'index'])->name('allnews');
+
+
+
+Route::post('logout', [LogoutController::class, 'destroy'])->name('logout');
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
 //         'canLogin' => Route::has('login'),
@@ -48,7 +60,7 @@ Route::middleware([
     'verified',
 ])->prefix(config('app.admin_path'))->group(function () {
     
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('faqs', [FAQController::class, 'index'])->name('media.index');
 
@@ -109,6 +121,17 @@ Route::middleware([
     Route::post('news/bulk-destroy', [App\Http\Controllers\NewsController::class, 'bulkDestroy'])->name('news.bulk-destroy');
 
 
+        // pages
+    Route::get('pages', [PagesController::class, 'index'])->name('pages.index');
+    Route::get('pages/create', [PagesController::class, 'create'])->name('pages.create');
+    Route::post('pages', [PagesController::class, 'store'])->name('pages.store');
+    Route::get('pages/export', [PagesController::class, 'export'])->name('pages.export');
+    Route::get('pages/edit/{page}', [PagesController::class, 'edit'])->name('pages.edit');
+    Route::match(['put', 'patch'], 'pages/{pages}', [PagesController::class, 'update'])->name('pages.update');
+    Route::delete('pages/{pages}', [PagesController::class, 'destroy'])->name('pages.destroy');
+    Route::post('pages/bulk-destroy', [PagesController::class, 'bulkDestroy'])->name('pages.bulk-destroy');
+
+
     // reviews
     Route::get('reviews', [App\Http\Controllers\ReviewController::class, 'index'])->name('reviews.index');
     Route::get('reviews/create', [App\Http\Controllers\ReviewController::class, 'create'])->name('reviews.create');
@@ -118,6 +141,19 @@ Route::middleware([
     Route::match(['put', 'patch'], 'reviews/{review}', [App\Http\Controllers\ReviewController::class, 'update'])->name('reviews.update');
     Route::delete('reviews/{review}', [App\Http\Controllers\ReviewController::class, 'destroy'])->name('reviews.destroy');
     Route::post('reviews/bulk-destroy', [App\Http\Controllers\ReviewController::class, 'bulkDestroy'])->name('reviews.bulk-destroy');
+
+
+    // translations management
+    Route::get('translations', [TranslationsController::class, 'index'])->name('translations.index');
+    Route::post('translations/rescan', [TranslationsController::class, 'rescan'])->name('translations.rescan');
+    Route::get('translations/export', [TranslationsController::class, 'export'])->name('translations.export');
+    Route::post('translations/import', [TranslationsController::class, 'import'])->name('translations.import');
+    Route::post('translations/import/conflicts', [TranslationsController::class, 'importResolvedConflicts'])->name('translations.import.conflicts');
+    Route::post('translations/publish', [TranslationsController::class, 'publish'])->name('translations.publish');
+    Route::post('translations/{translation}', [TranslationsController::class, 'update'])->name('translations.update');
+
+    // tags management
+    Route::post('tags', [TagsController::class, 'store'])->name('tags.store');
 
 
     

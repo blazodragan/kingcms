@@ -140,7 +140,7 @@ const props = defineProps({
 	</div>
 	<!-- Component End  -->
                     <!-- Commonent Acticites End-->
-                    <h3 class="mb-4 mt-6 font-semibold text-xl">Ticekts Chart</h3>
+                    <h3 class="mb-4 mt-6 font-semibold text-xl"></h3>
                     <div class="grid lg:grid-cols-1 md:grid-cols-1 w-full">
 
                         <!-- <div class="bg-white p-4 shadow-md sm:rounded-lg">
@@ -148,7 +148,7 @@ const props = defineProps({
                         </div> -->
                     </div>
 	<!-- Commonent Acticites Start-->
-	<h3 class="mb-4 mt-10 font-semibold text-xl">Latest Tickets</h3>
+	<h3 class="mb-4 mt-10 font-semibold text-xl"></h3>
 	<div class="grid lg:grid-cols-1 md:grid-cols-1 gap-6 w-full">
 
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg">

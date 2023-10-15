@@ -3,10 +3,6 @@ import Alert from "./Alert.vue";
 import Avatar from "./Avatar.vue";
 import AvatarGroup from "./AvatarGroup.vue";
 import DatePicker from "./DatePicker.vue";
-import Logo from "./Logo.vue";
-import Sidebar from "./Sidebar/Sidebar.vue";
-import SidebarItem from "./Sidebar/SidebarItem.vue";
-import SidebarGroup from "./Sidebar/SidebarGroup.vue";
 import TextInput from "./TextInput.vue";
 import TextArea from "./TextArea.vue";
 import SelectInput from "./SelectInput.vue";
@@ -17,7 +13,6 @@ import Button from "./Button.vue";
 import ButtonGroup from "./ButtonGroup.vue";
 import Dropdown from "./Dropdown/Dropdown.vue";
 import DropdownItem from "./Dropdown/DropdownItem.vue";
-import UserDropdown from "./UserDropdown.vue";
 import Notification from "./Notification.vue";
 import Toggle from "./Toggle.vue";
 import RadioGroup from "./RadioGroup.vue";
@@ -63,10 +58,6 @@ export {
   Avatar,
   AvatarGroup,
   DatePicker,
-  Logo,
-  Sidebar,
-  SidebarItem,
-  SidebarGroup,
   TextInput,
   TextArea,
   SelectInput,
@@ -78,7 +69,6 @@ export {
   Dropdown,
   DropdownItem,
   Pagination,
-  UserDropdown,
   Notification,
   Toggle,
   RadioGroup,

@@ -8,7 +8,7 @@ import { autoAnimatePlugin } from "@formkit/auto-animate/vue";
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import { can } from "craftable-pro/plugins/can";
 import { createI18n } from "vue-i18n";
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Mietwagenparadies';
 axios.defaults.withCredentials = true;
 
 createInertiaApp({

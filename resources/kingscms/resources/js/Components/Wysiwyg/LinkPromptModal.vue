@@ -12,11 +12,11 @@
         :icon="LinkIcon"
       />
     </template>
-    <template #title> {{ $t("craftable-pro", "Add link") }} </template>
+    <template #title> Add link </template>
     <template #content>
       <TextInput
         name="link_url"
-        :label="$t('craftable-pro', 'URL')"
+        :label="'URL'"
         v-model="form.url"
       />
     </template>
@@ -29,10 +29,10 @@
           }
         "
       >
-        {{ $t("craftable-pro", "Submit") }}
+        Submit
       </Button>
       <Button variant="outline" @click="() => setIsOpen(false)">
-        {{ $t("craftable-pro", "Cancel") }}
+        Cancel
       </Button>
     </template>
   </Modal>

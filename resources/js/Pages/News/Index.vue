@@ -1,5 +1,5 @@
 <template>
-  <AppLayout title="Roles">
+  <AppLayout title="News">
   <PageHeader :title="'News'">
     <Button
       :leftIcon="PlusIcon"

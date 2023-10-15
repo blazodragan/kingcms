@@ -2,6 +2,12 @@
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+// config for Brackets/CraftablePro
+use App\Translations\Scanners\External\JsonScanner;
+use App\Translations\Scanners\External\PhpArrayScanner;
+use App\Translations\Scanners\Internal\JsScanner;
+use App\Translations\Scanners\Internal\PhpScanner;
+
 
 return [
 
@@ -109,7 +115,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'de',
 
     /*
     |--------------------------------------------------------------------------
@@ -121,8 +127,9 @@ return [
     | the language folders that are provided through your application.
     |
     */
-
+        
     'fallback_locale' => 'en',
+    'translation' => 'json',
 
     /*
     |--------------------------------------------------------------------------
@@ -213,5 +220,71 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
+
+    
+    'translations' => [
+        
+        'scan' => [
+            PHPScanner::class => [
+                'paths' => [
+                    //base_path('App/Http/Controllers'),
+                    resource_path('views')
+                ]
+            ],
+            // JsScanner::class => [
+            //     'paths' => [
+            //         base_path('resources/js'),
+            //         resource_path('js'),
+            //     ],
+            // ]
+        ],
+
+        //-----------------------------------------------------
+        // Example of external language file
+        //-----------------------------------------------------
+
+        'external' => [
+            [
+                'group' => 'permissions',
+                'scan' => [
+                    JsonScanner::class => [
+                        'paths' => [
+                            resource_path('translations/permissions'),
+                        ]
+                    ],
+                ]
+            ],
+            [
+                'group' => 'locales',
+                'scan' => [
+                    JsonScanner::class => [
+                        'paths' => [
+                            resource_path('translations/locales'),
+                        ]
+                    ],
+                ]
+            ],
+            [
+                'scan' => [
+                    PhpArrayScanner::class => [
+                        'paths' => [
+                            lang_path('/'),
+                        ]
+                    ],
+                ]
+            ]
+        ],
+
+        //-----------------------------------------------------
+        // Example of publishing of json file with translations
+        //-----------------------------------------------------
+
+        'publish' => [
+            'kingcms' => [
+                'groups' => ['kingcms', 'permissions', 'locales'],
+                'path' => public_path('lang/'),
+            ],
+        ]
+    ]
 
 ];

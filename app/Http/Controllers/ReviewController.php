@@ -134,6 +134,7 @@ class ReviewController extends Controller
      */
     public function update(UpdateReviewRequest $request, Review $review): RedirectResponse
     {
+  
         $review->update($request->validated());
 
         
@@ -141,6 +142,7 @@ class ReviewController extends Controller
             $review->categories()->sync($request->input('categories_ids'));
         }
 
+        
                 // Update the review details
         $review->update($request->all());
 
