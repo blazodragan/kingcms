@@ -8,7 +8,7 @@
       {{ label }}
     </label>
 
-    <div v-auto-animate class="mt-1 rounded-md shadow-sm sm:col-span-2 sm:mt-0">
+    <div class="mt-1 rounded-md shadow-sm sm:col-span-2 sm:mt-0">
       <div
         v-if="filteredFiles.length"
         class="rounded-md border border-gray-300"
@@ -19,7 +19,6 @@
       >
         <div
           v-if="onlyThumbs"
-          v-auto-animate
           class="flex flex-wrap items-center gap-4 p-5"
           :class="{ 'justify-center': centered }"
         >
@@ -58,7 +57,6 @@
         </div>
         <div
           v-else
-          v-auto-animate
           class="divide-y divide-gray-100 border-gray-300"
         >
           <div

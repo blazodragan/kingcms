@@ -23,6 +23,8 @@ use App\Http\Controllers\NewsSiteController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\Translations\TranslationsController;
+use App\Http\Controllers\TrustReviewController;
+use App\Http\Controllers\BlockController;
 use Laravel\Sanctum\PersonalAccessToken;
 
 /*
@@ -39,10 +41,13 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/{slug}', [PagesController::class, 'show'])->name('show');
 Route::get('/location', [LocationController::class, 'index'])->name('location');
 Route::get('/allnews', [NewsSiteController::class, 'index'])->name('allnews');
 
 
+Route::get('invite-user/{email}', [UserController::class, 'createInviteAcceptationUser'])->name('invite-user.create');
+Route::post('invite-user', [UserController::class, 'storeInviteAcceptationUser'])->name('invite-user.store');
 
 Route::post('logout', [LogoutController::class, 'destroy'])->name('logout');
 // Route::get('/', function () {
@@ -83,7 +88,8 @@ Route::middleware([
     Route::post('users/bulk-deactivate', [UserController::class, 'bulkDeactivate']);
     Route::post('users/bulk-activate', [UserController::class, 'bulkActivate']);
     Route::get('users/{User}/impersonalLogin', [UserController::class, 'impersonalLogin'])->name('user.impersonalLogin');
-    Route::post('users/invite-user', [UserInvitationController::class, 'inviteUser'])->name('user.invite-user');
+    Route::post('users/invite-user', [UserController::class, 'inviteUser'])->name('invite-user');
+    
 
 
     // permissions management
@@ -108,6 +114,26 @@ Route::middleware([
     Route::match(['put', 'patch'], 'categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     Route::post('categories/bulk-destroy', [CategoryController::class, 'bulkDestroy'])->name('categories.bulk-destroy');
+
+    // blocks
+    Route::get('blocks', [BlockController::class, 'index'])->name('blocks.index');
+    Route::get('blocks/create', [BlockController::class, 'create'])->name('blocks.create');
+    Route::post('blocks', [BlockController::class, 'store'])->name('blocks.store');
+    Route::get('blocks/edit/{block}', [BlockController::class, 'edit'])->name('blocks.edit');
+    Route::match(['put', 'patch'], 'blocks/{block}', [BlockController::class, 'update'])->name('blocks.update');
+    Route::delete('blocks/{block}', [BlockController::class, 'destroy'])->name('blocks.destroy');
+    Route::post('blocks/bulk-destroy', [BlockController::class, 'bulkDestroy'])->name('blocks.bulk-destroy');
+
+
+    // trust_reviews
+    Route::get('trust_reviews', [TrustReviewController::class, 'index'])->name('trust_reviews.index');
+    Route::get('trust_reviews/create', [TrustReviewController::class, 'create'])->name('trust_reviews.create');
+    Route::post('trust_reviews', [TrustReviewController::class, 'store'])->name('trust_reviews.store');
+    Route::get('trust_reviews/export', [TrustReviewController::class, 'export'])->name('trust_reviews.export');
+    Route::get('trust_reviews/edit/{trust_review}', [TrustReviewController::class, 'edit'])->name('trust_reviews.edit');
+    Route::match(['put', 'patch'], 'trust_reviews/{trust_review}', [TrustReviewController::class, 'update'])->name('trust_reviews.update');
+    Route::delete('trust_reviews/{trust_review}', [TrustReviewController::class, 'destroy'])->name('trust_reviews.destroy');
+    Route::post('trust_reviews/bulk-destroy', [TrustReviewController::class, 'bulkDestroy'])->name('trust_reviews.bulk-destroy');
 
 
     // news

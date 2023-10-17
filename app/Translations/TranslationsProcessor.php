@@ -33,20 +33,20 @@ class TranslationsProcessor
 
         // external translations
 
-        // collect(config('app.translations.external'))->each(function ($scannerItem) {
-            
-        //     $group = $scannerItem['group'] ?? null;
-        //     collect($scannerItem['scan'])->each(function (array $options, string $scanner) use ($group) {
-        //         $scanner = new $scanner();
-        //         if (! $scanner instanceof ExternalScannerInterface) {
-        //             throw new InvalidScannerException();
-        //         }
-        //         if ($group) {
-        //             $scanner->setGroup($group);
-        //         }
-        //         $scanner->addScannedPaths($options['paths'])->scanAndSaveTranslations();
-        //     });
-        // });
+            // collect(config('app.translations.external'))->each(function ($scannerItem) {
+                
+            //     $group = $scannerItem['group'] ?? null;
+            //     collect($scannerItem['scan'])->each(function (array $options, string $scanner) use ($group) {
+            //         $scanner = new $scanner();
+            //         if (! $scanner instanceof ExternalScannerInterface) {
+            //             throw new InvalidScannerException();
+            //         }
+            //         if ($group) {
+            //             $scanner->setGroup($group);
+            //         }
+            //         $scanner->addScannedPaths($options['paths'])->scanAndSaveTranslations();
+            //     });
+            // });
 
         $this->flushTranslationsCache();
     }
@@ -64,9 +64,8 @@ class TranslationsProcessor
                 if (! File::exists($options['path'] . '/' . $locale)) {
                     File::makeDirectory($options['path'] . '/' . $locale);
                 }
-
+                
                 $translations = LanguageLine::query()
-                    ->whereIn('group', $options['groups'])
                     ->get()
                     ->mapWithKeys(function (LanguageLine $line) use ($locale, $options) {
                         return [

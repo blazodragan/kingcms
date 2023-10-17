@@ -459,7 +459,7 @@ const form = useForm({
 });
 
 const submit = (closeModal: CallableFunction) => {
-  form.post(route("user.invite-user"), {
+  form.post(route("invite-user"), {
     onSuccess: () => {
       form.email = "";
       form.role_id = "";

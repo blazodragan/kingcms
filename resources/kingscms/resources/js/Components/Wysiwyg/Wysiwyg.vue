@@ -15,6 +15,7 @@
       >
         <div class="flex flex-wrap gap-1">
           <HeadingSelect :editor="editor" />
+          
         </div>
         <div class="flex flex-wrap gap-1 pl-2">
           <ToolbarButton
@@ -104,6 +105,7 @@
           />
           <ImageUploadButton @imageUploaded="addImage" />
           <YoutubePromptModal @youtubeAdded="addVideo" />
+          <BlocksSelect :editor="editor" />
         </div>
       </div>
       <div class="relative">
@@ -128,6 +130,7 @@ import { withDefaults, watch, ref, computed } from "vue";
 import { useEditor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
+import Heading  from "@tiptap/extension-heading";
 import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import Youtube from "@tiptap/extension-youtube";
@@ -150,6 +153,7 @@ import { CommandLineIcon } from "@heroicons/vue/24/solid";
 
 import ToolbarButton from "./ToolbarButton.vue";
 import HeadingSelect from "./HeadingSelect.vue";
+import BlocksSelect from "./BlocksSelect.vue";
 import ImageUploadButton from "./ImageUploadButton.vue";
 import { isFileImage } from "craftable-pro/helpers";
 import YoutubePromptModal from "./YoutubePromptModal.vue";
@@ -159,6 +163,7 @@ import { usePage } from "@inertiajs/vue3";
 import { PageProps } from "../../types/page";
 import { FormControl } from "..";
 import { ExclamationCircleIcon } from "@heroicons/vue/20/solid";
+
 
 interface Props {
   name: string;
@@ -194,8 +199,14 @@ watch(
 const editor = useEditor({
   content: props.modelValue,
   extensions: [
-    // https://tiptap.dev/api/extensions/starter-kit
     StarterKit,
+    Heading,
+    Heading.configure({
+  levels: [1,2,3,4,5,6], // For h1
+  HTMLAttributes: {
+    class: 'text-4xl mb-10 text-site-blue-dark text-center',
+  },
+}),
     Underline,
     Link.configure({
       openOnClick: false,

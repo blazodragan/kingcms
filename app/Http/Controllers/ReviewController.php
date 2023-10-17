@@ -142,10 +142,6 @@ class ReviewController extends Controller
             $review->categories()->sync($request->input('categories_ids'));
         }
 
-        
-                // Update the review details
-        $review->update($request->all());
-
         $checkIfChaningDate = $request->get('faqs');
 
         // Collect FAQ IDs from the request

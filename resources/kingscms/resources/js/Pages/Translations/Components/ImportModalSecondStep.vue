@@ -1,23 +1,16 @@
 <template>
   <form>
     <div class="text-sm font-medium text-gray-700">
-      <p>
-        {{
-          $t("craftable-pro", "Found: :found / For review: :toReview", {
-            found: numberOfFoundTranslations.toString(),
-            toReview: numberOfTranslationsToReview.toString(),
-          })
-        }}
-      </p>
+      <p> Found : {{ numberOfFoundTranslations.toString() }} / For review: {{ numberOfTranslationsToReview.toString() }}</p>
     </div>
 
     <table class="border-separate border-spacing-3 border-gray-500">
       <thead>
         <tr>
-          <th>{{ $t("craftable-pro", "Group") }}</th>
-          <th>{{ $t("craftable-pro", "Default") }}</th>
-          <th>{{ $t("craftable-pro", "Current value") }}</th>
-          <th>{{ $t("craftable-pro", "Imported value") }}</th>
+          <th>Group</th>
+          <th>Default</th>
+          <th>Current value</th>
+          <th>Imported value</th>
           <th style="display: none"></th>
         </tr>
       </thead>

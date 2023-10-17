@@ -58,21 +58,31 @@ class TranslationsController extends Controller
     {
         $translation->update($request->validated());
 
-        return redirect()->back()->with(['message' => 'Translations successfully updated']);
+        return redirect()->back()->with('toast', [
+            'type' => 'success',
+            'message' => __('Translations successfully updated'),
+            'durration' => 2000,]);
     }
 
     public function rescan(RescanTranslations $request, TranslationsProcessor $translationsProcessor)
     {
         $translationsProcessor->scanTranslations();
 
-        return redirect()->back()->with(['message' => 'Translations successfully re-scanned']);
+        return redirect()->back()->with('toast', [
+            'type' => 'success',
+            'message' => __('Translations successfully re-scanned'),
+            'durration' => 2000,]);
     }
 
     public function publish(PublishTranslations $request, TranslationsProcessor $translationsProcessor)
     {
         $translationsProcessor->publishTranslations();
 
-        return redirect()->back()->with(['message' => ___('kingcms', 'Translations successfully published')]);
+        return redirect()->back()->with('toast', [
+            'type' => 'success',
+            'message' => __('Translations successfully published'),
+            'durration' => 2000,]
+        );
     }
 
     public function export(ExportTranslations $request)
@@ -117,7 +127,7 @@ class TranslationsController extends Controller
             }
         }
 
-        return response()->json(___('kingcms', 'No file imported'), 409);
+        return response()->json('No file imported', 409);
     }
 
     public function importResolvedConflicts(UpdateTranslation $request)
@@ -127,7 +137,7 @@ class TranslationsController extends Controller
         $existingTranslations = $this->translationService->getAllTranslationsForGivenLang($chosenLanguage);
 
         if (! $this->translationService->validImportFile($resolvedConflicts, $chosenLanguage)) {
-            return response()->json(___('kingcms', 'Wrong syntax in your import'), 409);
+            return response()->json('Wrong syntax in your import', 409);
         }
 
         return $this->translationService->checkAndUpdateTranslations($chosenLanguage, $existingTranslations, $resolvedConflicts);

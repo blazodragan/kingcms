@@ -3,7 +3,6 @@
     as="div"
     v-slot="{ open }"
     :defaultOpen="defaultOpen"
-    v-auto-animate
   >
     <DisclosureButton
       class="group flex w-full items-center justify-between px-4 py-3 text-left font-medium leading-8 text-gray-900 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75"

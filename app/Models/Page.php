@@ -13,6 +13,7 @@ use App\Media\ProcessMediaTrait;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\User;
+use App\Models\FAQ;
 
 class Page extends Model  implements HasMedia {
 
@@ -26,7 +27,7 @@ class Page extends Model  implements HasMedia {
 
     protected $table = 'pages';
 
-    protected $fillable = ['title', 'slug', 'perex', 'content', 'status' , 'template','is_index', 'meta_title', 'meta_description', 'meta_url_canolical', 'href_lang', 'no_index', 'no_follow', 'og_title', 'og_description', 'og_type', 'og_url', 'user_id', 'published_at'];
+    protected $fillable = ['title', 'slug', 'perex', 'content', 'status' , 'template','is_index', 'meta_title', 'meta_description', 'meta_url_canolical', 'no_index', 'no_follow', 'og_title', 'og_description', 'og_type', 'og_url', 'user_id', 'published_at'];
 
     public $translatable = ['title', 'slug', 'perex', 'content', 'meta_title', 'meta_description', 'meta_url_canolical', 'href_lang', 'og_title', 'og_description', 'og_type', 'og_url'];
 
@@ -40,6 +41,11 @@ class Page extends Model  implements HasMedia {
     {
         $this->addMediaCollection('cover');
         $this->addMediaCollection('og_cover');
+    }
+
+    public function faqs()
+    {
+        return $this->morphMany(FAQ::class, 'faqable');
     }
 
     public function registerMediaConversions(Media $media = null): void

@@ -24,7 +24,7 @@
         </div>
       </template>
     </Dropdown>
-    <div v-auto-animate>
+    <div>
       <IconButton
         v-if="resetFilters && activeFiltersCount"
         :icon="XMarkIcon"

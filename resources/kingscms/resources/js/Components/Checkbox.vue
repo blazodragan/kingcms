@@ -41,9 +41,18 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits(["update:modelValue"]);
 
 const model = computed({
-  get: () => props.modelValue,
+  get: () => {
+    if (typeof props.modelValue === 'number') {
+      return props.modelValue === 1;
+    }
+    return props.modelValue;
+  },
   set: (newValue) => {
-    emit("update:modelValue", newValue);
+    if (typeof newValue === 'boolean') {
+      emit("update:modelValue", newValue ? 1 : 0);
+    } else {
+      emit("update:modelValue", newValue);
+    }
   },
 });
 </script>

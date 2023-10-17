@@ -107,7 +107,6 @@ class NewsController extends Controller
         $news->load('media');
 
         $news->load('categories');
-        dd($news);
         
         return Inertia::render('News/Edit', [
             'news' => $news,

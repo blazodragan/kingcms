@@ -1,6 +1,5 @@
 <template>
   <div
-    v-auto-animate
     class="flex gap-1"
     :class="{
       'flex-col': labelPlacement === 'top',

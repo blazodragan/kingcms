@@ -20,7 +20,7 @@ import { ArrowDownTrayIcon } from "@heroicons/vue/24/outline";
 import { PageHeader, Button } from "craftable-pro/Components";
 import { useForm } from "craftable-pro/hooks/useForm";
 import Form from "./Form.vue";
-import type { NewsForm } from "./types";
+import type { PagesForm } from "./types";
 
 
 import { useFormLocale } from "craftable-pro/hooks/useFormLocale"; 
@@ -31,14 +31,13 @@ const { availableLocales, currentLocale, translatableDefaultValue, getLabelWithL
 
 interface Props {
   userOptions: Array<{value: string|number, label: string}>;
-  
   statusOptions: Array<{value: string|number, label: string}>;
   tempaltesOptions: Array<{value: string|number, label: string}>;
 }
 
 const props = defineProps<Props>();
 
-const { form, submit } = useForm<NewsForm>(
+const { form, submit } = useForm<PagesForm>(
     {
 title: { ...translatableDefaultValue }, 
 slug: { ...translatableDefaultValue }, 
@@ -61,6 +60,7 @@ status: "",
 published_at: "", 
 cover: [], 
 og_cover: [], 
+faqs: [{question: { ...translatableDefaultValue }, answer:{ ...translatableDefaultValue }}], 
 
     },
     route("pages.store"),

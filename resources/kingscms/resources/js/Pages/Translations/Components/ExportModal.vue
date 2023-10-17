@@ -1,12 +1,12 @@
 <template>
   <Modal :open="open" @toggle-open="toggleOpen" :external-open="true">
-    <template #title>{{ $t("craftable-pro", "Export translations") }}</template>
+    <template #title>Export translations</template>
     <template #content>
       <div class="space-y-6">
         <Multiselect
           v-model="form.exportLanguages"
           :options="locales"
-          :label="$t('craftable-pro', 'Languages')"
+          :label="'Languages'"
           mode="tags"
           name=""
         />
@@ -15,10 +15,10 @@
 
     <template #buttons="{ setIsOpen }">
       <Button :loading="form.processing" @click.prevent="submit(setIsOpen)">
-        {{ $t("craftable-pro", "Export") }}
+        Export
       </Button>
       <Button color="gray" variant="outline" @click.prevent="() => setIsOpen()">
-        {{ $t("craftable-pro", "Cancel") }}
+        Cancel
       </Button>
     </template>
   </Modal>
@@ -27,6 +27,9 @@
 <script lang="ts" setup>
 import { Button, Modal, Multiselect } from "craftable-pro/Components";
 import { useForm } from "@inertiajs/vue3";
+import { ref } from "vue";
+import { usePage } from "@inertiajs/vue3";
+import type { PageProps } from "craftable-pro/types/page";
 
 interface Props {
   locales: string[];
@@ -39,10 +42,10 @@ const form = useForm({
   exportLanguages: [],
 });
 
+const adminPath = ref((usePage().props as PageProps).admin_path);
+
 const submit = (setIsOpen: Function) => {
-  window.location.href =
-    "/admin/translations/export?exportLanguages[]=" +
-    form.exportLanguages.join("&exportLanguages[]=");
+  window.location.href ="/"+adminPath.value+"/translations/export?exportLanguages[]=" + form.exportLanguages.join("&exportLanguages[]=");
   setIsOpen();
 };
 

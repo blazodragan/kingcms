@@ -42,6 +42,8 @@ class StorePagesRequest extends FormRequest
             'status' => ['nullable'],
             'user_id' => ['required','exists:users,id'],
             'published_at' => ['nullable'],
+            'faqs.*.question' => ['nullable'],
+            'faqs.*.answer' => ['nullable'],
         ];
     }
 }

@@ -19,6 +19,7 @@ use App\Settings\GeneralSettings;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -27,6 +28,10 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\Auth\InviteUserRequest;
+use App\Http\Requests\Auth\InviteUserStoreRequest;
+use App\Mail\InvitationUserMail;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -199,7 +204,7 @@ class UserController extends Controller
         if (! $User->hasVerifiedEmail()) {
             if ($User->wasInvited()) {
                 // FIXME: refactor mailable class
-                UserInvitationController::sendInvitation(
+                $this->sendInvitation(
                     email: $User->email,
                     userFullName: Auth::user()->first_name . " " . Auth::user()->last_name,
                 );
@@ -287,6 +292,60 @@ class UserController extends Controller
         Auth::login($User);
 
         return redirect()->route('dashboard');
+    }
+
+    public function inviteUser(InviteUserRequest $request)
+    {
+        $data = $request->validated();
+        $user = User::create([
+            'email' => $data['email'],
+            'password' => bcrypt(Str::random(12)),
+            'locale' => app(GeneralSettings::class)->default_locale,
+            'active' => false,
+            'invitation_sent_at' => now(),
+        ])->assignRole($data['role_id']);
+
+        static::sendInvitation(
+            email: $data['email'],
+            name: Auth::user()->name,
+        );
+
+        return redirect()->back()->with('toast', [
+            'type' => 'success',
+            'message' => __('User was succesfully invited.'),
+            'durration' => 2000,]);
+    }
+
+    public function createInviteAcceptationUser($email)
+    {
+        $user = User::whereEmail($email)->firstOrFail();
+
+        if (! $user->wasInvited()) {
+            return redirect()->route("login");
+        }
+
+        return Inertia::render('Auth/InviteUser', [
+            'email' => $email,
+        ]);
+    }
+
+    public function storeInviteAcceptationUser(InviteUserStoreRequest $request)
+    {
+        $data = $request->validated();
+        $user = User::whereEmail($data['email'])->first();
+        $data['password'] = bcrypt($data['password']);
+        $user->update($data + ['active' => true, 'invitation_accepted_at' => now()]);
+        $user->markEmailAsVerified();
+
+        return redirect()->route('login');
+    }
+
+    public static function sendInvitation(string $email, string $name)
+    {
+        Mail::to($email)->send(new InvitationUserMail([
+            'email' => $email,
+            'name' => $name,
+        ]));
     }
 
 }

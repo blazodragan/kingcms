@@ -5,7 +5,7 @@
         <template v-if="importedFile">
           {{ importedFile.name }}
         </template>
-        <template v-else> {{ $t("craftable-pro", "Choose file") }} </template>
+        <template v-else> Choose file</template>
       </label>
       <input
         id="file"
@@ -19,14 +19,14 @@
     <Multiselect
       v-model="importLanguage"
       :options="locales"
-      :label="$t('craftable-pro', 'Languages to import')"
+      :label="'Languages to import'"
       mode="single"
       name=""
     />
     <Checkbox
       v-model="onlyMissing"
       class="mt-2"
-      :label="$t('craftable-pro', 'Do not override existing translations')"
+      :label="'Do not override existing translations'"
     />
   </form>
 </template>

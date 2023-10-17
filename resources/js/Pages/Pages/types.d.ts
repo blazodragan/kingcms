@@ -23,8 +23,10 @@ status: string;
 published_at: string; 
 created_at: string; 
 updated_at: string; 
-deleted_at: string
+deleted_at: string;
+faqs: Array<{ question: string, answer: string }>;
 media?: UploadedFile[];
+
 };
 
 export type PagesForm = {
@@ -36,8 +38,8 @@ meta_title: Record<string, string>;
 meta_description: Record<string, string>; 
 meta_url_canolical: Record<string, string>; 
 href_lang: Record<string, string>; 
-no_index: boolean; 
 is_index: boolean; 
+no_index: boolean; 
 no_follow: boolean; 
 og_title: Record<string, string>; 
 og_description: Record<string, string>; 
@@ -47,6 +49,7 @@ user_id: string;
 template: string; 
 status: string;
 published_at: string; 
+faqs: Array<{ question: string, answer: string }>;
 cover: Array<UploadedFile>; 
 og_cover: Array<UploadedFile>
 };

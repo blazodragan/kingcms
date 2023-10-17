@@ -4,7 +4,6 @@ import '../css/app.css';
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { autoAnimatePlugin } from "@formkit/auto-animate/vue";
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import { can } from "craftable-pro/plugins/can";
 import { createI18n } from "vue-i18n";
@@ -23,7 +22,6 @@ createInertiaApp({
 
         return createApp({ render: () => h(App, props) })
             .use(plugin)
-            .use(autoAnimatePlugin)
             .use(ZiggyVue, Ziggy)
             .directive("can", can)
             .use(i18n)

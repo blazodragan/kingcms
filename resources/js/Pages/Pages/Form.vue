@@ -49,6 +49,61 @@
 
         </div>
       </Card>
+              <!-- Nested Grid -->
+              <div class="grid items-start gap-6 xl:grid-cols-1">
+          <!-- First Card in Nested Grid -->
+          <Card>
+            <h2 class="mb-4">FAQs</h2>
+
+            <div v-for="(faq, index) in form.faqs" :key="index">
+              <div class="border border-gray-200 p-6 rounded-md bg-gray-50 mb-6 relative">
+                <div class="space-y-4">
+                    <TextInput
+                    v-model="faq.question[currentLocale]"
+                    :name="`question.${currentLocale}`"
+                    :label="getLabelWithLocale('Question')"
+                    />
+                    <TextInput
+                    v-model="faq.answer[currentLocale]"
+                    :name="`answer.${currentLocale}`"
+                    :label="getLabelWithLocale('Answer')"
+                    />
+                </div>
+                <div class="absolute top-0 right-0 p-2">
+                <Tooltip position="top">
+                  <template #button>
+                    <button
+                      @click="removeFAQ(index)"
+                      class="hover:cursor-pointer"
+                    >
+                      <svg
+                        class="h-5 w-5 stroke-gray-400 hover:stroke-gray-700"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </template>
+                  <template #content> Delete </template>
+                </Tooltip>
+
+                </div>
+
+              </div>
+            </div>
+
+            <button class="px-2 hover:bg-slate-50 rounded border"  @click="addFAQ">+ add</button>
+          </Card>
+        </div>
       <div class="grid items-start gap-6 xl:grid-cols-2">
         <div class="col-span-1">
 
@@ -71,9 +126,9 @@
               mode="single"
             />
             <RadioGroupLink
-            v-model="form.templates"
+            v-model="form.template"
               name="template"
-              :label="'Template'"
+              :label="'Templates'"
               :options="tempaltesOptions"
               mode="single"
             />
@@ -196,12 +251,14 @@ import {
     PageContent,
     DatePicker,
     Checkbox,
+    Tooltip,
     Dropzone,
     ImageUpload,
     Multiselect,
     CardLocaleSwitcher,
     RadioGroupLink,
 } from "craftable-pro/Components";
+import { ref } from "vue";
 import { InertiaForm } from "craftable-pro/types";
 import type { PagesForm } from "./types";
 import { reactive, watch } from 'vue';
@@ -222,7 +279,18 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-console.log(props);
+
+
+const addFAQ = (): void => {
+  props.form.faqs.push({
+    question: { ...translatableDefaultValue },
+    answer: { ...translatableDefaultValue },
+  });
+};
+
+const removeFAQ = (index: number): void => {
+  props.form.faqs.splice(index, 1);
+};
 
 const slugify = (str?: string) => {
   if (typeof str === 'undefined' || str === null) {

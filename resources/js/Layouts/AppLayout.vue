@@ -9,7 +9,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import NavItem from '@/Components/NavItem.vue';
-import {HomeIcon, DocumentTextIcon, NewspaperIcon, StarIcon, TagIcon, Cog6ToothIcon, DocumentIcon, UserCircleIcon, FolderIcon, LanguageIcon} from '@heroicons/vue/24/outline';
+import {HomeIcon, DocumentTextIcon, NewspaperIcon, StarIcon, TagIcon, Cog6ToothIcon, DocumentIcon, UserCircleIcon, FolderIcon, BuildingStorefrontIcon, LanguageIcon, ChatBubbleOvalLeftIcon} from '@heroicons/vue/24/outline';
 import ToastList from "@/Components/ToastList.vue";
 
 defineProps({
@@ -25,7 +25,9 @@ const mainNavItems = [
     {href:"news.index", label: "News", children: [], icon: NewspaperIcon, permission: 'sanctum'},
     {href:"reviews.index", label: "Reviews", children: [], icon: StarIcon, permission: 'sanctum'},
     {href:"categories.index", label: "Categories", children: [], icon: TagIcon, permission: 'sanctum'},
+    {href:"trust_reviews.index", label: "Trust Reviews", children: [], icon: ChatBubbleOvalLeftIcon, permission: 'sanctum'},
     {href:"media.index", label: "Media", children: [], icon: FolderIcon, permission: 'sanctum'},
+    {href:"blocks.index", label: "Blocks", children: [], icon: BuildingStorefrontIcon, permission: 'sanctum'},
     // {href:"dashboard", label: "Home", childern: [], icon: HomeIcon},
 ]
 

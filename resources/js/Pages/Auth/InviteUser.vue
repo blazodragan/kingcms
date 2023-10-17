@@ -1,23 +1,19 @@
 <template>
   <div>
     <Head :title="'Register'" />
-
+    <AuthenticationCard class="bg-dots-darker bg-center bg-gray-100">
+        <template #logo>
+            <AuthenticationCardLogo />
+        </template>
+        
     <div
-      class="bg-white py-8 px-4 space-y-3 shadow sm:rounded-lg sm:px-10"
-      v-auto-animate
+      class=""
     >
       <form class="space-y-6" @submit.prevent="submit">
         <TextInput
           v-model="form.name"
           name="name"
           :label="'name'"
-          class="col-span-6 sm:col-span-3"
-          :required="true"
-        />
-        <TextInput
-          v-model="form.last_name"
-          name="last_name"
-          :label="'Last name'"
           class="col-span-6 sm:col-span-3"
           :required="true"
         />
@@ -64,10 +60,13 @@
         </Button>
       </form>
     </div>
+  </AuthenticationCard>
   </div>
 </template>
 
 <script setup lang="ts">
+import AuthenticationCard from '@/Components/AuthenticationCard.vue';
+import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import { Button, TextInput, Multiselect } from "craftable-pro/Components";
 import { useForm, Head } from "@inertiajs/vue3";
 import { useToast } from "@brackets/vue-toastification";
@@ -85,8 +84,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const form = useForm({
   email: props.email,
-  first_name: "",
-  last_name: "",
+  name: "",
   password: "",
   password_confirmation: "",
   locale: "",
@@ -95,14 +93,9 @@ const form = useForm({
 const toast = useToast();
 
 const submit = () => {
-  form.post(route("craftable-pro.invite-user.store"), {
+  form.post(route("invite-user.store"), {
     onSuccess: () => {
-      toast.success(
-        trans(
-          "craftable-pro",
-          "Your account was succesfully created and you can log in now."
-        )
-      );
+      toast.success("Your account was succesfully created and you can log in now.");
     },
     onFinish: () => {
       form.reset("password");

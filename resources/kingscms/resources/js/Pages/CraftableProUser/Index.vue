@@ -3,11 +3,11 @@
     <Modal alignButtons="right" size="sm">
       <template #trigger="{ setIsOpen }">
         <Button @click="() => setIsOpen(true)" :leftIcon="PlusIcon">
-          {{ $t("craftable-pro", "Invite user") }}
+          Invite user
         </Button>
       </template>
       <template #title>
-        {{ $t("craftable-pro", "Invite user") }}
+        Invite user
       </template>
       <template #content>
         <div class="mt-4 flex flex-col gap-2">
@@ -29,7 +29,7 @@
       </template>
       <template #buttons="{ setIsOpen }">
         <Button size="sm" :loading="form.processing" @click="submit(setIsOpen)">
-          {{ $t("craftable-pro", "Invite user") }}
+          Invite user
         </Button>
         <Button
           size="sm"
@@ -37,7 +37,7 @@
           variant="outline"
           @click.prevent="() => setIsOpen()"
         >
-          {{ $t("craftable-pro", "Cancel") }}
+          Cancel
         </Button>
       </template>
     </Modal>

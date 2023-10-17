@@ -10,7 +10,7 @@
       />
     </template>
 
-    <template #title> {{ $t("craftable-pro", "Edit translation") }}</template>
+    <template #title>Edit translation</template>
     <template #content>
       <form class="space-y-6" @submit.prevent="submit">
         <div v-for="locale in locales">
@@ -25,11 +25,9 @@
     </template>
 
     <template #buttons="{ setIsOpen }">
-      <Button :loading="form.processing" @click.prevent="submit(setIsOpen)">
-        {{ $t("craftable-pro", "Save") }}
+      <Button :loading="form.processing" @click.prevent="submit(setIsOpen)">Save
       </Button>
-      <Button color="gray" variant="outline" @click.prevent="() => setIsOpen()">
-        {{ $t("craftable-pro", "Cancel") }}
+      <Button color="gray" variant="outline" @click.prevent="() => setIsOpen()">Cancel
       </Button>
     </template>
   </Modal>
@@ -57,12 +55,10 @@ const form = useForm({
 const toast = useToast();
 
 const submit = (setIsOpen: Function) => {
-  form.post(route("craftable-pro.translations.update", [props.languageLine.id]), {
+  form.post(route("translations.update", [props.languageLine.id]), {
     onFinish: () => {
       setIsOpen();
-      toast.success(
-        trans("craftable-pro", "Translation was successfully updated")
-      );
+      toast.success("Translation was successfully updated");
     },
   });
 };

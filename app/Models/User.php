@@ -34,7 +34,7 @@ class User extends Authenticatable implements HasMedia
     use TwoFactorAuthenticatable;
     use HasRoles;
 
-
+    protected $table = 'users';
     protected $guard = 'web';
     /**
      * The attributes that are mass assignable.
@@ -42,7 +42,14 @@ class User extends Authenticatable implements HasMedia
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'password', 'active',
+        'name',
+        'email',
+        'password',
+        'active',
+        'invitation_sent_at',
+        'invitation_accepted_at',
+        'locale',
+        'active'
     ];
 
     /**
@@ -121,6 +128,11 @@ class User extends Authenticatable implements HasMedia
             }
         );
     }
+    public function wasInvited()
+    {
+        return $this->invitation_sent_at !== null && $this->invitation_accepted_at === null;
+    }
+    
     public function registerMediaCollections(): void
     {
         $this

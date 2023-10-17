@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Page;
@@ -27,9 +28,50 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Enums\Status;
 use App\Enums\Templates;
 use Illuminate\Database\Eloquent\Builder;
+use App\Models\FAQ;
+use App\Services\BlockResolver;
 
 class PagesController extends Controller
 {
+
+    public function show($slug)
+    {
+        $page = Page::where('slug->' . app()->getLocale(), $slug)->firstOrFail();
+
+        // If the page doesn't exist, show a 404 page
+        if (!$page) {
+            abort(404);
+        }
+        $page->load('media');
+        $page->load('faqs');
+
+
+        $processedContent = preg_replace_callback('/@block\(\s*\'([^\']+)\'\s*(?:,\s*(\[[^\]]+\]))?\s*\)/', function ($matches) {
+            $blockName = $matches[1];
+            $paramsStr = isset($matches[2]) ? $matches[2] : '';
+
+            if ($paramsStr) {
+                // Convert Laravel array syntax to JSON string
+                $paramsStr = html_entity_decode($paramsStr);
+                $jsonStr = str_replace(['[', ']', '=>', "'"], ['{', '}', ':', '"'], $paramsStr);
+                // Decode the JSON string to an array
+                $parameters = json_decode($jsonStr, true);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    // If there's an error in decoding the JSON, just return the string as is
+                    return $matches[0];
+                }
+            } else {
+                $parameters = [];
+            }
+
+            // Use the block resolver to fetch the block content
+            return app(\App\Services\BlockResolver::class)->resolve($blockName, $parameters);
+        }, $page->content);
+
+
+        // Render the page (e.g., using a view)
+        return view('pages.show', compact('page', 'processedContent'));
+    }
     /**
      * Display a listing of the resource.
      */
@@ -38,14 +80,18 @@ class PagesController extends Controller
         $PagesQuery = QueryBuilder::for(Page::class)
             ->allowedFilters([
                 AllowedFilter::custom('search', new FuzzyFilter(
-                    'id','title','user_id','published_at','status'
+                    'id',
+                    'title',
+                    'user_id',
+                    'published_at',
+                    'status'
                 )),
                 AllowedFilter::exact('user_id'),
                 AllowedFilter::exact('status'),
                 AllowedFilter::callback('published_at', fn (Builder $query, $value) => $query->whereDate('published_at', $value)),
             ])
             ->defaultSort('id')
-            ->allowedSorts('id','title','user_id','published_at','status');
+            ->allowedSorts('id', 'title', 'user_id', 'published_at', 'status');
 
         if ($request->wantsJson() && $request->get('bulk_select_all')) {
             return response()->json($PagesQuery->select(['id'])->pluck('id'));
@@ -53,7 +99,7 @@ class PagesController extends Controller
 
         $pages = $PagesQuery
             ->with('user')
-            ->select('id','title','user_id','published_at','status')
+            ->select('id', 'title', 'user_id', 'published_at', 'status')
             ->paginate($request->get('per_page'))->withQueryString();
 
         Session::put('pages_url', $request->fullUrl());
@@ -85,10 +131,21 @@ class PagesController extends Controller
     {
         $pages = Page::create($request->validated());
 
+        // Associate the FAQs
+        if (isset($request['faqs'])) {
+            foreach ($request->input('faqs') as $faqData) {
+                $faq = new FAQ([
+                    'question' => json_encode($faqData['question']),
+                    'answer' => json_encode($faqData['answer']),
+                ]);
+                $pages->faqs()->save($faq);
+            }
+        }
         return redirect()->route('pages.index')->with('toast', [
             'type' => 'success',
             'message' => __('Pages have been successfully added'),
-            'durration' => 2000,]);
+            'durration' => 2000,
+        ]);
     }
 
     /**
@@ -98,6 +155,8 @@ class PagesController extends Controller
     {
 
         $page->load('media');
+
+        $page->load('faqs');
 
         return Inertia::render('Pages/Edit', [
             'pages' => $page,
@@ -114,11 +173,46 @@ class PagesController extends Controller
     {
         $pages->update($request->validated());
 
+
+        $checkIfChaningDate = $request->get('faqs');
+
+        // Collect FAQ IDs from the request
+        $receivedFaqIds = collect($request->get('faqs'))
+            ->pluck('id')
+            ->filter()
+            ->all();
+
+
+        // Update or create the FAQs
+        if (!empty($receivedFaqIds) or !empty($checkIfChaningDate)) {
+            // Delete FAQs not present in the received list
+            $pages->faqs()
+                ->whereNotIn('id', $receivedFaqIds)
+                ->delete();
+
+            foreach ($request->get('faqs') as $faqData) {
+
+                if (isset($faqData['id']) && $pages->faqs->contains('id', $faqData['id'])) {
+                    // Update existing FAQ
+                    $faq = $pages->faqs()->find($faqData['id']);
+
+                    $faq->update(['question' => $faqData['question'], 'answer' => $faqData['answer']]);
+                } else {
+                    // Create a new FAQ
+                    $faq = new FAQ([
+                        'question' => $faqData['question'],
+                        'answer' => $faqData['answer'],
+                    ]);
+                    $pages->faqs()->save($faq);
+                }
+            }
+        }
+
         return redirect()->route('pages.index')->with('toast', [
             'type' => 'success',
             'message' => __('Pages have been successfully update'),
-            'durration' => 2000,]);
-        
+            'durration' => 2000,
+        ]);
     }
 
     /**
@@ -126,13 +220,15 @@ class PagesController extends Controller
      */
     public function destroy(DestroyPagesRequest $request, Page $page): RedirectResponse
     {
-        
+        dd($request, $page);
+
         $page->delete();
 
         return redirect()->back()->with('toast', [
             'type' => 'success',
             'message' => __('Pages have been successfully deleted'),
-            'durration' => 2000,]);
+            'durration' => 2000,
+        ]);
     }
 
     /**
@@ -159,7 +255,8 @@ class PagesController extends Controller
         return redirect()->back()->with('toast', [
             'type' => 'success',
             'message' => __('Pages have been successfully deleted'),
-            'durration' => 2000,]);
+            'durration' => 2000,
+        ]);
     }
 
     /**
@@ -167,6 +264,6 @@ class PagesController extends Controller
      */
     public function export(IndexPagesRequest $request): BinaryFileResponse
     {
-        return Excel::download(new PagesExport($request->all()), 'Page-'.now()->format("dmYHi").'.xlsx');
+        return Excel::download(new PagesExport($request->all()), 'Page-' . now()->format("dmYHi") . '.xlsx');
     }
 }

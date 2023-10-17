@@ -12,7 +12,7 @@
       <!-- Logo (Left Side) -->
       <div class="text-white ">
         <span>
-        <img src="{{ asset('images/logo.png') }}" class="w-44" alt="Logo">
+        <a href="{{ route('home') }}" ><img src="{{ asset('images/logo.png') }}" class="w-44" alt="Logo"></a>
 
         </span>
       </div>
@@ -86,11 +86,11 @@
     </div>
     <!-- Dropdown Menu (Mobile) -->
     <div id="mobileMenu" class="md:hidden mt-2 space-y-2 hidden overflow-hidden transition-all duration-300" style="max-height: 0;">
-      <a class="{{ isActiveRoute('home') }} text-[#49a5d4] block" href="{{ route('home') }}">Car Rental</a>
-      <a class="{{ isActiveRoute('home') }} text-[#49a5d4] block" href="{{ route('home') }}">Vehicles</a>
-      <a class="{{ isActiveRoute('location') }} text-[#49a5d4] block" href="{{ route('location') }}">Locations</a>
-      <a class="{{ isActiveRoute('allnews') }} text-[#49a5d4] block" href="{{ route('allnews') }}">News</a>
-      <a class="{{ isActiveRoute('home') }} text-[#49a5d4] block" href="{{ route('home') }}">Loyalty Program</a>
+      <a class="{{ isActiveRoute('home') }} text-[#49a5d4] block" href="{{ route('home') }}">{{__('Car Rental')}}</a>
+      <a class="{{ isActiveRoute('home') }} text-[#49a5d4] block" href="{{ route('home') }}">{{__('Vehicles')}}</a>
+      <a class="{{ isActiveRoute('location') }} text-[#49a5d4] block" href="{{ route('location') }}">{{__('Locations')}}</a>
+      <a class="{{ isActiveRoute('allnews') }} text-[#49a5d4] block" href="{{ route('allnews') }}">{{__('News')}}</a>
+      <a class="{{ isActiveRoute('home') }} text-[#49a5d4] block" href="{{ route('home') }}">{{__('Loyalty Program')}}</a>
 
     </div>
   </nav>

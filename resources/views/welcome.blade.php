@@ -5,8 +5,6 @@
 @section('title', 'Welcome Page')
 
 @section('content')
-<!-- Navigation Menu -->
-
 
   <section>
     <div class="bg-[url('panoramic-aerial-shot-california-bixby-bridge-green-hill-near-beautiful-blue-water.jpg')] bg-no-repeat bg-cover w-full p-2 sm:p-8 2xl:p-20"> <!-- Hero Section -->
@@ -18,10 +16,10 @@
             <div class="transparent-white-overlay z-10">
             
 
-                        <h3 class="text-2xl mb-4 text-site-blue-dark text-left">Reserve a Vehicle</h3>
+                        <h3 class="text-2xl mb-4 text-site-blue-dark text-left">{{__('Reserve a Vehicle')}}</h3>
             <form>
               <div class="flex items-center relative w-full mb-4">
-                <input type="name" class="w-full p-3 rounded-l-lg border pl-12" placeholder="Pick up location">
+                <input type="name" class="w-full p-3 rounded-l-lg border pl-12" placeholder="{{__('Pick up location')}}" disabled>
                 <svg class="absolute ml-4 w-6 h-6" fill="#12B0DF" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
                 <!-- SVG for Calendar goes here -->
               </div>
@@ -30,14 +28,13 @@
                 <!-- Pick up date -->
                 <div class="w-full basis-1/2 flex">
                 <div class="flex items-center relative w-1/2 mb-4">
-                  <input type="name" class="w-full p-3 rounded-l-lg border border-r-0 pl-12" placeholder="Pick up date">
+                  <input type="name" class="w-full p-3 rounded-l-lg border border-r-0 pl-12" placeholder="{{__('Pick up date')}}" disabled>
                   <svg class="absolute ml-4 w-6 h-6" fill="#12B0DF" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"/></svg>
-                
                   <!-- SVG for Calendar goes here -->
                 </div>
                 <!-- Pick up time -->
                 <div class="flex items-center relative w-1/2 mb-4 ">
-                  <input type="name" class="w-full p-3 rounded-r-lg border pl-12" placeholder="Time">
+                  <input type="name" class="w-full p-3 rounded-r-lg border pl-12" placeholder="{{__('Time')}}" disabled>
                   <svg class="absolute ml-4 w-6 h-6" fill="#12B0DF" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg>
                   <!-- SVG for Time goes here -->
                 </div>
@@ -45,14 +42,14 @@
                 <!-- Drop off date -->
                 <div class="w-full basis-1/2 flex">
                   <div class="flex items-center relative w-1/2 mb-4">
-                    <input type="name" class="w-full p-3 rounded-l-lg border border-r-0 pl-12" placeholder="Pick up date">
+                    <input type="name" class="w-full p-3 rounded-l-lg border border-r-0 pl-12" placeholder="{{__('Drop Off Date')}}" disabled>
                     <svg class="absolute ml-4 min-w-6 min-h-6" fill="#12B0DF" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"/></svg>
                   
                     <!-- SVG for Calendar goes here -->
                   </div>
                   <!-- Pick up time -->
                   <div class="flex items-center relative w-1/2 mb-4">
-                    <input type="name" class="w-full p-3 rounded-r-lg border pl-12" placeholder="Time">
+                    <input type="name" class="w-full p-3 rounded-r-lg border pl-12" placeholder="{{__('Time')}}" disabled>
                     <svg class="absolute ml-4 w-6 h-6" fill="#12B0DF" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg>
                     <!-- SVG for Time goes here -->
                   </div>
@@ -60,49 +57,50 @@
               </div>
               <div class="flex justify-center space-x-2 mt-4">
               <a class="inline-flex cursor-default items-center justify-center px-8 py-3 border border-transparent rounded-3xl leading-5 shadow-sm transition duration-150 ease-in-out bg-[#0C87C6] focus:outline-none focus-visible:ring-2 text-white" href="#0">
-                    Continue
+              {{__('Continue')}}
                   </a>
               </div>
             </form>
           </div>
           </div>
-          
           <!-- Right Side -->
           <div class="flex-grow p-10 " style="flex-basis: 40%;">
-            <h3 class="text-xl mb-4 text-site-blue-dark text-left">Advantages of Hiring with MietwegenParadise</h3>
+            <h3 class="text-xl mb-4 text-site-blue-dark text-left">{{__('Advantages of Hiring with MietwegenParadise')}}</h3>
             <ul class="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
               <li class="flex items-center">
                   <svg class="w-3.5 h-3.5 mr-2 text-[#12B0DF] flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 448 512">
                       <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
                    </svg>
-                   Save up to 43%
+                   {{__('Save up to 43%')}}
+                   
               </li>
               <li class="flex items-center">
                   <svg class="w-3.5 h-3.5 mr-2 text-[#12B0DF] flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 448 512">
                       <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
                    </svg>
-                   Compare hundreds of rental car websites at once for car rental deals in Utrecht
+                   {{__('Compare hundreds of rental car websites at once for car rental deals in Utrecht')}}
+                   
               </li>
               <li class="flex items-center">
                   <svg class="w-3.5 h-3.5 mr-2 text-[#12B0DF]  flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 448 512">
                       <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
                    </svg>
-                   We are completely free to use . There are no hidden costs or fees
+                   {{__('We are completely free to use . There are no hidden costs or fees')}}
+                   
               </li>
               <li class="flex items-center">
                 <svg class="w-3.5 h-3.5 mr-2 text-[#12B0DF] flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 448 512">
                     <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
                  </svg>
-                 Filter by car type, free cencelation and more
+                 {{__('Filter by car type, free cencelation and more')}}
+                 
             </li>
           </ul>
-
           </div>
-          
         </div>
       </div>
-    
   </section>
+  @block('TopNewsBlock', ['count' => 5, 'category' => 'asd'])
   <section class="antialiased bg-gray-50 text-gray-600 p-12">
     <div class="text-4xl mb-10 text-site-blue-dark text-center">Gunstige Mietwegen Mallorca</div>
     <div class="w-full 2xl:w-3/5 mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -118,11 +116,11 @@
         <div class="flex-grow h-[8rem]">
             <!-- Header -->
             <header class="mb-3">
-                    <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">Competitive all in prices</h3>
+                    <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">Die besten Preise für Autovermietung</h3>
             </header>
             <!-- Content -->
             <div class="mb-8">
-                <p>Travel in rumier ride.</p>
+                <p>Ob Kleinwagen, Mittelklasse oder Cabrio, vergleichen Sie und finden Sie bei uns die besten Preise.</p>
             </div>
         </div>
         <!-- Card footer -->
@@ -148,11 +146,12 @@
           <div class="flex-grow h-[8rem]">
               <!-- Header -->
               <header class="mb-3">
-                      <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">All our rentals are with insurance</h3>
+                      <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">Versicherung ist bei jeder unserer Buchungen inklusive
+</h3>
               </header>
               <!-- Content -->
               <div class="mb-8">
-                  <p>Use our last-minute car rental travel. </p>
+                  <p>Spontanbucher profitieren auch von unserer Last-Minute Autovermietung</p>
               </div>
           </div>
           <!-- Card footer -->
@@ -177,11 +176,12 @@
         <div class="flex-grow h-[8rem]">
             <!-- Header -->
             <header class="mb-3">
-                    <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">Husel free car rental</h3>
+                    <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">Stressfrei-Garantie bei jeder Autovermietung
+</h3>
             </header>
             <!-- Content -->
             <div class="mb-8">
-                <p>Our only plan is to make sure you keep yours.</p>
+                <p>Unser Wunsch ist es, Ihre Wünsche zu erfüllen.</p>
             </div>
         </div>
         <!-- Card footer -->
@@ -196,7 +196,7 @@
     </div>
   </section>
   <!-- Snippet -->
-  <div class="text-4xl mt-10 text-site-blue-dark text-center">Meet The Fleet</div>
+  <div class="text-4xl mt-10 text-site-blue-dark text-center">{{__('Meet The Fleet')}}</div>
   <section class="block bg-white text-gray-600 relative h-1/3 min-h-[450px] p-12">
   
     <div class="items">
@@ -371,7 +371,7 @@
 </div>
 
 <section class="antialiased bg-gray-50 text-gray-600  p-12">
-  <div class="text-4xl mb-10 text-site-blue-dark text-center">Mietwegen Mallorca Geheimtipp</div>
+  <div class="text-4xl mb-10 text-site-blue-dark text-center">Geheimtipp für Mietwagen in [Insert Location]</div>
   <div class="w-full 2xl:w-3/5 mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
     <!-- Box 1 -->
     <div class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow">
@@ -385,12 +385,13 @@
       <div class="flex-grow">
           <!-- Header -->
           <header class="mb-3">
-                  <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">Well insured while traveling
+                  <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">Gut versichert während Ihrer Reise
                   </h3>
           </header>
           <!-- Content -->
           <div class="mb-8">
-              <p>Carefree holiday with the ANWB Travel insurance! Calcualte your premium online.</p>
+              <p>Genießen Sie einen sorgenfreien Urlaub mit unsern Partner, der ANWB Reiseversicherung. Berechnen Sie Ihre Versicherung hier Online.
+</p>
           </div>
       </div>
 
@@ -414,7 +415,7 @@
             </header>
             <!-- Content -->
             <div class="mb-8">
-                <p>Shop at ANWB travel guides for Europe and other continttes and go on holiday well prepared</p>
+                <p>Vorbereitung ist der halbe Urlaub. Werfen Sie einen Blick auf die Reiseführer von ANWB und planen Sie Ihren Urlaub perfekt. </p>
             </div>
         </div>
  
@@ -435,11 +436,11 @@
       <div class="flex-grow">
           <!-- Header -->
           <header class="mb-3">
-                  <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">7 top places where you only come with a (rental) car</h3>
+                  <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">Die Top 7 der besten Urlaubsorte, die Sie nur mit einem Mietwagen erreichen</h3>
           </header>
           <!-- Content -->
           <div class="mb-8">
-              <p>If you expolre a country  with a rental car, you can travel at your own pace. </p>
+              <p>Erreichen Sie auch die entlegensten Plätze und geheimen Paradiese mit einem unserer Mietwagen. </p>
           </div>
       </div>
 
@@ -450,14 +451,18 @@
 </section>
 <!-- say about us-->
 <!-- Snippet -->
-<div class="text-4xl mt-10 text-site-blue-dark text-center">What customers say about us</div>
-<div class="text-1xl mt-2 text-gray-500 text-center">We do our best to provide you with the best expiriance</div>
+<div class="text-4xl mt-10 text-site-blue-dark text-center">{{__('What customers say about us')}}</div>
+<div class="text-1xl mt-2 text-gray-500 text-center">{{__('We do our best to provide you with the best expiriance')}}</div>
 <section class="block bg-white text-gray-600 relative h-1/3  p-12">
 
 <div class="center">
   <div class="wrapper w-[15rem] md:w-[30rem] lg:w-[60rem]">
     <div class="inner">
-      <div class="card bg-white w-60 px-2">
+
+    @foreach($reviews as $review)
+
+
+    <div class="card bg-white w-60 px-2">
         <div class="content border border-gray-300 shadow-md px-4 py-8 space-y-2">
                   <svg version="1.1" id="Layer_1" class="h8 w-8" ="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
           viewBox="0 0 34 31" style="enable-background:new 0 0 34 31;" xml:space="preserve">
@@ -476,348 +481,35 @@
         </g>
         </svg>
 
-          <h2 class="text-black font-bold text-left">Best on the market</h2>
+          <h2 class="text-black font-bold text-left">{{ $review->title }}</h2>
           <div class="inline-flex w-full">
             <div>
-              <img src="{{ asset('images/stars.jpg') }}" alt="" class="w-24 mr-2">
-            </div>
-            <div class="text-xs align-middles">2 days ago</div>
-          </div>
-          <div class="text-left text-sm">I love this product because the support is great.</div>
-          <div class="text-black font-bold text-left">Worldtraveler</div>
-        </div>
-      </div>
-      <div class="card bg-white w-60 px-2">
-        <div class="content border border-gray-300 shadow-md px-4 py-8 space-y-2">
-                  <svg version="1.1" id="Layer_1" class="h8 w-8" ="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 34 31" style="enable-background:new 0 0 34 31;" xml:space="preserve">
-        <style type="text/css">
-          .st0{fill:#219653;}
-        </style>
-        <g id="rean-a-car">
-          <g id="Car-rental-homepage" transform="translate(-469, -2682)">
-            <g id="Review-Carousel" transform="translate(162, 2647)">
-              <g id="Group" transform="translate(287, 0)">
-                <path id="Shape" class="st0" d="M35,35.5c-8.2,0-15,6.8-15,15v15h15v-15H25c0-5.5,4.5-10,10-10V35.5z M54,35.5
-                  c-8.2,0-15,6.8-15,15v15h15v-15H44c0-5.5,4.5-10,10-10V35.5z"/>
-              </g>
-            </g>
-          </g>
-        </g>
-        </svg>
+            @php
+            $roundedRating = round($review->rating);
+        @endphp
 
-          <h2 class="text-black font-bold text-left">Best on the market</h2>
-          <div class="inline-flex w-full">
-            <div>
-              <img src="{{ asset('images/stars.jpg') }}" alt="" class="w-24 mr-2">
-            </div>
-            <div class="text-xs align-middles">2 days ago</div>
-          </div>
-          <div class="text-left text-sm">I love this product because the support is great.</div>
-          <div class="text-black font-bold text-left">Worldtraveler</div>
-        </div>
-      </div>
-      <div class="card bg-white w-60 px-2">
-        <div class="content border border-gray-300 shadow-md px-4 py-8 space-y-2">
-                  <svg version="1.1" id="Layer_1" class="h8 w-8" ="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 34 31" style="enable-background:new 0 0 34 31;" xml:space="preserve">
-        <style type="text/css">
-          .st0{fill:#219653;}
-        </style>
-        <g id="rean-a-car">
-          <g id="Car-rental-homepage" transform="translate(-469, -2682)">
-            <g id="Review-Carousel" transform="translate(162, 2647)">
-              <g id="Group" transform="translate(287, 0)">
-                <path id="Shape" class="st0" d="M35,35.5c-8.2,0-15,6.8-15,15v15h15v-15H25c0-5.5,4.5-10,10-10V35.5z M54,35.5
-                  c-8.2,0-15,6.8-15,15v15h15v-15H44c0-5.5,4.5-10,10-10V35.5z"/>
-              </g>
-            </g>
-          </g>
-        </g>
-        </svg>
+        <img src="{{ asset('images/stars-' . $roundedRating . '.svg') }}" alt="{{ $roundedRating }} Stars" class="w-24 mr-2">
 
-          <h2 class="text-black font-bold text-left">Best on the market</h2>
-          <div class="inline-flex w-full">
-            <div>
-              <img src="{{ asset('images/stars.jpg') }}" alt="" class="w-24 mr-2">
-            </div>
-            <div class="text-xs align-middles">2 days ago</div>
-          </div>
-          <div class="text-left text-sm">I love this product because the support is great.</div>
-          <div class="text-black font-bold text-left">Worldtraveler</div>
-        </div>
-      </div>
-      <div class="card bg-white w-60 px-2">
-        <div class="content border border-gray-300 shadow-md px-4 py-8 space-y-2">
-                  <svg version="1.1" id="Layer_1" class="h8 w-8" ="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 34 31" style="enable-background:new 0 0 34 31;" xml:space="preserve">
-        <style type="text/css">
-          .st0{fill:#219653;}
-        </style>
-        <g id="rean-a-car">
-          <g id="Car-rental-homepage" transform="translate(-469, -2682)">
-            <g id="Review-Carousel" transform="translate(162, 2647)">
-              <g id="Group" transform="translate(287, 0)">
-                <path id="Shape" class="st0" d="M35,35.5c-8.2,0-15,6.8-15,15v15h15v-15H25c0-5.5,4.5-10,10-10V35.5z M54,35.5
-                  c-8.2,0-15,6.8-15,15v15h15v-15H44c0-5.5,4.5-10,10-10V35.5z"/>
-              </g>
-            </g>
-          </g>
-        </g>
-        </svg>
 
-          <h2 class="text-black font-bold text-left">Best on the market</h2>
-          <div class="inline-flex w-full">
-            <div>
-              <img src="{{ asset('images/stars.jpg') }}" alt="" class="w-24 mr-2">
-            </div>
-            <div class="text-xs align-middles">2 days ago</div>
-          </div>
-          <div class="text-left text-sm">I love this product because the support is great.</div>
-          <div class="text-black font-bold text-left">Worldtraveler</div>
-        </div>
-      </div>
-      <div class="card bg-white w-60 px-2">
-        <div class="content border border-gray-300 shadow-md px-4 py-8 space-y-2">
-                  <svg version="1.1" id="Layer_1" class="h8 w-8" ="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 34 31" style="enable-background:new 0 0 34 31;" xml:space="preserve">
-        <style type="text/css">
-          .st0{fill:#219653;}
-        </style>
-        <g id="rean-a-car">
-          <g id="Car-rental-homepage" transform="translate(-469, -2682)">
-            <g id="Review-Carousel" transform="translate(162, 2647)">
-              <g id="Group" transform="translate(287, 0)">
-                <path id="Shape" class="st0" d="M35,35.5c-8.2,0-15,6.8-15,15v15h15v-15H25c0-5.5,4.5-10,10-10V35.5z M54,35.5
-                  c-8.2,0-15,6.8-15,15v15h15v-15H44c0-5.5,4.5-10,10-10V35.5z"/>
-              </g>
-            </g>
-          </g>
-        </g>
-        </svg>
 
-          <h2 class="text-black font-bold text-left">Best on the market</h2>
-          <div class="inline-flex w-full">
-            <div>
-              <img src="{{ asset('images/stars.jpg') }}" alt="" class="w-24 mr-2">
             </div>
-            <div class="text-xs align-middles">2 days ago</div>
+            <div class="text-xs align-middles">{{ $review->created_at->diffForHumans() }}</div>
           </div>
-          <div class="text-left text-sm">I love this product because the support is great.</div>
-          <div class="text-black font-bold text-left">Worldtraveler</div>
-        </div>
-      </div>
-      <div class="card bg-white w-60 px-2">
-        <div class="content border border-gray-300 shadow-md px-4 py-8 space-y-2">
-                  <svg version="1.1" id="Layer_1" class="h8 w-8" ="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 34 31" style="enable-background:new 0 0 34 31;" xml:space="preserve">
-        <style type="text/css">
-          .st0{fill:#219653;}
-        </style>
-        <g id="rean-a-car">
-          <g id="Car-rental-homepage" transform="translate(-469, -2682)">
-            <g id="Review-Carousel" transform="translate(162, 2647)">
-              <g id="Group" transform="translate(287, 0)">
-                <path id="Shape" class="st0" d="M35,35.5c-8.2,0-15,6.8-15,15v15h15v-15H25c0-5.5,4.5-10,10-10V35.5z M54,35.5
-                  c-8.2,0-15,6.8-15,15v15h15v-15H44c0-5.5,4.5-10,10-10V35.5z"/>
-              </g>
-            </g>
-          </g>
-        </g>
-        </svg>
-
-          <h2 class="text-black font-bold text-left">Best on the market</h2>
-          <div class="inline-flex w-full">
-            <div>
-              <img src="{{ asset('images/stars.jpg') }}" alt="" class="w-24 mr-2">
-            </div>
-            <div class="text-xs align-middles">2 days ago</div>
-          </div>
-          <div class="text-left text-sm">I love this product because the support is great.</div>
-          <div class="text-black font-bold text-left">Worldtraveler</div>
-        </div>
-      </div>
-      <div class="card bg-white w-60 px-2">
-        <div class="content border border-gray-300 shadow-md px-4 py-8 space-y-2">
-                  <svg version="1.1" id="Layer_1" class="h8 w-8" ="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 34 31" style="enable-background:new 0 0 34 31;" xml:space="preserve">
-        <style type="text/css">
-          .st0{fill:#219653;}
-        </style>
-        <g id="rean-a-car">
-          <g id="Car-rental-homepage" transform="translate(-469, -2682)">
-            <g id="Review-Carousel" transform="translate(162, 2647)">
-              <g id="Group" transform="translate(287, 0)">
-                <path id="Shape" class="st0" d="M35,35.5c-8.2,0-15,6.8-15,15v15h15v-15H25c0-5.5,4.5-10,10-10V35.5z M54,35.5
-                  c-8.2,0-15,6.8-15,15v15h15v-15H44c0-5.5,4.5-10,10-10V35.5z"/>
-              </g>
-            </g>
-          </g>
-        </g>
-        </svg>
-
-          <h2 class="text-black font-bold text-left">Best on the market</h2>
-          <div class="inline-flex w-full">
-            <div>
-              <img src="{{ asset('images/stars.jpg') }}" alt="" class="w-24 mr-2">
-            </div>
-            <div class="text-xs align-middles">2 days ago</div>
-          </div>
-          <div class="text-left text-sm">I love this product because the support is great.</div>
-          <div class="text-black font-bold text-left">Worldtraveler</div>
-        </div>
-      </div>
-      <div class="card bg-white w-60 px-2">
-        <div class="content border border-gray-300 shadow-md px-4 py-8 space-y-2">
-                  <svg version="1.1" id="Layer_1" class="h8 w-8" ="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 34 31" style="enable-background:new 0 0 34 31;" xml:space="preserve">
-        <style type="text/css">
-          .st0{fill:#219653;}
-        </style>
-        <g id="rean-a-car">
-          <g id="Car-rental-homepage" transform="translate(-469, -2682)">
-            <g id="Review-Carousel" transform="translate(162, 2647)">
-              <g id="Group" transform="translate(287, 0)">
-                <path id="Shape" class="st0" d="M35,35.5c-8.2,0-15,6.8-15,15v15h15v-15H25c0-5.5,4.5-10,10-10V35.5z M54,35.5
-                  c-8.2,0-15,6.8-15,15v15h15v-15H44c0-5.5,4.5-10,10-10V35.5z"/>
-              </g>
-            </g>
-          </g>
-        </g>
-        </svg>
-
-          <h2 class="text-black font-bold text-left">Best on the market</h2>
-          <div class="inline-flex w-full">
-            <div>
-              <img src="{{ asset('images/stars.jpg') }}" alt="" class="w-24 mr-2">
-            </div>
-            <div class="text-xs align-middles">2 days ago</div>
-          </div>
-          <div class="text-left text-sm">I love this product because the support is great.</div>
-          <div class="text-black font-bold text-left">Worldtraveler</div>
-        </div>
-      </div>
-      <div class="card bg-white w-60 px-2">
-        <div class="content border border-gray-300 shadow-md px-4 py-8 space-y-2">
-                  <svg version="1.1" id="Layer_1" class="h8 w-8" ="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 34 31" style="enable-background:new 0 0 34 31;" xml:space="preserve">
-        <style type="text/css">
-          .st0{fill:#219653;}
-        </style>
-        <g id="rean-a-car">
-          <g id="Car-rental-homepage" transform="translate(-469, -2682)">
-            <g id="Review-Carousel" transform="translate(162, 2647)">
-              <g id="Group" transform="translate(287, 0)">
-                <path id="Shape" class="st0" d="M35,35.5c-8.2,0-15,6.8-15,15v15h15v-15H25c0-5.5,4.5-10,10-10V35.5z M54,35.5
-                  c-8.2,0-15,6.8-15,15v15h15v-15H44c0-5.5,4.5-10,10-10V35.5z"/>
-              </g>
-            </g>
-          </g>
-        </g>
-        </svg>
-
-          <h2 class="text-black font-bold text-left">Best on the market</h2>
-          <div class="inline-flex w-full">
-            <div>
-              <img src="{{ asset('images/stars.jpg') }}" alt="" class="w-24 mr-2">
-            </div>
-            <div class="text-xs align-middles">2 days ago</div>
-          </div>
-          <div class="text-left text-sm">I love this product because the support is great.</div>
-          <div class="text-black font-bold text-left">Worldtraveler</div>
-        </div>
-      </div>
-      <div class="card bg-white w-60 px-2">
-        <div class="content border border-gray-300 shadow-md px-4 py-8 space-y-2">
-                  <svg version="1.1" id="Layer_1" class="h8 w-8" ="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 34 31" style="enable-background:new 0 0 34 31;" xml:space="preserve">
-        <style type="text/css">
-          .st0{fill:#219653;}
-        </style>
-        <g id="rean-a-car">
-          <g id="Car-rental-homepage" transform="translate(-469, -2682)">
-            <g id="Review-Carousel" transform="translate(162, 2647)">
-              <g id="Group" transform="translate(287, 0)">
-                <path id="Shape" class="st0" d="M35,35.5c-8.2,0-15,6.8-15,15v15h15v-15H25c0-5.5,4.5-10,10-10V35.5z M54,35.5
-                  c-8.2,0-15,6.8-15,15v15h15v-15H44c0-5.5,4.5-10,10-10V35.5z"/>
-              </g>
-            </g>
-          </g>
-        </g>
-        </svg>
-
-          <h2 class="text-black font-bold text-left">Best on the market</h2>
-          <div class="inline-flex w-full">
-            <div>
-              <img src="{{ asset('images/stars.jpg') }}" alt="" class="w-24 mr-2">
-            </div>
-            <div class="text-xs align-middles">2 days ago</div>
-          </div>
-          <div class="text-left text-sm">I love this product because the support is great.</div>
-          <div class="text-black font-bold text-left">Worldtraveler</div>
-        </div>
-      </div>
-      <div class="card bg-white w-60 px-2">
-        <div class="content border border-gray-300 shadow-md px-4 py-8 space-y-2">
-                  <svg version="1.1" id="Layer_1" class="h8 w-8" ="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 34 31" style="enable-background:new 0 0 34 31;" xml:space="preserve">
-        <style type="text/css">
-          .st0{fill:#219653;}
-        </style>
-        <g id="rean-a-car">
-          <g id="Car-rental-homepage" transform="translate(-469, -2682)">
-            <g id="Review-Carousel" transform="translate(162, 2647)">
-              <g id="Group" transform="translate(287, 0)">
-                <path id="Shape" class="st0" d="M35,35.5c-8.2,0-15,6.8-15,15v15h15v-15H25c0-5.5,4.5-10,10-10V35.5z M54,35.5
-                  c-8.2,0-15,6.8-15,15v15h15v-15H44c0-5.5,4.5-10,10-10V35.5z"/>
-              </g>
-            </g>
-          </g>
-        </g>
-        </svg>
-
-          <h2 class="text-black font-bold text-left">Best on the market</h2>
-          <div class="inline-flex w-full">
-            <div>
-              <img src="{{ asset('images/stars.jpg') }}" alt="" class="w-24 mr-2">
-            </div>
-            <div class="text-xs align-middles">2 days ago</div>
-          </div>
-          <div class="text-left text-sm">I love this product because the support is great.</div>
-          <div class="text-black font-bold text-left">Worldtraveler</div>
-        </div>
-      </div>
-      <div class="card bg-white w-60 px-2">
-        <div class="content border border-gray-300 shadow-md px-4 py-8 space-y-2">
-                  <svg version="1.1" id="Layer_1" class="h8 w-8" ="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 34 31" style="enable-background:new 0 0 34 31;" xml:space="preserve">
-        <style type="text/css">
-          .st0{fill:#219653;}
-        </style>
-        <g id="rean-a-car">
-          <g id="Car-rental-homepage" transform="translate(-469, -2682)">
-            <g id="Review-Carousel" transform="translate(162, 2647)">
-              <g id="Group" transform="translate(287, 0)">
-                <path id="Shape" class="st0" d="M35,35.5c-8.2,0-15,6.8-15,15v15h15v-15H25c0-5.5,4.5-10,10-10V35.5z M54,35.5
-                  c-8.2,0-15,6.8-15,15v15h15v-15H44c0-5.5,4.5-10,10-10V35.5z"/>
-              </g>
-            </g>
-          </g>
-        </g>
-        </svg>
-
-          <h2 class="text-black font-bold text-left">Best on the market</h2>
-          <div class="inline-flex w-full">
-            <div>
-              <img src="{{ asset('images/stars.jpg') }}" alt="" class="w-24 mr-2">
-            </div>
-            <div class="text-xs align-middles">2 days ago</div>
-          </div>
-          <div class="text-left text-sm">I love this product because the support is great.</div>
-          <div class="text-black font-bold text-left">Worldtraveler</div>
+          <div class="text-left text-sm">{{ $review->description }}</div>
         </div>
       </div>
 
+  
+        
+
+
+@endforeach
+
+
+
+
+  
+ 
 
     </div>
   </div>
@@ -856,47 +548,29 @@ buttonsWrapper.addEventListener("click", (e) => {
   <!-- Snippet -->
   <section class="bg-site-bg-gray">
     <div class="w-3/4 lg:w-1/2 mx-auto">
-      <div class="text-4xl mb-5 text-site-blue-dark text-center pt-10">Frequently Asked Questions (FAQ)</div>
-  
+      <div class="text-4xl mb-5 text-site-blue-dark text-center pt-10">{{__('Frequently Asked Questions (FAQ)')}}</div>
       <div class="faq-box">
-        <div class="faq-item mb-4 rounded-xl border-2 border-site-border-faq bg-white">
+      @if($page && $page->faqs->count() > 0)
+    @foreach($page->faqs as $faq)
+    <div class="faq-item mb-4 rounded-xl border-2 border-site-border-faq bg-white">
           <div class="faq-question cursor-pointer flex justify-between items-center p-4">
-            <span class="text-site-blue-ligter font-medium text-xl">1. What is Tailwind CSS?</span>
+            <span class="text-site-blue-ligter font-medium text-xl">{{ $loop->iteration }}. {{ $faq->question }}</span>
             <svg class="faq-arrow stroke-site-blue-ligter" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path d="M6 9L12 15L18 9" stroke="#0D87C6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
           </div>
           <div class="faq-answer-wrapper overflow-hidden max-h-0 transition-all duration-300">
             <div class="faq-answer p-4 text-gray-500">
-              Tailwind CSS is a utility-first CSS framework for rapidly building custom user interfaces.
+            {{ $faq->answer }}
             </div>
           </div>
         </div>
-  
-        <div class="faq-item mb-4 rounded-xl border-2 border-site-border-faq bg-white">
-          <div class="faq-question cursor-pointer flex justify-between items-center p-4">
-            <span class="text-site-blue-ligter font-medium text-xl">2. Some other question</span>
-            <svg class="faq-arrow stroke-site-blue-ligter" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path d="M6 9L12 15L18 9" stroke="#0D87C6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-          </div>
-          <div class="faq-answer-wrapper overflow-hidden max-h-0 transition-all duration-300">
-            <div class="faq-answer p-4 text-gray-500">
-              Tailwind CSS is a utility-first CSS framework for rapidly building custom user interfaces.
-            </div>
-          </div>
-        </div>
-        <div class="faq-item mb-4 rounded-xl border-2 border-site-border-faq bg-white">
-          <div class="faq-question cursor-pointer flex justify-between items-center p-4">
-            <span class="text-site-blue-ligter font-medium text-xl">3. Some other question</span>
-            <svg class="faq-arrow stroke-site-blue-ligter" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path d="M6 9L12 15L18 9" stroke="#0D87C6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-          </div>
-          <div class="faq-answer-wrapper overflow-hidden max-h-0 transition-all duration-300">
-            <div class="faq-answer p-4 text-gray-500">
-              Tailwind CSS is a utility-first CSS framework for rapidly building custom user interfaces.
-            </div>
-          </div>
-        </div>
+    @endforeach
+@endif
+
+
       </div>
   
-      <div class="text-2xl mt-8 mb-4 text-gray-500 text-center">Still have a question?</div>
-      <div class="text-base text-gray-500 text-center pb-10">If you can not find answer to your question in our FAQ, you can always contact us. We Will answer to you shortly.</div>
+      <div class="text-2xl mt-8 mb-4 text-gray-500 text-center">{{__('Still have a question?')}}</div>
+      <div class="text-base text-gray-500 text-center pb-10">{{__('If you can not find answer to your question in our FAQ, you can always contact us. We Will answer to you shortly.')}}</div>
   
   
     </div>
@@ -904,7 +578,7 @@ buttonsWrapper.addEventListener("click", (e) => {
 
 <section>
     <div class=" w-full p-5"> <!-- Hero Section -->
-      <div class="text-4xl mt-8 mb-4 text-site-blue-dark text-center">Get in touch</div>
+      <div class="text-4xl mt-8 mb-4 text-site-blue-dark text-center">{{__('Get in touch')}}</div>
   
         <div class="container mx-auto p-10 lg:flex flex-col lg:flex-row space-y-6 lg:space-y-0"> <!-- Container Box -->
           
@@ -917,8 +591,8 @@ buttonsWrapper.addEventListener("click", (e) => {
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4861 5.32931C13.5999 4.93103 14.015 4.70041 14.4133 4.81421L14.2072 5.53535C14.4133 4.81421 14.4136 4.81431 14.414 4.81441L14.4147 4.81462L14.4162 4.81506L14.4196 4.81604L14.4273 4.81835L14.4471 4.82451C14.4622 4.82934 14.481 4.83562 14.5035 4.84358C14.5484 4.85952 14.6077 4.88218 14.6805 4.91339C14.8262 4.97582 15.0253 5.07224 15.2698 5.21695C15.7593 5.50664 16.4275 5.98781 17.2124 6.77279C17.9974 7.55776 18.4786 8.22595 18.7683 8.71541C18.913 8.95992 19.0094 9.15899 19.0718 9.30467C19.103 9.37748 19.1257 9.43683 19.1416 9.48175C19.1496 9.5042 19.1559 9.52303 19.1607 9.5381L19.1669 9.55789L19.1692 9.56564L19.1702 9.56898L19.1706 9.57051L19.1708 9.57124C19.1709 9.5716 19.171 9.57195 18.4499 9.77799L19.171 9.57195C19.2848 9.97023 19.0542 10.3853 18.6559 10.4991C18.261 10.612 17.8496 10.3862 17.7317 9.99414L17.728 9.98336C17.7227 9.96833 17.7116 9.93875 17.6931 9.89555C17.6561 9.80921 17.589 9.66798 17.4774 9.47939C17.2544 9.10265 16.8517 8.5334 16.1518 7.83345C15.4518 7.13349 14.8826 6.73079 14.5058 6.50782C14.3172 6.3962 14.176 6.32911 14.0897 6.2921C14.0465 6.27359 14.0169 6.26256 14.0019 6.25722L13.9911 6.25353C13.599 6.13565 13.3733 5.7242 13.4861 5.32931Z"/>
                 </svg>
             </div>
-                  <div class="text-2xl font-semibold text-[#4A4A4A]">Give us a call</div>      
-                  <div class="mb-6 mt-2 w-1/2 flex m-auto">If you have additional questions, please do not hesitate call us.</div>      
+                  <div class="text-2xl font-semibold text-[#4A4A4A]">{{__('Give us a call')}}</div>      
+                  <div class="mb-6 mt-2 w-1/2 flex m-auto">{{__('If you have additional questions, please do not hesitate call us.')}}</div>      
                   <button class="rounded-3xl border-2 border-cyan-500 px-8 py-2">023 569 96 96</button>
             
           </div>
@@ -930,8 +604,8 @@ buttonsWrapper.addEventListener("click", (e) => {
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M9.94358 3.25H14.0564C15.8942 3.24998 17.3498 3.24997 18.489 3.40314C19.6614 3.56076 20.6104 3.89288 21.3588 4.64124C22.1071 5.38961 22.4392 6.33856 22.5969 7.51098C22.75 8.65019 22.75 10.1058 22.75 11.9436V12.0564C22.75 13.8942 22.75 15.3498 22.5969 16.489C22.4392 17.6614 22.1071 18.6104 21.3588 19.3588C20.6104 20.1071 19.6614 20.4392 18.489 20.5969C17.3498 20.75 15.8942 20.75 14.0564 20.75H9.94359C8.10583 20.75 6.65019 20.75 5.51098 20.5969C4.33856 20.4392 3.38961 20.1071 2.64124 19.3588C1.89288 18.6104 1.56076 17.6614 1.40314 16.489C1.24997 15.3498 1.24998 13.8942 1.25 12.0564V11.9436C1.24998 10.1058 1.24997 8.65019 1.40314 7.51098C1.56076 6.33856 1.89288 5.38961 2.64124 4.64124C3.38961 3.89288 4.33856 3.56076 5.51098 3.40314C6.65019 3.24997 8.10582 3.24998 9.94358 3.25ZM5.71085 4.88976C4.70476 5.02502 4.12511 5.27869 3.7019 5.7019C3.27869 6.12511 3.02502 6.70476 2.88976 7.71085C2.75159 8.73851 2.75 10.0932 2.75 12C2.75 13.9068 2.75159 15.2615 2.88976 16.2892C3.02502 17.2952 3.27869 17.8749 3.7019 18.2981C4.12511 18.7213 4.70476 18.975 5.71085 19.1102C6.73851 19.2484 8.09318 19.25 10 19.25H14C15.9068 19.25 17.2615 19.2484 18.2892 19.1102C19.2952 18.975 19.8749 18.7213 20.2981 18.2981C20.7213 17.8749 20.975 17.2952 21.1102 16.2892C21.2484 15.2615 21.25 13.9068 21.25 12C21.25 10.0932 21.2484 8.73851 21.1102 7.71085C20.975 6.70476 20.7213 6.12511 20.2981 5.7019C19.8749 5.27869 19.2952 5.02502 18.2892 4.88976C17.2615 4.75159 15.9068 4.75 14 4.75H10C8.09318 4.75 6.73851 4.75159 5.71085 4.88976ZM5.42383 7.51986C5.68901 7.20165 6.16193 7.15866 6.48014 7.42383L8.63903 9.22291C9.57199 10.0004 10.2197 10.5384 10.7666 10.8901C11.2959 11.2306 11.6549 11.3449 12 11.3449C12.3451 11.3449 12.7041 11.2306 13.2334 10.8901C13.7803 10.5384 14.428 10.0004 15.361 9.22291L17.5199 7.42383C17.8381 7.15866 18.311 7.20165 18.5762 7.51986C18.8413 7.83807 18.7983 8.31099 18.4801 8.57617L16.2836 10.4066C15.3973 11.1452 14.6789 11.7439 14.0448 12.1517C13.3843 12.5765 12.7411 12.8449 12 12.8449C11.2589 12.8449 10.6157 12.5765 9.95518 12.1517C9.32112 11.7439 8.60272 11.1452 7.71636 10.4066L5.51986 8.57617C5.20165 8.31099 5.15866 7.83807 5.42383 7.51986Z" />
                 </svg>
             </div>
-                  <div class="text-2xl font-semibold text-[#4A4A4A]">Write to us</div>      
-                  <div class="mb-6 mt-2 w-1/2 flex m-auto">Have a question or just want to say hi, Drop us a message</div>      
+                  <div class="text-2xl font-semibold text-[#4A4A4A]">{{__('Write to us')}}</div>      
+                  <div class="mb-6 mt-2 w-1/2 flex m-auto">{{__('Have a question or just want to say hi, Drop us a message')}}</div>      
                   <button class="rounded-3xl border-2 border-cyan-500 px-8 py-2">Write a message</button>
           </div>
           
@@ -939,135 +613,4 @@ buttonsWrapper.addEventListener("click", (e) => {
       </div>
     
   </section>
-
-<section class="bg-[#182F42]">
-<footer class="max-w-screen-2xl px-4 md:px-8 mx-auto">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pt-10 lg:pt-12 mb-16 ">
-    <div class="">
-      <div class="">
-        <a href="#" class=" inline-flex items-center text-gray-100 text-xl md:text-2xl font-bold gap-2 ">
-          <img src="{{ asset('images/logo-footer.png') }}" alt="">
-          </a>
-      </div>
-      
-    </div>
-    <div>
-      <p class=" text-gray-100 font-bold tracking-widest mb-4 ">
-        <span class="inline-block outline-none cursor-default">
-          Address
-        </span>
-      </p>
-      <nav class="flex flex-col gap-1">
-        <div class="text-gray-400">
-          Swicerland nr.4
-        </div>
-        <div class="text-gray-400">
-          1015 Berlin
-        </div>
-        <div class="text-gray-400">
-          Germany
-        </div>
-      </nav>
-    </div>
-    <div>
-      <p class=" text-gray-100 font-bold tracking-widest mb-4 ">
-        <span class="inline-block outline-none cursor-default">
-          Contact
-        </span>
-      </p>
-      <nav class="flex flex-col gap-1">
-        <div class="text-gray-400">
-          Phone: 023 569 96 96
-        </div>
-        <div class="text-gray-400">
-          email: example@gmail.com
-        </div>
- 
-      </nav>
-    </div>
-    <div>
-      <p class=" text-gray-100 font-bold tracking-widest mb-4 ">
-        <span class="inline-block outline-none cursor-default">
-          Legal
-        </span>
-      </p>
-      <nav class="flex flex-col gap-1">
-        <div>
-          <a href="#" class=" text-gray-400 hover:text-indigo-500 active:text-indigo-600 transition duration-100 ">
-            <span class="inline-block outline-none cursor">
-              Accessability
-            </span>
-          </a>
-        </div>
-        <div>
-          <a href="#" class=" text-gray-400 hover:text-indigo-500 active:text-indigo-600 transition duration-100 ">
-            <span class="inline-block outline-none cursor">
-              Return Policy
-            </span>
-          </a>
-        </div>
-        <div>
-          <a href="#" class=" text-gray-400 hover:text-indigo-500 active:text-indigo-600 transition duration-100 ">
-            <span class="inline-block outline-none cursor">
-              Refund Policy
-            </span>
-          </a>
-        </div>
-      </nav>
-    </div>
-    <div>
-      <p class=" text-gray-100 font-bold tracking-widest mb-4 ">
-        <span class="inline-block outline-none cursor-default">
-          Social media
-        </span>
-      </p>
-      <div class="flex gap-4 ">
-          <a href="#" class=" text-gray-400 hover:text-gray-500 active:text-gray-600 transition duration-100 ">
-            <span class="relative">
-              <span class="w-fit">
-                <svg class=" w-5 h-5 " width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z">
-                  </path>
-                </svg>
-              </span>
-            </span>
-          </a>
-          <a href="#" class=" text-gray-400 hover:text-gray-500 active:text-gray-600 transition duration-100 ">
-            <span class="relative">
-              <span class="w-fit">
-                <svg class=" w-5 h-5 " width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z">
-                  </path>
-                </svg>
-              </span>
-            </span>
-          </a>
-          <a href="#" class=" text-gray-400 hover:text-gray-500 active:text-gray-600 transition duration-100 ">
-              <span class="relative">
-                <span class=" w-5 h-5">
-                  <div style="font-size: inherit; color: inherit; padding: 2px;">
-                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"></path>
-                    </svg>
-                  </div>
-                </span>
-              </span>
-          </a>
-      </div>
-    </div>
-  </div>
-  <div class=" text-gray-400 flex justify-between text-sm text-center border-t border-[#4D8AA1] py-8 ">
-    <span class="">© 2023 - Care rental. All rights reserved.</span>
-    <span class="flex flex-row space-x-3">
-      <a href="#">Tearmns & conditions</a>
-      <a href="#">Privicy Policy</a>
-      <a href="#">Cockies</a>
-    </span>
-  </div>
-
-</footer>
-
-</section>
 @endsection

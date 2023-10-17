@@ -2,7 +2,7 @@
   <AppLayout title="Translations">
   <PageHeader :title="'Translations'">
     <div class="flex">
-      <ExportModal
+      <!-- <ExportModal
         @toggle-open="exportModalOpened = !exportModalOpened"
         :open="exportModalOpened"
         :locales="locales"
@@ -13,7 +13,7 @@
         :open="importModalOpened"
         :locales="locales"
         v-can="'sanctum.translation.import'"
-      />
+      /> -->
       <ButtonGroup>
         <Button
         @click="publishTranslations"
@@ -39,7 +39,7 @@
                 v-can="'sanctum.translation.rescan'"
               >Re-scan translations
               </DropdownItem>
-              <DropdownItem
+              <!-- <DropdownItem
                 @click="exportModalOpened = true"
                 v-can="'sanctum.translation.export'"
               >Export
@@ -48,7 +48,7 @@
                 @click="importModalOpened = true"
                 v-can="'sanctum.translation.import'"
               >Import
-              </DropdownItem>
+              </DropdownItem> -->
             </div>
           </template>
         </Dropdown>
@@ -151,9 +151,9 @@ import { PaginatedCollection } from "craftable-pro/types/pagination";
 import type { LanguageLine } from "craftable-pro/types/models";
 import type { PageProps } from "craftable-pro/types/page";
 import { useAction } from "craftable-pro/hooks/useAction";
-import EditTranslationModal from "@/Pages/Translations/Components/EditTranslationModal.vue";
-import ExportModal from "@/Pages/Translations/Components/ExportModal.vue";
-import ImportModal from "@/Pages/Translations/Components/ImportModal.vue";
+import EditTranslationModal from "craftable-pro/Pages/Translations/Components/EditTranslationModal.vue";
+import ExportModal from "craftable-pro/Pages/Translations/Components/ExportModal.vue";
+import ImportModal from "craftable-pro/Pages/Translations/Components/ImportModal.vue";
 import { useToast } from "@brackets/vue-toastification";
 import { ref } from "vue";
 import { usePage } from "@inertiajs/vue3";

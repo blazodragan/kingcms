@@ -11,7 +11,6 @@
         <div
           class="relative flex items-center"
           :class="{ '-m-px': indeterminate || allItemsSelected }"
-          v-auto-animate="{ duration: 150 }"
         >
           <div class="h-[34px]" />
           <Checkbox
@@ -28,7 +27,6 @@
           <div
             v-if="selectedItems?.length > 0"
             class="flex items-center gap-x-4 pl-6 text-sm text-gray-700"
-            v-auto-animate
           >
             <div class="flex-shrink-0">
               <span class="leading-8 sm:whitespace-nowrap">
@@ -123,7 +121,6 @@
                 <ListingDataCell
                   v-if="withBulkSelect"
                   class="relative w-8 sm:w-14"
-                  v-auto-animate="{ duration: 150 }"
                 >
                   <div
                     v-if="selectedItems.includes(item.id)"

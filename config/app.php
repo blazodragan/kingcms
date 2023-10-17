@@ -11,7 +11,7 @@ use App\Translations\Scanners\Internal\PhpScanner;
 
 return [
 
-
+    //TODO: remeber to change the app/Providers/RouteServiceProvider.php to the new admin_oath because of rediect when login chaneg the logic here 
     'admin_path' => 'admina',
 
      // default media disk name

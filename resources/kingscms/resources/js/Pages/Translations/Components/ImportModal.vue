@@ -1,7 +1,6 @@
 <template>
   <Modal :open="open" @toggle-open="toggleOpen" :external-open="true">
-    <template #title>
-      {{ $t("craftable-pro", "Import translations") }}</template
+    <template #title>Import translations</template
     >
     <template #content>
       <ImportModalFirstStep
@@ -38,8 +37,7 @@
         v-if="currentStep !== 3"
         :disabled="processing"
         @click.prevent="nextStep"
-      >
-        {{ $t("craftable-pro", "Next step") }}
+      >Next step
       </Button>
       <Button
         v-if="currentStep !== 3"
@@ -50,8 +48,7 @@
             setIsOpen();
           }
         "
-      >
-        {{ $t("craftable-pro", "Cancel") }}
+      >Cancel
       </Button>
       <Button
         v-if="currentStep === 3"
@@ -62,8 +59,7 @@
             currentStep = 1;
           }
         "
-      >
-        {{ $t("craftable-pro", "Finish import") }}
+      >Finish import
       </Button>
     </template>
   </Modal>
@@ -72,6 +68,8 @@
 <script lang="ts" setup>
 import { Button, Modal } from "craftable-pro/Components";
 import { onMounted, ref } from "vue";
+import { usePage } from "@inertiajs/vue3";
+import type { PageProps } from "craftable-pro/types/page";
 import ImportModalFirstStep from "craftable-pro/Pages/Translations/Components/ImportModalFirstStep.vue";
 import ImportModalThirdStep from "craftable-pro/Pages/Translations/Components/ImportModalThirdStep.vue";
 import ImportModalSecondStep from "craftable-pro/Pages/Translations/Components/ImportModalSecondStep.vue";
@@ -124,7 +122,7 @@ const nextStep = () => {
   processing.value = true;
 
   if (currentStep.value === 1) {
-    let url = route("craftable-pro.translations.import");
+    let url = route("translations.import");
     let formData = new FormData();
 
     formData.append("fileImport", file.value ?? "");
@@ -180,7 +178,8 @@ const nextStep = () => {
         }
       }
     }
-    let url = "/admin/translations/import/conflicts";
+    const adminPath = ref((usePage().props as PageProps).admin_path);
+    let url = "/"+adminPath.value+"/translations/import/conflicts";
     let data = {
       importLanguage: language.value,
       resolvedTranslations: translationsToImport.value,
@@ -197,7 +196,7 @@ const nextStep = () => {
             response.data.numberOfUpdatedTranslations;
         },
         (error) => {
-          toast.error(trans("craftable-pro", "An error has occurred."));
+          toast.error("An error has occurred.");
         }
       )
       .finally(() => {

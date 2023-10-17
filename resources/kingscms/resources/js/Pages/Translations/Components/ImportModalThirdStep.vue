@@ -1,15 +1,7 @@
 <template>
   <p class="text-sm font-medium text-gray-700">
-    {{
-      $t("craftable-pro", ":count successfully imported", {
-        count: numberOfSuccessfullyImportedTranslations.toString(),
-      })
-    }}
-    {{
-      $t("craftable-pro", ":count successfully updated", {
-        count: numberOfSuccessfullyUpdatedTranslations.toString(),
-      })
-    }}
+    {{ numberOfSuccessfullyImportedTranslations.toString() }} successfully imported 
+    {{numberOfSuccessfullyUpdatedTranslations.toString()}} successfully updated
   </p>
 </template>
 

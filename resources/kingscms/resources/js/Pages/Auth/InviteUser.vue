@@ -4,7 +4,6 @@
 
     <div
       class="bg-white py-8 px-4 space-y-3 shadow sm:rounded-lg sm:px-10"
-      v-auto-animate
     >
       <form class="space-y-6" @submit.prevent="submit">
         <TextInput
@@ -96,7 +95,7 @@ const form = useForm({
 const toast = useToast();
 
 const submit = () => {
-  form.post(route("craftable-pro.invite-user.store"), {
+  form.post(route("invite-user.store"), {
     onSuccess: () => {
       toast.success(
         trans(

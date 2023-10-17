@@ -1,6 +1,6 @@
 <template>
   <Listbox as="div" v-model="selectedTextStyle">
-    <div class="relative" v-auto-animate>
+    <div class="relative">
       <ListboxButton
         class="relative w-32 cursor-pointer rounded-md bg-white py-1.5 pl-2 pr-6 text-left font-medium text-gray-700 hover:bg-gray-100 focus:outline-none sm:text-sm"
       >

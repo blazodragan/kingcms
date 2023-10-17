@@ -12,6 +12,7 @@
 <body>
         @include('nav')
         @yield('content')
+        @include('footer')
 </body>
  <!-- JavaScript for Dropdown -->
  <script>

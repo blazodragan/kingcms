@@ -1,6 +1,5 @@
 import { createApp, h } from "vue";
 import { createInertiaApp, Link } from "@inertiajs/vue3";
-import { autoAnimatePlugin } from "@formkit/auto-animate/vue";
 import Toast, { POSITION } from "@brackets/vue-toastification";
 import "@brackets/vue-toastification/dist/index.css";
 import { AuthenticatedLayout, GuestLayout } from "craftable-pro/Layouts";
@@ -62,7 +61,6 @@ createInertiaApp({
               return translations;
             },
           })
-          .use(autoAnimatePlugin)
           .use(ZiggyVue)
           .component("Link", Link)
           .directive("can", can)

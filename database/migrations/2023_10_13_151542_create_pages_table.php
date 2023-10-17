@@ -18,7 +18,7 @@ return new class extends Migration
             $table->jsonb('slug')->unique();;
             $table->jsonb('perex');
             $table->jsonb('content');
-            $table->boolean('is_index')->default(false);
+            $table->boolean('home')->default(false);
             $table->string('template')->nullable();
 
             // Seo meta 

@@ -76,16 +76,16 @@
             </Button>
           </template>
 
-          <template #title>Delete News
+          <template #title>Delete Pages
           </template>
-          <template #content>Are you sure you want to delete selected News? All data will be permanently removed from our servers forever. This action cannot be undone.
+          <template #content>Are you sure you want to delete selected Pages? All data will be permanently removed from our servers forever. This action cannot be undone.
           </template>
 
           <template #buttons="{ setIsOpen }">
             <Button
               @click.prevent="
                 () => {
-                  bulkAction('post', route('news.bulk-destroy'), {
+                  bulkAction('post', route('pages.bulk-destroy'), {
                     onFinish: () => setIsOpen(false),
                   });
                 }
@@ -178,13 +178,13 @@
                   color="gray"
                   variant="ghost"
                   :icon="TrashIcon"
-                  v-can="'sanctum.pages.destroy'"
+                  v-can="'sanctum.news.destroy'"
                 />
               </template>
 
               <template #title>Delete Pages
               </template>
-              <template #content>Are you sure you want to delete selected News? All data will be permanently removed from our servers forever. This action cannot be undone
+              <template #content>Are you sure you want to delete selected Pages? All data will be permanently removed from our servers forever. This action cannot be undone
               </template>
 
               <template #buttons="{ setIsOpen }">
@@ -280,9 +280,9 @@ const { filtersForm, resetFilters, activeFiltersCount } = useListingFilters(
 const downloadFile = () => {
     const url = window.location.href.split("?");
     if(url.length > 1) {
-      window.location = route('news.export', url.pop()).slice(0, -1);
+      window.location = route('pages.export', url.pop()).slice(0, -1);
     } else {
-      window.location = route('news.export');
+      window.location = route('pages.export');
     }
 }
 </script>

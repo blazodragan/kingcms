@@ -105,7 +105,6 @@
         <template v-else>
           <ul
             v-if="selectedView === 'grid'"
-            v-auto-animate
             role="list"
             class="3xl:grid-cols-5 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
             :class="[
@@ -205,7 +204,7 @@
     <template #aside>
       <!-- Details sidebar -->
       <Aside v-if="selectedImage" class="hidden xl:block">
-        <div v-auto-animate="{ duration: 100 }" class="space-y-6 pb-16">
+        <div class="space-y-6 pb-16">
           <!-- Preview -->
           <div v-if="showFileInfo">
             <div class="mb-4 block w-full overflow-hidden rounded-lg">
