@@ -22,6 +22,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CategoriesExport;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use App\Enums\CategoryTypes;
 
 class CategoryController extends Controller
 {
@@ -35,22 +36,24 @@ class CategoryController extends Controller
                 AllowedFilter::custom('search', new FuzzyFilter(
                     'id','alias','slug','title','description'
                 )),
+                AllowedFilter::exact('type'),
             ])
             ->defaultSort('id')
-            ->allowedSorts('id','alias','slug','title','description');
+            ->allowedSorts('id','alias','slug','title','description','type');
 
         if ($request->wantsJson() && $request->get('bulk_select_all')) {
             return response()->json($categoriesQuery->select(['id'])->pluck('id'));
         }
 
         $categories = $categoriesQuery
-            ->select('id','alias','slug','title','description')
+            ->select('id','alias','slug','title','description','type')
             ->paginate($request->get('per_page'))->withQueryString();
 
         Session::put('categories_url', $request->fullUrl());
 
         return Inertia::render('Category/Index', [
             'categories' => $categories,
+            'categoryTypes' => array_map(fn ($case) => ['value' => $case, 'label' => $case], CategoryTypes::cases()),
         ]);
     }
 
@@ -60,7 +63,7 @@ class CategoryController extends Controller
     public function create(CreateCategoryRequest $request): Response
     {
         return Inertia::render('Category/Create', [
-            
+            'categoryTypes' => array_map(fn ($case) => ['value' => $case, 'label' => $case], CategoryTypes::cases()),
         ]);
     }
 
@@ -87,7 +90,7 @@ class CategoryController extends Controller
 
         return Inertia::render('Category/Edit', [
             'category' => $category,
-            
+            'categoryTypes' => array_map(fn ($case) => ['value' => $case, 'label' => $case], CategoryTypes::cases()),
         ]);
     }
 

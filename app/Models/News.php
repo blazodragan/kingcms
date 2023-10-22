@@ -15,10 +15,12 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\Category;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class News extends Model  implements HasMedia {
 
     use SoftDeletes;
+    use HasFactory;
 
     use HasTranslations;
     use ProcessMediaTrait;

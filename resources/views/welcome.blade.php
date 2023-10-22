@@ -534,10 +534,10 @@ buttonsWrapper.addEventListener("click", (e) => {
       slidesTrust.style.transform = "translateX(-0%)";
       e.target.classList.add("active");
     } else if (e.target.classList.contains("second")) {
-      slidesTrust.style.transform = "translateX(-33.33333333333333%)";
+      slidesTrust.style.transform = "translateX(-60rem)";
       e.target.classList.add("active");
     } else if (e.target.classList.contains("third")) {
-      slidesTrust.style.transform = "translatex(-66.6666666667%)";
+      slidesTrust.style.transform = "translatex(-120rem)";
       e.target.classList.add("active");
     }
   }

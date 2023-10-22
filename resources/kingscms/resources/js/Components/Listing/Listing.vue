@@ -111,7 +111,7 @@
             </thead>
 
             <tbody class="divide-y divide-gray-200 bg-white">
-              <tr
+              <tr class="[@media(hover:hover)]:transition [@media(hover:hover)]:duration-75 hover:bg-gray-50"
                 v-for="item in collection"
                 :key="item.id"
                 :class="{

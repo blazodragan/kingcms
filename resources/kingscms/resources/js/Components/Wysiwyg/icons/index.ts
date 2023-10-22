@@ -2,6 +2,7 @@ import BlockquoteIcon from "./Blockquote.vue";
 import BoldIcon from "./Bold.vue";
 import BulletListIcon from "./BulletList.vue";
 import CodeIcon from "./Code.vue";
+import Image from "./Image.vue";
 import ItalicIcon from "./Italic.vue";
 import LinkIcon from "./Link.vue";
 import OrderedListIcon from "./OrderedList.vue";
@@ -11,6 +12,9 @@ import TextAlignJustifyIcon from "./TextAlignJustify.vue";
 import TextAlignLeftIcon from "./TextAlignLeft.vue";
 import TextAlignRightIcon from "./TextAlignRight.vue";
 import UnderlineIcon from "./Underline.vue";
+import HtmlIcon from "./HtmlIcon.vue";
+import YouTube from "./YouTube.vue";
+import CommandLineIcon from "./CommandLineIcon.vue";
 
 export {
   BlockquoteIcon,
@@ -26,4 +30,8 @@ export {
   TextAlignLeftIcon,
   TextAlignRightIcon,
   UnderlineIcon,
+  HtmlIcon,
+  Image,
+  YouTube,
+  CommandLineIcon,
 };

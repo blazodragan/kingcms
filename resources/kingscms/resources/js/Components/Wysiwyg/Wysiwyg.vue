@@ -11,7 +11,7 @@
     >
       <div
         v-if="!withoutToolbar"
-        class="flex flex-wrap items-center gap-2 divide-x divide-gray-100 border-b border-gray-300 px-2 py-1.5"
+        class="flex flex-wrap items-center gap-2  border-b border-gray-300 px-2 py-1.5"
       >
         <div class="flex flex-wrap gap-1">
           <HeadingSelect :editor="editor" />
@@ -88,6 +88,14 @@
             title="⌘⇧8"
             :icon="BulletListIcon"
           />
+          <ToolbarButton
+            @click="toggleView"
+            title="⌘⇧8"
+            :icon="HtmlIcon"
+          />
+
+          <!-- Button to toggle between views -->
+
         </div>
         <div class="flex flex-wrap gap-1 pl-2">
           <LinkPromptModal :editor="editor" @linkAdded="setLink" />
@@ -105,11 +113,23 @@
           />
           <ImageUploadButton @imageUploaded="addImage" />
           <YoutubePromptModal @youtubeAdded="addVideo" />
-          <BlocksSelect :editor="editor" />
+          
+
         </div>
+        <BlocksSelect :editor="editor" />
+        <TemplateSelect :editor="editor" />
+        
       </div>
       <div class="relative">
-        <EditorContent :editor="editor" />
+        <div v-if="isRichTextView">
+  <EditorContent :editor="editor" />
+  <!-- Plus any other UI elements related to the tiptap editor -->
+</div>
+
+<!-- Raw HTML view -->
+<div v-else>
+  <textarea v-model="rawHtmlContent" class="w-full h-60"></textarea>
+</div>
 
         <div
           v-if="error"
@@ -121,12 +141,15 @@
           />
         </div>
       </div>
+
+
     </div>
   </FormControl>
 </template>
 
 <script setup lang="ts">
 import { withDefaults, watch, ref, computed } from "vue";
+import { mergeAttributes,Node } from '@tiptap/core';
 import { useEditor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
@@ -148,12 +171,14 @@ import {
   TextAlignLeftIcon,
   TextAlignRightIcon,
   UnderlineIcon,
+  HtmlIcon,
+  CommandLineIcon,
 } from "./icons";
-import { CommandLineIcon } from "@heroicons/vue/24/solid";
 
 import ToolbarButton from "./ToolbarButton.vue";
 import HeadingSelect from "./HeadingSelect.vue";
 import BlocksSelect from "./BlocksSelect.vue";
+import TemplateSelect from "./TemplateSelect.vue";
 import ImageUploadButton from "./ImageUploadButton.vue";
 import { isFileImage } from "craftable-pro/helpers";
 import YoutubePromptModal from "./YoutubePromptModal.vue";
@@ -163,6 +188,135 @@ import { usePage } from "@inertiajs/vue3";
 import { PageProps } from "../../types/page";
 import { FormControl } from "..";
 import { ExclamationCircleIcon } from "@heroicons/vue/20/solid";
+
+const Section = Node.create({
+  name: 'section',
+
+  group: 'block',
+
+  content: 'block*',
+
+  parseHTML() {
+    return [{ tag: 'section' }];
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ['section', HTMLAttributes, 0];
+  },
+});
+const DivNode = Node.create({
+    name: 'div',
+    group: 'block',
+    content: 'block+',
+    attrs: {
+    class: {
+            default: null,
+        },
+    },
+    addAttributes() {
+        return {
+            class: {
+                parseHTML: element => element.getAttribute('class'),
+            }
+        }
+    },
+    parseHTML() {
+        return [
+            {
+                tag: 'div',
+            },
+        ];
+    },
+    renderHTML({ node, HTMLAttributes }) {
+        return ['div', HTMLAttributes, 0];
+    },
+});
+
+const HeaderNode = Node.create({
+    name: 'header',
+    group: 'block',
+    content: 'block*',
+
+    addAttributes() {
+        return {
+            class: {
+                parseHTML: element => element.getAttribute('class'),
+            }
+        }
+    },
+    parseHTML() {
+        return [
+            {
+                tag: 'header',
+            },
+        ];
+    },
+
+    renderHTML({ node, HTMLAttributes }) {
+        return ['header', HTMLAttributes, 0];
+    },
+});
+
+const SvgNode = Node.create({
+    name: 'svg',
+    group: 'block',
+    content: 'block*',
+
+    addAttributes() {
+        return {
+          xmlns: {
+                parseHTML: element => element.getAttribute('xmlns'),
+            },
+            height: {
+                parseHTML: element => element.getAttribute('height'),
+            },
+            viewBox: {
+                parseHTML: element => element.getAttribute('viewBox'),
+            },
+            class: {
+                parseHTML: element => element.getAttribute('class'),
+            },
+            fill: {
+                parseHTML: element => element.getAttribute('fill'),
+            }
+        }
+    },
+    parseHTML() {
+        return [
+            {
+                tag: 'svg',
+            },
+        ];
+    },
+
+    renderHTML({ node, HTMLAttributes }) {
+        return ['svg', HTMLAttributes, 0];
+    },
+});
+const PathNode = Node.create({
+    name: 'path',
+    group: 'block',
+    content: 'block*',
+
+    addAttributes() {
+        return {
+            d: {
+                parseHTML: element => element.getAttribute('d'),
+            }
+        }
+    },
+    parseHTML() {
+        return [
+            {
+                tag: 'path',
+            },
+        ];
+    },
+
+    renderHTML({ node, HTMLAttributes }) {
+        return ['path', HTMLAttributes, 0];
+    },
+});
 
 
 interface Props {
@@ -183,6 +337,7 @@ const error = computed(
   () => (usePage().props as PageProps)?.errors[props.name] ?? false
 );
 
+
 watch(
   () => props.modelValue,
   (value) => {
@@ -196,15 +351,21 @@ watch(
   }
 );
 
+
 const editor = useEditor({
   content: props.modelValue,
   extensions: [
     StarterKit,
+    Section,
+    DivNode,
+    HeaderNode,
+    SvgNode,
+    PathNode,
     Heading,
     Heading.configure({
   levels: [1,2,3,4,5,6], // For h1
   HTMLAttributes: {
-    class: 'text-4xl mb-10 text-site-blue-dark text-center',
+    class: 'text-4xl mb-10 text-[#0c87c6]',
   },
 }),
     Underline,
@@ -292,6 +453,23 @@ const addImage = (mediaArr: UploadedFile[] | UploadedFile) => {
       }
     }
   });
+};
+
+// State to track the current view (true for rich-text view, false for HTML view)
+const isRichTextView = ref(true);
+
+// Model for the textarea where raw HTML will be edited
+const rawHtmlContent = ref<string>('');
+
+// Function to toggle between rich-text and HTML views
+const toggleView = () => {
+  if (isRichTextView.value) {
+    rawHtmlContent.value = editor.value?.getHTML() || '';
+  } else {
+    editor.value?.commands.setContent(rawHtmlContent.value);
+  }
+  emit("update:modelValue", editor.value?.getHTML());
+  isRichTextView.value = !isRichTextView.value;
 };
 </script>
 

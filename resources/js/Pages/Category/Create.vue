@@ -10,7 +10,7 @@
     </Button>
   </PageHeader>
 
-  <Form :form="form" :submit="submit"  />
+  <Form :form="form" :submit="submit" :categoryTypes="categoryTypes" :slugDisabled="slugDisabled"/>
 </AppLayout>
 </template>
 
@@ -18,7 +18,9 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { ArrowDownTrayIcon } from "@heroicons/vue/24/outline";
 import { PageHeader, Button } from "craftable-pro/Components";
+import { ref, Ref } from 'vue';
 import { useForm } from "craftable-pro/hooks/useForm";
+
 import Form from "./Form.vue";
 import type { CategoryForm } from "./types";
 
@@ -30,10 +32,13 @@ const { availableLocales, currentLocale, translatableDefaultValue, getLabelWithL
             
 
 interface Props {
-  
+  categoryTypes: Array<{value: string|number, label: string}>;
+  slugDisabled: Ref<boolean>;
 }
 
 const props = defineProps<Props>();
+
+
 
 const { form, submit } = useForm<CategoryForm>(
     {
@@ -41,9 +46,12 @@ const { form, submit } = useForm<CategoryForm>(
 slug: { ...translatableDefaultValue }, 
 title: { ...translatableDefaultValue }, 
 description: { ...translatableDefaultValue }, 
+type: "", 
 cover: []
     },
     route("categories.store"),
     "post"
 );
+
+const slugDisabled = ref<boolean>(form.slug[currentLocale.value] ? true : false);
 </script>

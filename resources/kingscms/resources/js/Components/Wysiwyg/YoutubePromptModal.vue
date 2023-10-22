@@ -1,7 +1,7 @@
 <template>
   <Modal class="flex items-center justify-center">
     <template #trigger="{ setIsOpen }">
-      <ToolbarButton @click="() => setIsOpen(true)" :icon="VideoCameraIcon" />
+      <ToolbarButton @click="() => setIsOpen(true)" :icon="YouTube" />
     </template>
     <template #title>Add Youtube video</template>
     <template #content>
@@ -30,7 +30,7 @@
 import ToolbarButton from "./ToolbarButton.vue";
 import { Modal, Button, TextInput } from "craftable-pro/Components";
 import { useForm } from "@inertiajs/vue3";
-import { VideoCameraIcon } from "@heroicons/vue/24/solid";
+import { YouTube } from "./icons"
 
 const emit = defineEmits(["youtubeAdded"]);
 

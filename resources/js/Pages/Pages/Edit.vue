@@ -16,7 +16,7 @@
     </Button>
   </PageHeader>
 
-  <Form :form="form" :submit="submit" :userOptions="userOptions" :tempaltesOptions="tempaltesOptions" :statusOptions="statusOptions"/>
+  <Form :form="form" :submit="submit" :userOptions="userOptions" :tempaltesOptions="tempaltesOptions" :statusOptions="statusOptions" :iconOptions="iconOptions"/>
 </AppLayout>
 </template>
 
@@ -43,6 +43,7 @@ interface Props {
   userOptions: Array<{value: string|number, label: string}>;
   statusOptions: Array<{value: string|number, label: string}>;
   tempaltesOptions: Array<{ value: string | number; label: string }>;
+  iconOptions: Array<{value: string|number, label: string}>;
 }
 
 const props = defineProps<Props>();
@@ -71,6 +72,7 @@ published_at: props.pages?.published_at ?? "",
 cover: getMediaCollection(props.pages?.media, 'cover'), 
 og_cover: getMediaCollection(props.pages?.media, 'og_cover'), 
 faqs: props.pages?.faqs.map(faq => ({...faq,question: faq.question,answer: faq.answer})) ?? [],
+tips: props.pages?.tips.map(tip => ({...tip,title: tip.title,body: tip.body,icon: tip.icon,type: tip.type})) ?? [],
     },
     route("pages.update", [props.pages?.id])
 );

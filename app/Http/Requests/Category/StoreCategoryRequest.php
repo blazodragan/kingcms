@@ -3,9 +3,12 @@ namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use app\Settings\GeneralSettings;
 
 class StoreCategoryRequest extends FormRequest
 {
+
+    
     /**
     * Determine if the user is authorized to make this request.
     *
@@ -23,11 +26,18 @@ class StoreCategoryRequest extends FormRequest
     */
     public function rules()
     {
+        $settings = app(GeneralSettings::class);
+        $defaultLocale = $settings->default_locale;
         return [
             'alias' => ['required','string'],
-            'slug' => ['required'],
-            'title' => ['required'],
-            'description' => ['required'],
+            "slug.$defaultLocale" => [
+                'required',
+                'max:255',
+                "unique_locale_slug:categories",
+            ],
+            "title.$defaultLocale" => ['required'],
+            'description' => ['nullable'],
+            'type' => ['required'],
         ];
     }
 }

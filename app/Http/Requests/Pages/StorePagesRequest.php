@@ -44,6 +44,10 @@ class StorePagesRequest extends FormRequest
             'published_at' => ['nullable'],
             'faqs.*.question' => ['nullable'],
             'faqs.*.answer' => ['nullable'],
+            'tips.*.title' => ['nullable'],
+            'tips.*.body' => ['nullable'],
+            'tips.*.icon' => ['nullable'],
+            'tips.*.type' => ['nullable'],
         ];
     }
 }

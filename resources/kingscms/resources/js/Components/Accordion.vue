@@ -1,24 +1,21 @@
 <template>
-  <Disclosure
-    as="div"
-    v-slot="{ open }"
-    :defaultOpen="defaultOpen"
-  >
-    <DisclosureButton
-      class="group flex w-full items-center justify-between px-4 py-3 text-left font-medium leading-8 text-gray-900 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75"
-    >
-      <slot name="title" />
-      <ChevronUpIcon
-        :class="{ 'rotate-180 transform': open }"
-        class="h-5 w-5 text-gray-400 group-hover:text-gray-700"
-      />
-    </DisclosureButton>
-    <div v-show="open">
-      <DisclosurePanel class="p-4 pt-1 text-gray-700" static>
-        <slot name="content" />
-      </DisclosurePanel>
+  <div class="w-full">
+    <div class="rounded-md bg-white shadow p-5">
+      <Disclosure as="div" v-slot="{ open }" :defaultOpen="defaultOpen">
+        <DisclosureButton
+          class="flex w-full justify-between rounded-md bg-gray-100 px-4 py-2 text-left text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-gray-500 focus-visible:ring-opacity-75">
+          <slot name="title" />
+          <ChevronUpIcon :class="{ 'rotate-180 transform': open }"
+            class="h-5 w-5 text-gray-400 group-hover:text-gray-700" />
+        </DisclosureButton>
+        <div v-show="open">
+          <DisclosurePanel class="mt-4 text-gray-700" static>
+            <slot name="content" />
+          </DisclosurePanel>
+        </div>
+      </Disclosure>
     </div>
-  </Disclosure>
+  </div>
 </template>
 
 <script setup lang="ts">

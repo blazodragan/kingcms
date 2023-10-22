@@ -16,7 +16,7 @@
     </Button>
   </PageHeader>
 
-  <Form :form="form" :submit="submit"  />
+  <Form :form="form" :submit="submit" :categoryTypes="categoryTypes" />
 </AppLayout>
 </template>
 
@@ -39,6 +39,7 @@ const { availableLocales, currentLocale, translatableDefaultValue, getLabelWithL
 
 interface Props {
   category: Category;
+  categoryTypes: Array<{value: string|number, label: string}>;
   
 }
 
@@ -46,10 +47,11 @@ const props = defineProps<Props>();
 
 const { form, submit } = useForm<CategoryForm>(
     {
-          alias: props.category?.alias ?? "", 
-slug: props.category?.slug ?? { ...translatableDefaultValue }, 
+alias: props.category?.alias ?? "", 
 title: props.category?.title ?? { ...translatableDefaultValue }, 
+slug: props.category?.slug ?? { ...translatableDefaultValue }, 
 description: props.category?.description ?? { ...translatableDefaultValue }, 
+type: props.category?.type ?? "", 
 cover: getMediaCollection(props.category?.media, 'cover')
     },
     route("categories.update", [props.category?.id])

@@ -49,14 +49,73 @@
 
         </div>
       </Card>
+      
               <!-- Nested Grid -->
               <div class="grid items-start gap-6 xl:grid-cols-1">
-          <!-- First Card in Nested Grid -->
-          <Card>
-            <h2 class="mb-4">FAQs</h2>
+                <Accordion>
+          <template #title> Useful Tips </template>
+          <template #content>
+            <div class="grid grid-cols-4 gap-4">
+            <div v-for="(tip, index) in form.tips.filter(tip => tip.type === 'question')" :key="'question-' + index">
+              <div class="border border-gray-200/50 p-6 rounded-md bg-gray-100 mb-4 relative">
+                <div class="space-y-4">
+    
+                  <IconSelector 
+                  v-model="tip.icon"
+                  :iconOptions="iconOptions"
+                  />
+                    <TextInput
+                    v-model="tip.title[currentLocale]"
+                    :name="`title.${currentLocale}`"
+                    :label="getLabelWithLocale('Title')"
+                    />
+                    <TextArea
+                    v-model="tip.body[currentLocale]"
+                    :name="`body.${currentLocale}`"
+                    :label="getLabelWithLocale('body')"
+                    />
+                </div>
+                <div class="absolute top-0 right-0 px-3 py-3">
+                <Tooltip position="top">
+                  <template #button>
+                    <button
+                    @click="removeTip(tip.id)"
+                      class="hover:cursor-pointer"
+                    >
+                      <svg
+                        class="h-5 w-5 stroke-gray-400 hover:stroke-gray-700"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </template>
+                  <template #content> Delete </template>
+                </Tooltip>
 
+                </div>
+
+              </div>
+            </div>
+          </div>
+<div class="flex justify-center"><button class="px-2 hover:bg-slate-50 rounded border"  @click="addTip('question')">+ add new</button></div>
+          </template>
+          </Accordion>
+          <!-- First Card in Nested Grid -->
+          <Accordion>
+          <template #title> FAQs </template>
+          <template #content>
             <div v-for="(faq, index) in form.faqs" :key="index">
-              <div class="border border-gray-200 p-6 rounded-md bg-gray-50 mb-6 relative">
+              <div class="border border-gray-200/50 p-6 rounded-md bg-gray-100 mb-4 relative">
                 <div class="space-y-4">
                     <TextInput
                     v-model="faq.question[currentLocale]"
@@ -69,7 +128,7 @@
                     :label="getLabelWithLocale('Answer')"
                     />
                 </div>
-                <div class="absolute top-0 right-0 p-2">
+                <div class="absolute top-0 right-0 px-3 py-3">
                 <Tooltip position="top">
                   <template #button>
                     <button
@@ -100,9 +159,16 @@
 
               </div>
             </div>
+<div class="flex justify-center"><button class="px-2 hover:bg-slate-50 rounded border"  @click="addFAQ">+ add new</button></div>
+          </template>
+          </Accordion>
 
-            <button class="px-2 hover:bg-slate-50 rounded border"  @click="addFAQ">+ add</button>
-          </Card>
+
+
+
+
+
+
         </div>
       <div class="grid items-start gap-6 xl:grid-cols-2">
         <div class="col-span-1">
@@ -125,6 +191,7 @@
               :options="statusOptions"
               mode="single"
             />
+
             <RadioGroupLink
             v-model="form.template"
               name="template"
@@ -153,6 +220,116 @@
         
         </div>
       </Card>
+      <Accordion class="mb-4">
+          <template #title> Why Box </template>
+          <template #content>
+    <div v-for="(tip, index) in form.tips.filter(tip => tip.type === 'suggestion')" :key="'suggestion-' + index">
+              <div class="border border-gray-200/50 p-6 rounded-md bg-gray-100 mb-4 relative">
+                <div class="space-y-4">
+                  <IconSelector 
+                  v-model="tip.icon"
+                  :iconOptions="iconOptions"
+                  />
+                    <TextInput
+                    v-model="tip.title[currentLocale]"
+                    :name="`title.${currentLocale}`"
+                    :label="getLabelWithLocale('Title')"
+                    />
+                    <TextInput
+                    v-model="tip.body[currentLocale]"
+                    :name="`body.${currentLocale}`"
+                    :label="getLabelWithLocale('body')"
+                    />
+                </div>
+                <div class="absolute top-0 right-0 px-3 py-3">
+                <Tooltip position="top">
+                  <template #button>
+                    <button
+                    @click="removeTip(tip.id)"
+                      class="hover:cursor-pointer"
+                    >
+                      <svg
+                        class="h-5 w-5 stroke-gray-400 hover:stroke-gray-700"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </template>
+                  <template #content> Delete </template>
+                </Tooltip>
+
+                </div>
+
+              </div>
+            </div>
+<div class="flex justify-center"><button class="px-2 hover:bg-slate-50 rounded border"  @click="addTip('suggestion')">+ add new</button></div>
+          </template>
+          </Accordion>
+          <Accordion class="mb-4">
+          <template #title> Dejan Box </template>
+          <template #content>
+    <div v-for="(tip, index) in form.tips.filter(tip => tip.type === 'dejan')" :key="'dejan-' + index">
+              <div class="border border-gray-200/50 p-6 rounded-md bg-gray-100 mb-4 relative">
+                <div class="space-y-4">
+                  <IconSelector 
+                  v-model="tip.icon"
+                  :iconOptions="iconOptions"
+                  />
+                    <TextInput
+                    v-model="tip.title[currentLocale]"
+                    :name="`title.${currentLocale}`"
+                    :label="getLabelWithLocale('Title')"
+                    />
+                    <TextInput
+                    v-model="tip.body[currentLocale]"
+                    :name="`body.${currentLocale}`"
+                    :label="getLabelWithLocale('body')"
+                    />
+                </div>
+                <div class="absolute top-0 right-0 px-3 py-3">
+                <Tooltip position="top">
+                  <template #button>
+                    <button
+                    @click="removeTip(tip.id)"
+                      class="hover:cursor-pointer"
+                    >
+                      <svg
+                        class="h-5 w-5 stroke-gray-400 hover:stroke-gray-700"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </template>
+                  <template #content> Delete </template>
+                </Tooltip>
+
+                </div>
+
+              </div>
+            </div>
+<div class="flex justify-center"><button class="px-2 hover:bg-slate-50 rounded border"  @click="addTip('dejan')">+ add new</button></div>
+          </template>
+          </Accordion>
       <Card class="mb-4">
         <div class="space-y-4">
         <TextInput
@@ -244,6 +421,12 @@
 
 <script setup lang="ts">
 import {
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+} from "@headlessui/vue";
+import {
     Card,
     TextInput,
     Wysiwyg,
@@ -257,12 +440,15 @@ import {
     Multiselect,
     CardLocaleSwitcher,
     RadioGroupLink,
+    Accordion,
+    IconSelector,
 } from "craftable-pro/Components";
 import { ref } from "vue";
 import { InertiaForm } from "craftable-pro/types";
+import { slugify } from "craftable-pro/helpers/slugify";
 import type { PagesForm } from "./types";
 import { reactive, watch } from 'vue';
-
+import { ChevronUpIcon } from "@heroicons/vue/20/solid";
 
 import { useFormLocale } from "craftable-pro/hooks/useFormLocale"; 
 
@@ -276,7 +462,17 @@ interface Props {
   userOptions: Array<{value: string|number, label: string}>;
   statusOptions: Array<{ value: string | number; label: string }>;
   tempaltesOptions: Array<{ value: string | number; label: string }>;
+  iconOptions: Array<{ name: string ; path: string }>;
+
+  
 }
+
+const handleInput = (index: number, newValue: string) => {
+      props.form.tips[index].icon = [newValue];
+    };
+
+
+
 
 const props = defineProps<Props>();
 
@@ -292,23 +488,33 @@ const removeFAQ = (index: number): void => {
   props.form.faqs.splice(index, 1);
 };
 
-const slugify = (str?: string) => {
-  if (typeof str === 'undefined' || str === null) {
-    return '';
-  }
-  return str
-    .toLowerCase()
-    .replace(/[^\w \-]+/g, '') // Allow hyphens, word characters, and spaces
-    .replace(/ +/g, '-')      // Replace spaces with hyphens
-    .trim();                  // Trim leading/trailing spaces and hyphens
+
+let nextTipId = 1;
+
+const addTip = (type: string): void => {
+  props.form.tips.push({
+    id: nextTipId++,  // Assign a unique ID to each new tip
+    title: { ...translatableDefaultValue },
+    body: { ...translatableDefaultValue },
+    type: type,
+  });
 };
 
-    watch(() => props.form.title[currentLocale.value], (newTitle) => {
-        props.form.slug[currentLocale.value] = slugify(newTitle);
-    });
+const removeTip = (id: number): void => {
+  const index = props.form.tips.findIndex(tip => tip.id === id);
+  if (index !== -1) {
+    props.form.tips.splice(index, 1);
+  }
+};
 
-    const handleSlugInput = () => {
-        console.log(props.form.title[currentLocale.value]);
-        props.form.slug[currentLocale.value] = slugify(props.form.slug[currentLocale.value]);
-    };
+
+
+
+watch(() => props.form.title[currentLocale.value], (newTitle) => {
+    props.form.slug[currentLocale.value] = slugify(newTitle);
+});
+
+const handleSlugInput = () => {
+    props.form.slug[currentLocale.value] = slugify(props.form.slug[currentLocale.value]);
+};
 </script>

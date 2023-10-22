@@ -23,6 +23,22 @@
       :data="categories"
       dataKey="categories"
     >
+    <template #actions>
+        <FiltersDropdown
+          :activeFiltersCount="activeFiltersCount"
+          :resetFilters="resetFilters"
+        >
+          <Multiselect
+            v-model="filtersForm.type"
+            name="type"
+            mode="tags"
+            :label="'Type'"
+            :options="categoryTypes"
+            optionsLabel="label"
+            optionsValueProp="value"
+          />
+        </FiltersDropdown>
+      </template>
       <template #bulkActions="{ bulkAction }">
         <Modal type="danger">
           <template #trigger="{ setIsOpen }">
@@ -78,8 +94,8 @@
         <ListingHeaderCell sortBy="title">
             Title
         </ListingHeaderCell> 
-        <ListingHeaderCell sortBy="description">
-            Description
+        <ListingHeaderCell sortBy="type">
+          type
         </ListingHeaderCell>
         <ListingHeaderCell>
           <span class="sr-only">Actions</span>
@@ -91,17 +107,49 @@
              {{ item.id }}
         </ListingDataCell> 
         <ListingDataCell>
-             {{ item.alias }}
-        </ListingDataCell> 
+          <div class="flex items-center">
+            <Avatar
+              :src="item.cover_url"
+              :name="`${item.alias}`"
+            />
+            <div class="ml-4">
+              <div class="font-medium text-gray-900">
+                <!-- TODO: maybe have full_name attribute? -->
+                {{ item.alias }}
+              </div>
+            </div>
+          </div>
+        </ListingDataCell>
+
         <ListingDataCell>
              {{ item.slug?.[currentLocale] }}
         </ListingDataCell> 
         <ListingDataCell>
              {{ item.title?.[currentLocale] }}
-        </ListingDataCell> 
-        <ListingDataCell>
-             {{ item.description?.[currentLocale] }}
         </ListingDataCell>
+        <ListingDataCell class="text-left">
+            <div v-if="item.type == 'location'">
+              <Tag :icon="ExclamationCircleIcon" color="success" rounded size="sm">
+                {{ item.type }}
+              </Tag>
+            </div>
+            <div v-else-if="item.type == 'general'">
+              <Tag :icon="TagIcon" color="gray" rounded size="sm">
+                {{ item.type }}
+              </Tag>
+            </div>
+            <div v-else>
+            <Tag
+              :icon="ExclamationCircleIcon"
+              color="warning"
+              rounded
+              size="sm"
+            >
+            {{ item.type }}
+            </Tag>
+          </div>
+        </ListingDataCell>
+
         <ListingDataCell>
           <div class="flex items-center justify-end gap-3">
             <IconButton
@@ -120,7 +168,7 @@
                   color="gray"
                   variant="ghost"
                   :icon="TrashIcon"
-                  v-can="'sacntum.category.destroy'"
+                  v-can="'sanctum.category.destroy'"
                 />
               </template>
 
@@ -167,6 +215,8 @@ import {
     TrashIcon,
     PencilSquareIcon,
     ArrowDownTrayIcon,
+    ExclamationCircleIcon,
+    TagIcon,
 } from "@heroicons/vue/24/outline";
 import {
     PageHeader,
@@ -182,10 +232,12 @@ import {
     FiltersDropdown,
     Publish,
     ListingToggle,
+    Tag
 } from "craftable-pro/Components";
 import { PaginatedCollection } from "craftable-pro/types/pagination";
 import type { Category } from "./types";
 import type { PageProps } from "craftable-pro/types/page";
+import { useListingFilters } from "craftable-pro/hooks/useListingFilters";
 import dayjs from "dayjs";
 
 
@@ -193,12 +245,21 @@ import { useFormLocale } from "craftable-pro/hooks/useFormLocale";
 
 
 const { availableLocales, currentLocale, translatableDefaultValue, getLabelWithLocale } = useFormLocale();
-            
+      
 
 interface Props {
   categories: PaginatedCollection<Category>;
+  categoryTypes: Object[];
 }
 defineProps<Props>();
+
+const { filtersForm, resetFilters, activeFiltersCount } = useListingFilters(
+  route("categories.index"),
+  {    
+    type: usePage().props.filter?.type ?? null,
+    
+  }
+);
 const downloadFile = () => {
     const url = window.location.href.split("?");
     if(url.length > 1) {

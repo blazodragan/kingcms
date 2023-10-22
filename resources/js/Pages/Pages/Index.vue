@@ -246,7 +246,6 @@ import {
     Tag,
 } from "craftable-pro/Components";
 import { PaginatedCollection } from "craftable-pro/types/pagination";
-import type { News } from "./types";
 import type { PageProps } from "craftable-pro/types/page";
 import { useListingFilters } from "craftable-pro/hooks/useListingFilters";
 import dayjs from "dayjs";

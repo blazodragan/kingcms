@@ -37,7 +37,7 @@ class NewsController extends Controller
         $newsQuery = QueryBuilder::for(News::class)
             ->allowedFilters([
                 AllowedFilter::custom('search', new FuzzyFilter(
-                    'id','title','user_id','published_at','category','status'
+                    'title','status'
                 )),
                 AllowedFilter::exact('user_id'),
                 AllowedFilter::exact('status'),
@@ -139,7 +139,7 @@ class NewsController extends Controller
      */
     public function destroy(DestroyNewsRequest $request, News $news): RedirectResponse
     {
-        
+        dd($news);
         $news->categories()->detach();
         
         $news->delete();

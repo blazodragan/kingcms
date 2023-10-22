@@ -1,13 +1,10 @@
 <template>
-  <div>
-    
-    <label v-if="label" class="text-base font-medium text-gray-900">
-      {{ label }}
-    </label>
-    <p class="text-sm leading-5 text-gray-500">
-      <slot />
-    </p>
-    <fieldset class="mt-3">
+    <FormControl
+    :name="name"
+    :label="label"
+    :error="error"
+  >
+    <fieldset>
       <legend v-if="label" class="sr-only">{{ label }}</legend>
       
       <div class="space-y-4">
@@ -39,10 +36,14 @@
       </ul>
       </div>
     </fieldset>
-  </div>
+
+</FormControl>
+
+
 </template>
 
 <script setup lang="ts">
+import { IconButton, FormControl } from ".";
 import { useInput } from "../hooks/useInput";
 
 type Option = {
@@ -62,7 +63,8 @@ const props = withDefaults(defineProps<Props>(), {
   modelValue: "",
 });
 
+
 const emit = defineEmits(["update:modelValue"]);
 
-const { value } = useInput(props, emit);
+const { value, error } = useInput(props, emit);
 </script>

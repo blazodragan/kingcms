@@ -14,6 +14,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\User;
 use App\Models\FAQ;
+use App\Models\Tip;
 
 class Page extends Model  implements HasMedia {
 
@@ -46,6 +47,11 @@ class Page extends Model  implements HasMedia {
     public function faqs()
     {
         return $this->morphMany(FAQ::class, 'faqable');
+    }
+
+    public function tips()
+    {
+        return $this->morphMany(Tip::class, 'tipable');
     }
 
     public function registerMediaConversions(Media $media = null): void

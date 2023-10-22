@@ -7,6 +7,7 @@
     :max-characters-count="maxCharactersCount"
     :label-placement="labelPlacement"
   >
+  
     <div class="relative flex rounded-md shadow-sm">
       <span
         v-if="leadingAddon"
@@ -173,6 +174,7 @@ const styles = computed(() => {
       !error.value,
     [props.inputClass]: !!props.inputClass,
     "cursor-not-allowed": props.disabled,
+    "bg-gray-200": props.disabled,
     "py-1.5 px-3": props.size === "sm",
     "py-2 px-3": props.size === "md",
   };

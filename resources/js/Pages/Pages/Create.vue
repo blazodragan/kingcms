@@ -9,8 +9,7 @@
     >Save
     </Button>
   </PageHeader>
-
-  <Form :form="form" :submit="submit" :userOptions="userOptions" :categoriesOptions="categoriesOptions" :tempaltesOptions="tempaltesOptions" :statusOptions="statusOptions"/>
+  <Form :form="form" :submit="submit" :userOptions="userOptions" :categoriesOptions="categoriesOptions" :tempaltesOptions="tempaltesOptions" :statusOptions="statusOptions" :iconOptions="iconOptions"/>
 </AppLayout>
 </template>
 
@@ -33,6 +32,7 @@ interface Props {
   userOptions: Array<{value: string|number, label: string}>;
   statusOptions: Array<{value: string|number, label: string}>;
   tempaltesOptions: Array<{value: string|number, label: string}>;
+  iconOptions: Array<{value: string|number, label: string}>;
 }
 
 const props = defineProps<Props>();
@@ -61,6 +61,7 @@ published_at: "",
 cover: [], 
 og_cover: [], 
 faqs: [{question: { ...translatableDefaultValue }, answer:{ ...translatableDefaultValue }}], 
+tips: [{title: { ...translatableDefaultValue }, body:{ ...translatableDefaultValue }, icon:"", type:""}], 
 
     },
     route("pages.store"),

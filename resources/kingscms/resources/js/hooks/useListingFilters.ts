@@ -54,7 +54,7 @@ export function useListingFilters(
 
   watch(
     () => pick(filtersForm, Object.keys(filters)),
-    debounce(() => submitFilters(), 500)
+    debounce(() => submitFilters(), 1)
   );
 
   return { filtersForm, submitFilters, resetFilters, activeFiltersCount };

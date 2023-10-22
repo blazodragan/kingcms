@@ -26,6 +26,7 @@ import CardHeader from "./Card/CardHeader.vue";
 import CardFooter from "./Card/CardFooter.vue";
 import CardLocaleSwitcher from "./Card/CardLocaleSwitcher.vue";
 import IconButton from "./IconButton.vue";
+import IconSelector from "./IconSelector.vue";
 import Wysiwyg from "./Wysiwyg/Wysiwyg.vue";
 import FileThumbnail from "./Dropzone/FileThumbnail.vue";
 import Dropzone from "./Dropzone/Dropzone.vue";
@@ -87,6 +88,7 @@ export {
   CardLocaleSwitcher,
   Wysiwyg,
   IconButton,
+  IconSelector,
   FileThumbnail,
   Dropzone,
   Tag,

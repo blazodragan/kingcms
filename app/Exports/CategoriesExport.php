@@ -26,23 +26,24 @@ class CategoriesExport implements FromCollection,WithHeadings
         return QueryBuilder::for(Category::class)
             ->allowedFilters([
                 AllowedFilter::custom('search', new FuzzyFilter(
-                    'id','alias','slug','title','description'
+                    'id','alias','slug','title','description','type'
                 )),
             ])
             ->defaultSort('id')
-            ->allowedSorts('id','alias','slug','title','description')
-            ->select(['id','alias','slug','title','description'])
+            ->allowedSorts('id','alias','slug','title','description','type')
+            ->select(['id','alias','slug','title','description','type'])
             ->get();
     }
 
     public function headings(): array
     {
         return [
-            trans("craftable-pro.Id"),
-            trans("craftable-pro.Alias"),
-            trans("craftable-pro.Slug"),
-            trans("craftable-pro.Title"),
-            trans("craftable-pro.Description"),
+            "Id",
+            "Alias",
+            "Slug",
+            "Title",
+            "Description",
+            "Type",
         ];
     }
 }

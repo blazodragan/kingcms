@@ -29,10 +29,13 @@ use App\Enums\Status;
 use App\Enums\Templates;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\FAQ;
+use App\Models\Tip;
 use App\Services\BlockResolver;
+use App\Traits\IconRetriever;
 
 class PagesController extends Controller
 {
+    use IconRetriever;
 
     public function show($slug)
     {
@@ -44,6 +47,7 @@ class PagesController extends Controller
         }
         $page->load('media');
         $page->load('faqs');
+        $page->load('tips');
 
 
         $processedContent = preg_replace_callback('/@block\(\s*\'([^\']+)\'\s*(?:,\s*(\[[^\]]+\]))?\s*\)/', function ($matches) {
@@ -77,6 +81,7 @@ class PagesController extends Controller
      */
     public function index(IndexPagesRequest $request): Response | JsonResponse
     {
+      
         $PagesQuery = QueryBuilder::for(Page::class)
             ->allowedFilters([
                 AllowedFilter::custom('search', new FuzzyFilter(
@@ -121,6 +126,7 @@ class PagesController extends Controller
             'userOptions' => User::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->name]),
             'tempaltesOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Templates::cases()),
             'statusOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Status::cases()),
+            'iconOptions' => $this->getAllIconNames(),
         ]);
     }
 
@@ -129,16 +135,28 @@ class PagesController extends Controller
      */
     public function store(StorePagesRequest $request): RedirectResponse
     {
-        $pages = Page::create($request->validated());
 
+        $pages = Page::create($request->validated());
         // Associate the FAQs
         if (isset($request['faqs'])) {
             foreach ($request->input('faqs') as $faqData) {
                 $faq = new FAQ([
-                    'question' => json_encode($faqData['question']),
-                    'answer' => json_encode($faqData['answer']),
+                    'question' => $faqData['question'],
+                    'answer' => $faqData['answer'],
                 ]);
                 $pages->faqs()->save($faq);
+            }
+        }
+        // Associate the Tips
+        if (isset($request['tips'])) {
+            foreach ($request->input('tips') as $tipData) {
+                $tip = new Tip([
+                    'title' => $tipData['title'],
+                    'body' => $tipData['body'],
+                    'icon' => $tipData['icon'],
+                    'type' => $tipData['type'],
+                ]);
+                $pages->tips()->save($tip);
             }
         }
         return redirect()->route('pages.index')->with('toast', [
@@ -158,11 +176,14 @@ class PagesController extends Controller
 
         $page->load('faqs');
 
+        $page->load('tips');
+
         return Inertia::render('Pages/Edit', [
             'pages' => $page,
             'userOptions' => User::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->name]),
             'statusOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Status::cases()),
             'tempaltesOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Templates::cases()),
+            'iconOptions' => $this->getAllIconNames(),
         ]);
     }
 
@@ -174,39 +195,34 @@ class PagesController extends Controller
         $pages->update($request->validated());
 
 
-        $checkIfChaningDate = $request->get('faqs');
+    // Eager load faqs and tips relationships
+    $pages->load('faqs', 'tips');
 
-        // Collect FAQ IDs from the request
-        $receivedFaqIds = collect($request->get('faqs'))
-            ->pluck('id')
-            ->filter()
-            ->all();
+    $faqsData = $request->get('faqs', []);
+    $tipsData = $request->get('tips', []);
 
+    $receivedFaqIds = collect($faqsData)->pluck('id')->filter()->all();
+    $receivedTipIds = collect($tipsData)->pluck('id')->filter()->all();
 
-        // Update or create the FAQs
-        if (!empty($receivedFaqIds) or !empty($checkIfChaningDate)) {
-            // Delete FAQs not present in the received list
-            $pages->faqs()
-                ->whereNotIn('id', $receivedFaqIds)
-                ->delete();
+    // Check if faqs key is present in the request
+    if ($request->has('faqs')) {
+        // Delete FAQs not present in the received list
+        $pages->faqs()->whereNotIn('id', $receivedFaqIds)->delete();
 
-            foreach ($request->get('faqs') as $faqData) {
-
-                if (isset($faqData['id']) && $pages->faqs->contains('id', $faqData['id'])) {
-                    // Update existing FAQ
-                    $faq = $pages->faqs()->find($faqData['id']);
-
-                    $faq->update(['question' => $faqData['question'], 'answer' => $faqData['answer']]);
-                } else {
-                    // Create a new FAQ
-                    $faq = new FAQ([
-                        'question' => $faqData['question'],
-                        'answer' => $faqData['answer'],
-                    ]);
-                    $pages->faqs()->save($faq);
-                }
-            }
+        foreach ($faqsData as $faqData) {
+            $this->updateOrCreateFAQ($pages, $faqData);
         }
+    }
+
+    // Check if tips key is present in the request
+    if ($request->has('tips')) {
+        // Delete Tips not present in the received list
+        $pages->tips()->whereNotIn('id', $receivedTipIds)->delete();
+
+        foreach ($tipsData as $tipData) {
+            $this->updateOrCreateTip($pages, $tipData);
+        }
+    }
 
         return redirect()->route('pages.index')->with('toast', [
             'type' => 'success',
@@ -218,11 +234,12 @@ class PagesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DestroyPagesRequest $request, Page $page): RedirectResponse
+    public function destroy(DestroyPagesRequest $request, Page $pages): RedirectResponse
     {
-        dd($request, $page);
+        $pages->faqs()->delete();
+        $pages->tips()->delete();
 
-        $page->delete();
+        $pages->delete();
 
         return redirect()->back()->with('toast', [
             'type' => 'success',
@@ -266,4 +283,41 @@ class PagesController extends Controller
     {
         return Excel::download(new PagesExport($request->all()), 'Page-' . now()->format("dmYHi") . '.xlsx');
     }
+
+
+    protected function updateOrCreateFAQ($pages, $faqData)
+{
+    if (isset($faqData['id']) && $pages->faqs->contains('id', $faqData['id'])) {
+        // Update existing FAQ
+        $faq = $pages->faqs()->find($faqData['id']);
+        $faq->update(['question' => $faqData['question'], 'answer' => $faqData['answer']]);
+    } else {
+        // Create a new FAQ
+        $faq = new FAQ(['question' => $faqData['question'], 'answer' => $faqData['answer']]);
+        $pages->faqs()->save($faq);
+    }
+}
+
+protected function updateOrCreateTip($pages, $tipData)
+{
+    if (isset($tipData['id']) && $pages->tips->contains('id', $tipData['id'])) {
+        // Update existing Tip
+        $tip = $pages->tips()->find($tipData['id']);
+        $tip->update([
+            'title' => $tipData['title'] ?? null,
+            'body' => $tipData['body'] ?? null,
+            'icon' => $tipData['icon'] ?? null,
+            'type' => $tipData['type'] ?? null,
+        ]);
+    } else {
+        // Create a new Tip
+        $tip = new Tip([
+            'title' => $tipData['title'] ?? null,
+            'body' => $tipData['body'] ?? null,
+            'icon' => $tipData['icon'] ?? null,
+            'type' => $tipData['type'] ?? null,
+        ]);
+        $pages->tips()->save($tip);
+    }
+}
 }

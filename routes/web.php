@@ -41,9 +41,10 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/{slug}', [PagesController::class, 'show'])->name('show');
 Route::get('/location', [LocationController::class, 'index'])->name('location');
 Route::get('/allnews', [NewsSiteController::class, 'index'])->name('allnews');
+Route::get('/{slug}', [PagesController::class, 'show'])->name('show');
+
 
 
 Route::get('invite-user/{email}', [UserController::class, 'createInviteAcceptationUser'])->name('invite-user.create');

@@ -41,7 +41,7 @@ class SettingsController extends Controller
                 ]);
         })->map->uri->values()->toArray();
 
-        return Inertia::render('Settings/Index', [
+    return Inertia::render('Settings/Index', [
             'generalSettings' => [
                 'available_locales' => $settings->available_locales,
                 'default_locale' => $settings->default_locale,

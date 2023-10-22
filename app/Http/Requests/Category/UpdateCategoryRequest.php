@@ -3,6 +3,7 @@ namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use App\Settings\GeneralSettings;
 
 class UpdateCategoryRequest extends FormRequest
 {
@@ -23,11 +24,17 @@ class UpdateCategoryRequest extends FormRequest
     */
     public function rules()
     {
+        $settings = app(GeneralSettings::class);
+        $defaultLocale = $settings->default_locale;
         return [
-            'alias' => ['sometimes','string'],
-            'slug' => ['sometimes'],
-            'title' => ['sometimes'],
-            'description' => ['sometimes'],
+            'alias' => ['required','string'],
+            "slug.$defaultLocale" => [
+                'sometimes',
+                'max:255',
+            ],
+            "title.$defaultLocale" => ['required'],
+            'description' => ['nullable'],
+            'type' => ['required'],
         ];
     }
 }
