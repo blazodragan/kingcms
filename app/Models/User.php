@@ -51,6 +51,7 @@ class User extends Authenticatable implements HasMedia
         'locale',
         'active'
     ];
+    protected $searchable = ['name'];
 
     /**
      * The attributes that should be hidden for serialization.

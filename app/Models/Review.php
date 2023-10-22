@@ -29,7 +29,7 @@ class Review extends Model  implements HasMedia {
 
     protected $table = 'reviews';
     protected $fillable = ['title', 'slug', 'perex', 'content', 'text', 'status', 'active', 'meta_title', 'meta_description', 'meta_url_canolical', 'href_lang', 'no_index', 'no_follow', 'og_title', 'og_description', 'og_type', 'og_url', 'user_id', 'published_at'];
-
+    protected $searchable = ['title'];
     public $translatable = ['title', 'slug', 'perex', 'content', 'text', 'meta_title', 'meta_description', 'meta_url_canolical', 'href_lang', 'og_title', 'og_description', 'og_type', 'og_url'];
 
     public function user(): BelongsTo

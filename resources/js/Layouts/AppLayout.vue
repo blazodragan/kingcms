@@ -6,14 +6,20 @@ import Toastmessage from '@/Components/Toastmessage.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import {usePage} from "@inertiajs/vue3";
 import DropdownLink from '@/Components/DropdownLink.vue';
+import GlobalSearch from '@/Components/GlobalSearch.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import NavItem from '@/Components/NavItem.vue';
 import {HomeIcon, DocumentTextIcon, NewspaperIcon, StarIcon, TagIcon, Cog6ToothIcon, DocumentIcon, UserCircleIcon, FolderIcon, BuildingStorefrontIcon, LanguageIcon, ChatBubbleOvalLeftIcon} from '@heroicons/vue/24/outline';
 import ToastList from "@/Components/ToastList.vue";
 
-defineProps({
+
+
+const props = defineProps({
     title: String,
+results: {
+    type: Array,
+    }
 });
 
 const page = usePage();
@@ -90,7 +96,7 @@ onUnmounted(() => {
 <template>
     <ToastList/>
     <div class="flex min-h-screen">
-        <Head :title="title" />
+        <Head :title="props.title" />
 
         <div class="hidden sm:block w-64 shrink-0 bg-white-50 my-shadow border-r border-gray-200 py-4">
             <div class="shrink-0 flex items-center ml-6">
@@ -115,6 +121,7 @@ onUnmounted(() => {
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between py-6 space-x-6">
+                        <GlobalSearch :results="results"/>
                         <form action="" class="w-full max-w-md">
                                 <div class="relative flex items-center text-gray-400 focus-within:text-gray-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 absolute ml-2 mr-2 " pointer-events-none>

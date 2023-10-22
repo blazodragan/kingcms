@@ -28,9 +28,10 @@ class News extends Model  implements HasMedia {
     use InteractsWithMedia;
     use HasMediaPreviewsTrait;
 
+
     protected $table = 'news';
     protected $fillable = ['title', 'slug', 'perex', 'content', 'status' , 'reference_link', 'meta_title', 'meta_description', 'meta_url_canolical', 'href_lang', 'no_index', 'no_follow', 'og_title', 'og_description', 'og_type', 'og_url', 'user_id', 'published_at'];
-
+    public $searchable = ['title'];
     public $translatable = ['title', 'slug', 'perex', 'content', 'meta_title', 'meta_description', 'meta_url_canolical', 'href_lang', 'og_title', 'og_description', 'og_type', 'og_url'];
 
     public function user(): BelongsTo

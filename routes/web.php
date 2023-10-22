@@ -25,6 +25,7 @@ use App\Http\Controllers\TagsController;
 use App\Http\Controllers\Translations\TranslationsController;
 use App\Http\Controllers\TrustReviewController;
 use App\Http\Controllers\BlockController;
+
 use Laravel\Sanctum\PersonalAccessToken;
 
 /*
@@ -67,6 +68,7 @@ Route::middleware([
 ])->prefix(config('app.admin_path'))->group(function () {
     
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
 
     Route::get('faqs', [FAQController::class, 'index'])->name('media.index');
 

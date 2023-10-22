@@ -39,6 +39,10 @@ class HandleInertiaRequests extends Middleware
     {
         $settings = app(GeneralSettings::class);
 
+         // Fetching the global search results based on the query
+        $query = $request->get('q');
+        $results = $query ? $this->globalSearch($query) : [];
+
         return array_merge(parent::share($request), [
             
             'message' => fn () => $request->session()->get('message'),
@@ -54,7 +58,42 @@ class HandleInertiaRequests extends Middleware
             'filter' => fn () => $request->get('filter'),
             'premit' => fn () => $request->user('web') ? $request->user('web')->getAllPermissions()->pluck('name') : [],
             'csrf_token' => csrf_token(),
+            'results' => fn() => $results,  
 
         ]);
+    }
+
+    private function globalSearch($query)
+    {
+        $models = [
+            \App\Models\News::class,
+            \App\Models\Category::class,
+            \App\Models\Review::class,
+            \App\Models\TrustReview::class,
+            \App\Models\User::class,
+        ];
+
+        $results = [];
+
+        foreach ($models as $model) {
+            $modelInstance = new $model;
+            if (isset($modelInstance->searchable) && is_array($modelInstance->searchable)) {
+                $searchableFields = $modelInstance->searchable;
+                
+                $modelResults = $model::where(function ($q) use ($searchableFields, $query) {
+                    foreach ($searchableFields as $field) {
+                        $q->orWhere($field, 'LIKE', '%' . $query . '%');
+                    }
+                })->get();
+
+                foreach ($modelResults as $result) {
+                    $results[] = [
+                        'title' => $result->{$searchableFields[0]},  // assuming first field is 'title' or similar primary descriptor
+                    ];
+                }
+            }
+        }
+
+        return $results;
     }
 }

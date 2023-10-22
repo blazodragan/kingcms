@@ -11,7 +11,7 @@ class TrustReview extends Model {
 
     protected $table = 'trust_reviews';
     protected $fillable = ['title', 'description', 'rating'];
-
+    protected $searchable = ['title'];
     public $translatable = ['title', 'description'];
 
 }
