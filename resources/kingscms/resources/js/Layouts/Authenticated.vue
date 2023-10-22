@@ -105,7 +105,7 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { Bars3Icon, XMarkIcon } from "@heroicons/vue/24/outline";
-import { Sidebar } from "craftable-pro/Components";
+import { Sidebar } from "kingcms/Components";
 import Logo from "@/craftable-pro/Components/Logo.vue";
 import { router } from "@inertiajs/vue3";
 

@@ -25,11 +25,54 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReviewsExport;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Models\FAQ;
+use App\Models\Tip;
+use App\Traits\IconRetriever;
 use App\Enums\Status;
 use Illuminate\Database\Eloquent\Builder;
 
 class ReviewController extends Controller
 {
+    use IconRetriever;
+
+    public function show($slug)
+    {
+        $page = Review::where('slug->' . app()->getLocale(), $slug)->firstOrFail();
+
+        // If the page doesn't exist, show a 404 page
+        if (!$page) {
+            abort(404);
+        }
+        $page->load('media');
+        $page->load('faqs');
+        $page->load('tips');
+
+
+        $processedContent = preg_replace_callback('/@block\(\s*\'([^\']+)\'\s*(?:,\s*(\[[^\]]+\]))?\s*\)/', function ($matches) {
+            $blockName = $matches[1];
+            $paramsStr = isset($matches[2]) ? $matches[2] : '';
+
+            if ($paramsStr) {
+                // Convert Laravel array syntax to JSON string
+                $paramsStr = html_entity_decode($paramsStr);
+                $jsonStr = str_replace(['[', ']', '=>', "'"], ['{', '}', ':', '"'], $paramsStr);
+                // Decode the JSON string to an array
+                $parameters = json_decode($jsonStr, true);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    // If there's an error in decoding the JSON, just return the string as is
+                    return $matches[0];
+                }
+            } else {
+                $parameters = [];
+            }
+
+            // Use the block resolver to fetch the block content
+            return app(\App\Services\BlockResolver::class)->resolve($blockName, $parameters);
+        }, $page->content);
+
+
+        // Render the page (e.g., using a view)
+        return view('reviews.show', compact('page', 'processedContent'));
+    }
     /**
      * Display a listing of the resource.
      */
@@ -38,7 +81,7 @@ class ReviewController extends Controller
         $reviewsQuery = QueryBuilder::for(Review::class)
             ->allowedFilters([
                 AllowedFilter::custom('search', new FuzzyFilter(
-                    'id','title','active','user_id','published_at','category'
+                    'id','title'
                 )),
                 AllowedFilter::exact('user_id'),
                 AllowedFilter::exact('status'),
@@ -78,8 +121,9 @@ class ReviewController extends Controller
     {
         return Inertia::render('Review/Create', [
             'userOptions' => User::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->name]),
-            'categoriesOptions' => Category::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->alias]),
+            'categoriesOptions' => Category::where('type', 'location')->get()->map(fn ($model) => ['value' => $model->id, 'label' => $model->alias]),
             'statusOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Status::cases()),
+            'iconOptions' => $this->getAllIconNames(),
         ]);
     }
 
@@ -94,10 +138,22 @@ class ReviewController extends Controller
         if (isset($request['faqs'])) {
             foreach ($request->input('faqs') as $faqData) {
                 $faq = new FAQ([
-                    'question' => json_encode($faqData['question']),
-                    'answer' => json_encode($faqData['answer']),
+                    'question' => $faqData['question'],
+                    'answer' => $faqData['answer'],
                 ]);
                 $review->faqs()->save($faq);
+            }
+        }
+        // Associate the Tips
+        if (isset($request['tips'])) {
+            foreach ($request->input('tips') as $tipData) {
+                $tip = new Tip([
+                    'title' => $tipData['title'],
+                    'body' => $tipData['body'],
+                    'icon' => $tipData['icon'],
+                    'type' => $tipData['type'],
+                ]);
+                $review->tips()->save($tip);
             }
         }
 
@@ -116,16 +172,14 @@ class ReviewController extends Controller
      */
     public function edit(EditReviewRequest $request, Review $review): Response
     {
-        $review->load('media');
+        $review->load('media','categories','faqs','tips'); 
 
-        $review->load('categories');
-
-        $review->load('faqs');
         return Inertia::render('Review/Edit', [
             'review' => $review,
             'userOptions' => User::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->name]),
             'categoriesOptions' => Category::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->alias]),
             'statusOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Status::cases()),
+            'iconOptions' => $this->getAllIconNames(),
         ]);
     }
 
@@ -142,37 +196,32 @@ class ReviewController extends Controller
             $review->categories()->sync($request->input('categories_ids'));
         }
 
-        $checkIfChaningDate = $request->get('faqs');
+        // Eager load faqs and tips relationships
+        $review->load('faqs', 'tips');
 
-        // Collect FAQ IDs from the request
-        $receivedFaqIds = collect($request->get('faqs'))
-            ->pluck('id')
-            ->filter()
-            ->all();
-                
+        $faqsData = $request->get('faqs', []);
+        $tipsData = $request->get('tips', []);
 
-        // Update or create the FAQs
-        if (!empty($receivedFaqIds) or !empty($checkIfChaningDate)) {
+        $receivedFaqIds = collect($faqsData)->pluck('id')->filter()->all();
+        $receivedTipIds = collect($tipsData)->pluck('id')->filter()->all();
+
+        // Check if faqs key is present in the request
+        if ($request->has('faqs')) {
             // Delete FAQs not present in the received list
-            $review->faqs()
-            ->whereNotIn('id', $receivedFaqIds)
-            ->delete();
+            $review->faqs()->whereNotIn('id', $receivedFaqIds)->delete();
 
-            foreach ($request->get('faqs') as $faqData) {
+            foreach ($faqsData as $faqData) {
+                $this->updateOrCreateFAQ($review, $faqData);
+            }
+        }
 
-                if (isset($faqData['id']) && $review->faqs->contains('id', $faqData['id'])) {
-                    // Update existing FAQ
-                    $faq = $review->faqs()->find($faqData['id']);
+        // Check if tips key is present in the request
+        if ($request->has('tips')) {
+            // Delete Tips not present in the received list
+            $review->tips()->whereNotIn('id', $receivedTipIds)->delete();
 
-                    $faq->update(['question' => json_encode($faqData['question']), 'answer' => json_encode($faqData['answer'])]);
-                } else {
-                    // Create a new FAQ
-                    $faq = new FAQ([
-                        'question' => json_encode($faqData['question']),
-                        'answer' => json_encode($faqData['answer']),
-                    ]);
-                    $review->faqs()->save($faq);
-                }
+            foreach ($tipsData as $tipData) {
+                $this->updateOrCreateTip($review, $tipData);
             }
         }
 
@@ -192,6 +241,8 @@ class ReviewController extends Controller
         $review->categories()->detach();
 
         $review->faqs()->delete();
+
+        $review->tips()->delete();
         
         $review->delete();
 
@@ -235,5 +286,41 @@ class ReviewController extends Controller
     public function export(IndexReviewRequest $request): BinaryFileResponse
     {
         return Excel::download(new ReviewsExport($request->all()), 'Reviews-'.now()->format("dmYHi").'.xlsx');
+    }
+
+    protected function updateOrCreateFAQ($review, $faqData)
+    {
+        if (isset($faqData['id']) && $review->faqs->contains('id', $faqData['id'])) {
+            // Update existing FAQ
+            $faq = $review->faqs()->find($faqData['id']);
+            $faq->update(['question' => $faqData['question'], 'answer' => $faqData['answer']]);
+        } else {
+            // Create a new FAQ
+            $faq = new FAQ(['question' => $faqData['question'], 'answer' => $faqData['answer']]);
+            $review->faqs()->save($faq);
+        }
+    }
+
+    protected function updateOrCreateTip($review, $tipData)
+    {
+        if (isset($tipData['id']) && $review->tips->contains('id', $tipData['id'])) {
+            // Update existing Tip
+            $tip = $review->tips()->find($tipData['id']);
+            $tip->update([
+                'title' => $tipData['title'] ?? null,
+                'body' => $tipData['body'] ?? null,
+                'icon' => $tipData['icon'] ?? null,
+                'type' => $tipData['type'] ?? null,
+            ]);
+        } else {
+            // Create a new Tip
+            $tip = new Tip([
+                'title' => $tipData['title'] ?? null,
+                'body' => $tipData['body'] ?? null,
+                'icon' => $tipData['icon'] ?? null,
+                'type' => $tipData['type'] ?? null,
+            ]);
+            $review->tips()->save($tip);
+        }
     }
 }

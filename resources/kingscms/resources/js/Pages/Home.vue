@@ -11,9 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import { PageContent } from "craftable-pro/Components";
+import { PageContent } from "kingcms/Components";
 import { useToast } from "@brackets/vue-toastification";
-import { trans, transChoice } from "craftable-pro/plugins/laravel-vue-i18n";
+import { trans, transChoice } from "kingcms/plugins/laravel-vue-i18n";
 
 const toast = useToast();
 

@@ -32,9 +32,9 @@
 </template>
 
 <script setup lang="ts">
-import { Accordion, Checkbox } from "craftable-pro/Components";
+import { Accordion, Checkbox } from "kingcms/Components";
 import { computed } from "vue";
-import { trans } from "craftable-pro/plugins/laravel-vue-i18n";
+import { trans } from "kingcms/plugins/laravel-vue-i18n";
 import findLast from "lodash/findLast";
 
 interface Props {

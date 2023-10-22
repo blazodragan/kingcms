@@ -5,7 +5,7 @@ import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
-import { can } from "craftable-pro/plugins/can";
+import { can } from "kingcms/plugins/can";
 import { createI18n } from "vue-i18n";
 const appName = import.meta.env.VITE_APP_NAME || 'Mietwagenparadies';
 axios.defaults.withCredentials = true;

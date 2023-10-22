@@ -11,7 +11,7 @@
 
   </PageHeader>
 
-  <Form :form="form" :submit="submit" :userOptions="userOptions" :categoriesOptions="categoriesOptions" :statusOptions="statusOptions" />
+  <Form :form="form" :submit="submit" :userOptions="userOptions" :categoriesOptions="categoriesOptions" :statusOptions="statusOptions" :iconOptions="iconOptions" :slugDisabled="slugDisabled"/>
 
 </AppLayout>
 </template>
@@ -20,12 +20,13 @@
 
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { ArrowDownTrayIcon } from "@heroicons/vue/24/outline";
-import { PageHeader, Button } from "craftable-pro/Components";
-import { useForm } from "craftable-pro/hooks/useForm";
+import { PageHeader, Button } from "kingcms/Components";
+import { useForm } from "kingcms/hooks/useForm";
 import Form from "./Form.vue";
 import type { ReviewForm } from "./types";
+import { ref, Ref } from 'vue';
 
-import { useFormLocale } from "craftable-pro/hooks/useFormLocale"; 
+import { useFormLocale } from "kingcms/hooks/useFormLocale"; 
 
 
 const { availableLocales, currentLocale, translatableDefaultValue, getLabelWithLocale } = useFormLocale();
@@ -34,6 +35,7 @@ interface Props {
   userOptions: Array<{value: string|number, label: string}>;
   categoriesOptions: Array<{value: string|number, label: string}>;
   statusOptions: Array<{value: string|number, label: string}>;
+  iconOptions: Array<{value: string|number, label: string}>;
 }
 
 const props = defineProps<Props>();
@@ -64,9 +66,12 @@ published_at: "",
 cover_review: [], 
 og_cover_review: [], 
 faqs: [{question: { ...translatableDefaultValue }, answer:{ ...translatableDefaultValue }}], 
+tips: [{title: { ...translatableDefaultValue }, body:{ ...translatableDefaultValue }, icon:"", type:""}], 
 categories_ids: []
     },
     route("reviews.store"),
     "post"
 );
+
+const slugDisabled = ref<boolean>(form.slug[currentLocale.value] ? true : false);
 </script>

@@ -100,9 +100,9 @@ import {
   IconButton,
   ButtonGroup,
   SelectInput,
-} from "craftable-pro/Components";
-import { Pagination } from "craftable-pro/types/pagination";
-import { usePaginationLinks } from "craftable-pro/hooks/usePaginationLinks";
+} from "kingcms/Components";
+import { Pagination } from "kingcms/types/pagination";
+import { usePaginationLinks } from "kingcms/hooks/usePaginationLinks";
 
 interface Props {
   pagination: Pagination;

@@ -104,14 +104,8 @@
                   </template>
                   <template #content="{ setIsOpen }">
                     <ImageEditor
-                      :src="file.base64"
-                      @onCrop="
-                        (croppedFile, path) => {
-                          file.file = croppedFile;
-                          file.path = path;
-                          setIsOpen(false);
-                        }
-                      "
+                      :src="file.path"
+                      @onCrop="(croppedFile, path) => {file.file = croppedFile;file.path = path;setIsOpen(false);}"
                     />
                   </template>
                 </Modal>
@@ -232,14 +226,14 @@ import {
   ImageEditor,
   Modal,
   TextInput,
-} from "craftable-pro/Components";
+} from "kingcms/Components";
 import FileThumbnail from "./FileThumbnail.vue";
 import omit from "lodash/omit";
-import { formatBytes, getFileExtension } from "craftable-pro/helpers";
-import { trans } from "craftable-pro/plugins/laravel-vue-i18n";
-import { UploadedFile } from "craftable-pro/types";
+import { formatBytes, getFileExtension } from "kingcms/helpers";
+import { trans } from "kingcms/plugins/laravel-vue-i18n";
+import { UploadedFile } from "kingcms/types";
 import { get, set } from "lodash";
-import { PageProps } from "craftable-pro/types/page";
+import { PageProps } from "kingcms/types/page";
 import { usePage } from "@inertiajs/vue3";
 
 interface Props {
@@ -376,12 +370,13 @@ const uploadFiles = (filesToUpload: File[]) => {
         },
       })
       .then((response) => {
+        console.log(response);
         files.value!.push({
           id: null,
           uuid: uuidv4(),
           collection_name: "images",
           action: "add",
-          path: response.data.path,
+          path: response.data.full_url,
           size: file.size,
           file_name: file.name,
           custom_properties: {
@@ -429,7 +424,7 @@ const switchFile = (uuid: string, e: HTMLInputElement) => {
             ...fileToReplace,
             id: null,
             action: "add",
-            path: response.data.path,
+            path: response.data.full_url,
             file: fileToSwitch,
             file_name: fileToSwitch.name,
             size: fileToSwitch.size,

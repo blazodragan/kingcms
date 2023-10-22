@@ -25,11 +25,11 @@
 </template>
 
 <script lang="ts" setup>
-import { Button, Modal, Multiselect } from "craftable-pro/Components";
+import { Button, Modal, Multiselect } from "kingcms/Components";
 import { useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
 import { usePage } from "@inertiajs/vue3";
-import type { PageProps } from "craftable-pro/types/page";
+import type { PageProps } from "kingcms/types/page";
 
 interface Props {
   locales: string[];

@@ -23,10 +23,10 @@
 </template>
 
 <script setup lang="ts">
-import { Card, TextInput } from "craftable-pro/Components";
+import { Card, TextInput } from "kingcms/Components";
 import { InertiaForm } from "@inertiajs/vue3";
 import type { CraftableProUserPasswordForm } from "../types";
-import { wTrans } from "craftable-pro/plugins/laravel-vue-i18n";
+import { wTrans } from "kingcms/plugins/laravel-vue-i18n";
 
 interface Props {
   form: InertiaForm<CraftableProUserPasswordForm>;

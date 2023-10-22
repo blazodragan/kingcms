@@ -28,10 +28,10 @@
 
 <script setup lang="ts">
 import { ArrowDownTrayIcon } from "@heroicons/vue/24/outline";
-import { PageHeader, PageContent, Button } from "craftable-pro/Components";
+import { PageHeader, PageContent, Button } from "kingcms/Components";
 import { useForm } from "@inertiajs/vue3";
 import Form from "./Form.vue";
-import type { CraftableProUser } from "craftable-pro/types/models";
+import type { CraftableProUser } from "kingcms/types/models";
 import dayjs from "dayjs";
 import type { UploadedFile } from "../../types";
 import type { Role } from "../../types/models";

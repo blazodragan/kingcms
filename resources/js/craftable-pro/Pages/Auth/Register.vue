@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import RegisterPage from "craftable-pro/Pages/Auth/Register.vue";
+import RegisterPage from "kingcms/Pages/Auth/Register.vue";
 
 interface Props {
   locales: string[];

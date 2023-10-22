@@ -29,11 +29,11 @@
   </Modal>
 </template>
 <script setup lang="ts">
-import { Modal, Dropzone, Button } from "craftable-pro/Components";
+import { Modal, Dropzone, Button } from "kingcms/Components";
 import { useForm } from "@inertiajs/vue3";
 import { PhotoIcon as PhotoIconOutline } from "@heroicons/vue/24/outline";
 import axios from "axios";
-import { PageProps } from "craftable-pro/types/page";
+import { PageProps } from "kingcms/types/page";
 import { usePage } from "@inertiajs/vue3";
 
 const emit = defineEmits(["imageUploaded"]);

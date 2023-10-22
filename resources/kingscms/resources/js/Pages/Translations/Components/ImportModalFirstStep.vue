@@ -32,9 +32,9 @@
 </template>
 
 <script lang="ts" setup>
-import { Multiselect } from "craftable-pro/Components";
+import { Multiselect } from "kingcms/Components";
 import { ref, watchEffect } from "vue";
-import Checkbox from "craftable-pro/Components/Checkbox.vue";
+import Checkbox from "kingcms/Components/Checkbox.vue";
 
 interface Props {
   locales: string[];

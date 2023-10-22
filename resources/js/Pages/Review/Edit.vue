@@ -23,15 +23,15 @@
 <script setup lang="ts">
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { ArrowDownTrayIcon } from "@heroicons/vue/24/outline";
-import { PageHeader, Button } from "craftable-pro/Components";
-import { useForm } from "craftable-pro/hooks/useForm";
+import { PageHeader, Button } from "kingcms/Components";
+import { useForm } from "kingcms/hooks/useForm";
 import Form from "./Form.vue";
 import type { Review, ReviewForm } from "./types";
 import dayjs from "dayjs";
-import {getMediaCollection} from "craftable-pro/helpers";
+import {getMediaCollection} from "kingcms/helpers";
 
 
-import { useFormLocale } from "craftable-pro/hooks/useFormLocale"; 
+import { useFormLocale } from "kingcms/hooks/useFormLocale"; 
 
 
 const { availableLocales, currentLocale, translatableDefaultValue, getLabelWithLocale } = useFormLocale();
@@ -70,7 +70,8 @@ published_at: props.review?.published_at ?? "",
 cover_review: getMediaCollection(props.review?.media, 'cover_review'), 
 og_cover_review: getMediaCollection(props.review?.media, 'og_cover_review'), 
 categories_ids: props.review?.categories.map(item => item.id) ?? [],
-faqs: props.review?.faqs.map(faq => ({...faq,question: JSON.parse(faq.question),answer: JSON.parse(faq.answer)})) ?? [],
+faqs: props.review?.faqs.map(faq => ({...faq,question: faq.question,answer: faq.answer})) ?? [],
+tips: props.review?.tips.map(tip => ({...tip,title: tip.title,body: tip.body,icon: tip.icon,type: tip.type})) ?? [],
     },
     route("reviews.update", [props.review?.id])
 );

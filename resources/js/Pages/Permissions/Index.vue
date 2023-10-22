@@ -3,8 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import PermissionIndexPage from "craftable-pro/Pages/Permissions/Index.vue";
-import type { Role } from "craftable-pro/types/models";
+import PermissionIndexPage from "kingcms/Pages/Permissions/Index.vue";
+import type { Role } from "kingcms/types/models";
 
 interface Props {
     roles: Role[];

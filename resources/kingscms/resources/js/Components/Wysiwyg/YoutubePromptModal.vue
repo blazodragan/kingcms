@@ -28,7 +28,7 @@
 </template>
 <script setup lang="ts">
 import ToolbarButton from "./ToolbarButton.vue";
-import { Modal, Button, TextInput } from "craftable-pro/Components";
+import { Modal, Button, TextInput } from "kingcms/Components";
 import { useForm } from "@inertiajs/vue3";
 import { YouTube } from "./icons"
 

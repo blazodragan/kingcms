@@ -17,13 +17,13 @@
 <script setup lang="ts">
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { ArrowDownTrayIcon } from "@heroicons/vue/24/outline";
-import { PageHeader, Button } from "craftable-pro/Components";
-import { useForm } from "craftable-pro/hooks/useForm";
+import { PageHeader, Button } from "kingcms/Components";
+import { useForm } from "kingcms/hooks/useForm";
 import Form from "./Form.vue";
 import type { CategoryForm } from "./types";
 
 
-import { useFormLocale } from "craftable-pro/hooks/useFormLocale"; 
+import { useFormLocale } from "kingcms/hooks/useFormLocale"; 
 
 
 const { availableLocales, currentLocale, translatableDefaultValue, getLabelWithLocale } = useFormLocale();

@@ -66,17 +66,17 @@
 </template>
 
 <script lang="ts" setup>
-import { Button, Modal } from "craftable-pro/Components";
+import { Button, Modal } from "kingcms/Components";
 import { onMounted, ref } from "vue";
 import { usePage } from "@inertiajs/vue3";
-import type { PageProps } from "craftable-pro/types/page";
-import ImportModalFirstStep from "craftable-pro/Pages/Translations/Components/ImportModalFirstStep.vue";
-import ImportModalThirdStep from "craftable-pro/Pages/Translations/Components/ImportModalThirdStep.vue";
-import ImportModalSecondStep from "craftable-pro/Pages/Translations/Components/ImportModalSecondStep.vue";
+import type { PageProps } from "kingcms/types/page";
+import ImportModalFirstStep from "kingcms/Pages/Translations/Components/ImportModalFirstStep.vue";
+import ImportModalThirdStep from "kingcms/Pages/Translations/Components/ImportModalThirdStep.vue";
+import ImportModalSecondStep from "kingcms/Pages/Translations/Components/ImportModalSecondStep.vue";
 import axios from "axios";
 import { useToast } from "@brackets/vue-toastification";
 import { router } from "@inertiajs/vue3";
-import { trans } from "craftable-pro/plugins/laravel-vue-i18n";
+import { trans } from "kingcms/plugins/laravel-vue-i18n";
 
 interface Props {
   locales: string[];

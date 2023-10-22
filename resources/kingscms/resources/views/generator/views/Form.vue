@@ -23,8 +23,8 @@ import {
     ImageUpload,
     Multiselect,
     CardLocaleSwitcher
-} from "craftable-pro/Components";
-import { InertiaForm } from "craftable-pro/types";
+} from "kingcms/Components";
+import { InertiaForm } from "kingcms/types";
 import type { [[modelIndexName]]Form } from "./types";
 
 [[translatableFunctionality]]

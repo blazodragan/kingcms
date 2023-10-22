@@ -21,10 +21,10 @@
 </template>
 
 <script setup lang="ts">
-import { Card, Multiselect } from "craftable-pro/Components";
+import { Card, Multiselect } from "kingcms/Components";
 import { InertiaForm } from "@inertiajs/vue3";
 import type { CraftableProUserForm } from "./types";
-import { CraftableProUser } from "craftable-pro/types/models";
+import { CraftableProUser } from "kingcms/types/models";
 import ProfileCard from "./Components/ProfileCard.vue";
 import PasswordCard from "./Components/PasswordCard.vue";
 

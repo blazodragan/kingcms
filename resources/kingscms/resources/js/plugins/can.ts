@@ -1,5 +1,5 @@
 import { usePage } from "@inertiajs/vue3";
-import { PageProps } from "craftable-pro/types/page";
+import { PageProps } from "kingcms/types/page";
 import { DirectiveBinding } from "vue";
 
 export const can = (el: HTMLElement, binding: DirectiveBinding) => {

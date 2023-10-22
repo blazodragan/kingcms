@@ -3,9 +3,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { Media } from "craftable-pro/Pages/Media/types";
-import MediaPage from "craftable-pro/Pages/Media/Index.vue";
-import { PaginatedCollection } from "craftable-pro/types/pagination";
+import type { Media } from "kingcms/Pages/Media/types";
+import MediaPage from "kingcms/Pages/Media/Index.vue";
+import { PaginatedCollection } from "kingcms/types/pagination";
 
 interface Props {
   data: PaginatedCollection<Media>;

@@ -417,14 +417,14 @@ import {
   Pagination,
   ImageUploadModal,
   Tab,
-} from "craftable-pro/Components";
-import { formatBytes } from "craftable-pro/helpers";
+} from "kingcms/Components";
+import { formatBytes } from "kingcms/helpers";
 import type { Media } from "./types";
-import type { UploadedFile } from "craftable-pro/types";
-import { PaginatedCollection } from "craftable-pro/types/pagination";
-import { useListingFilters } from "craftable-pro/hooks/useListingFilters";
+import type { UploadedFile } from "kingcms/types";
+import { PaginatedCollection } from "kingcms/types/pagination";
+import { useListingFilters } from "kingcms/hooks/useListingFilters";
 import { Link, usePage, router } from "@inertiajs/vue3";
-import { PageProps } from "craftable-pro/types/page";
+import { PageProps } from "kingcms/types/page";
 import axios from "axios";
 import CustomPropertyInput from "./Components/CustomPropertyInput.vue";
 import { CloudArrowDownIcon } from "@heroicons/vue/24/outline";

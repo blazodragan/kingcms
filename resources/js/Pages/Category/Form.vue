@@ -7,22 +7,15 @@
         <div class="space-y-4">
           <TextInput v-model="form.alias" name="alias" :label="'Alias'" />
 
-          <TextInput v-model="form.title[currentLocale]" :name="`title.${currentLocale}`"
-            :label="getLabelWithLocale('Title')" />
+          <TextInput v-model="form.title[currentLocale]" :name="`title.${currentLocale}`" :label="getLabelWithLocale('Title')" />
           <div class="col-span-1 flex items-start gap-2">
             <div class="flex gap-1 flex-col flex-1">
-              <TextInput v-model="form.slug[currentLocale]" :name="`slug.${currentLocale}`"
-                :label="getLabelWithLocale('Slug')" :disabled="slugDisabled" @input="handleSlugInput" />
+              <TextInput v-model="form.slug[currentLocale]" :name="`slug.${currentLocale}`" :label="getLabelWithLocale('Slug')" :disabled="slugDisabled" @input="handleSlugInput" />
             </div>
-
-
             <Modal type="danger">
-              <template #trigger="{ setIsOpen }">
-                <Button :leftIcon="slugDisabled ? EyeIcon : EyeSlashIcon"
-                  @click="() => { slugDisabled ? setIsOpen(true) : toggleSlugInput() }" class="text-sm mt-6"
-                  :loading="form.processing" v-can="'sanctum.category.create'">{{ slugDisabled ? 'Edit' : 'Disable' }}
-                </Button>
-              </template>
+                <template #trigger="{ setIsOpen }">
+                  <Button :leftIcon="slugDisabled ? EyeIcon : EyeSlashIcon" @click="() => { slugDisabled ? setIsOpen(true) : toggleSlugInput() }" class="text-sm mt-6" :loading="form.processing" v-can="'sanctum.category.create'">{{ slugDisabled ? 'Edit' : 'Disable' }}</Button>
+                </template>
 
               <template #title>Edit Slug
               </template>
@@ -37,10 +30,7 @@
                 </Button>
               </template>
             </Modal>
-
-
           </div>
-
 
           <TextInput v-model="form.description[currentLocale]" :name="`description.${currentLocale}`"
             :label="getLabelWithLocale('Description')" />
@@ -70,15 +60,14 @@ import {
   Button,
   IconButton,
   Modal
-} from "craftable-pro/Components";
-import { InertiaForm } from "craftable-pro/types";
+} from "kingcms/Components";
+import { InertiaForm } from "kingcms/types";
 import type { CategoryForm } from "./types";
-import { slugify } from "craftable-pro/helpers/slugify";
-import { ref, Ref } from 'vue';
-import { watch } from 'vue';
+import { slugify } from "kingcms/helpers/slugify";
+import { ref, Ref, watch } from 'vue';
 import { EyeDropperIcon, EyeSlashIcon, EyeIcon } from "@heroicons/vue/24/outline";
 
-import { useFormLocale } from "craftable-pro/hooks/useFormLocale";
+import { useFormLocale } from "kingcms/hooks/useFormLocale";
 
 
 const { availableLocales, currentLocale, translatableDefaultValue, getLabelWithLocale } = useFormLocale();

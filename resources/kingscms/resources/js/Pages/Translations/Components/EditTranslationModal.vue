@@ -34,12 +34,12 @@
 </template>
 
 <script lang="ts" setup>
-import { LanguageLine } from "craftable-pro/types/models";
-import { Button, Modal, TextInput, IconButton } from "craftable-pro/Components";
+import { LanguageLine } from "kingcms/types/models";
+import { Button, Modal, TextInput, IconButton } from "kingcms/Components";
 import { useForm } from "@inertiajs/vue3";
 import { PencilSquareIcon } from "@heroicons/vue/24/outline";
 import { useToast } from "@brackets/vue-toastification";
-import { trans } from "craftable-pro/plugins/laravel-vue-i18n";
+import { trans } from "kingcms/plugins/laravel-vue-i18n";
 
 interface Props {
   languageLine: LanguageLine;

@@ -3,9 +3,9 @@
 </template>
 
 <script setup lang="ts">
-import RoleIndexPage from "craftable-pro/Pages/Roles/Index.vue";
-import { PaginatedCollection } from "craftable-pro/types/pagination";
-import type { Role } from "craftable-pro/types/models";
+import RoleIndexPage from "kingcms/Pages/Roles/Index.vue";
+import { PaginatedCollection } from "kingcms/types/pagination";
+import type { Role } from "kingcms/types/models";
 
 interface Props {
   roles: PaginatedCollection<Role>;

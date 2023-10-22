@@ -14,11 +14,11 @@
 
 <script setup lang="ts">
 import { ArrowDownTrayIcon } from "@heroicons/vue/24/outline";
-import { Button, Card, CardFooter } from "craftable-pro/Components";
+import { Button, Card, CardFooter } from "kingcms/Components";
 import { InertiaForm } from "@inertiajs/vue3";
-import { Role } from "craftable-pro/types/models";
-import { RoleForm } from "craftable-pro/Pages/Roles/types";
-import Permission from "craftable-pro/Pages/Roles/Permission.vue";
+import { Role } from "kingcms/types/models";
+import { RoleForm } from "kingcms/Pages/Roles/types";
+import Permission from "kingcms/Pages/Roles/Permission.vue";
 
 interface Props {
   form: InertiaForm<RoleForm>;

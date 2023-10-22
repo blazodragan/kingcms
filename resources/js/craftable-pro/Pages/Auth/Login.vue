@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import LoginPage from "craftable-pro/Pages/Auth/Login.vue";
+import LoginPage from "kingcms/Pages/Auth/Login.vue";
 
 interface Props {
   canResetPassword: boolean;

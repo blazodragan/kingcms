@@ -44,7 +44,7 @@ import {
   FunnelIcon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
-import { useListingFilters } from "craftable-pro/hooks/useListingFilters";
+import { useListingFilters } from "kingcms/hooks/useListingFilters";
 import { Button, ButtonGroup, Dropdown, IconButton } from "..";
 import { inject } from "vue";
 

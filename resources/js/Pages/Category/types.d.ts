@@ -1,4 +1,4 @@
-import type { UploadedFile } from "craftable-pro/types";
+import type { UploadedFile } from "kingcms/types";
 
 export type Category = {
     id: string | number; 

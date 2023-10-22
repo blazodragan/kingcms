@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import VerifyEmailPage from "craftable-pro/Pages/Auth/VerifyEmail.vue";
+import VerifyEmailPage from "kingcms/Pages/Auth/VerifyEmail.vue";
 
 interface Props {
   status: string;

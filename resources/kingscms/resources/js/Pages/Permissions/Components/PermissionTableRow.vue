@@ -91,8 +91,8 @@
 import { ref, computed } from "vue";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/vue/24/outline";
 import { FolderIcon } from "@heroicons/vue/24/solid";
-import { Checkbox } from "craftable-pro/Components";
-import { ListingDataCell } from "craftable-pro/Components";
+import { Checkbox } from "kingcms/Components";
+import { ListingDataCell } from "kingcms/Components";
 
 interface Permission {
   [key: string]: Permission | string;

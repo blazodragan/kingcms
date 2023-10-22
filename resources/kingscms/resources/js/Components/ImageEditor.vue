@@ -42,6 +42,7 @@
       viewMode="1"
     />
   </div>
+
 </template>
 
 <script setup lang="ts">
@@ -57,15 +58,18 @@ import {
   ArrowsPointingOutIcon,
 } from "@heroicons/vue/24/outline";
 import { Button } from ".";
-import { PageProps } from "craftable-pro/types/page";
+import { PageProps } from "kingcms/types/page";
 import { usePage } from "@inertiajs/vue3";
 
 interface Props {
-  src: string;
-  // modelValue: string;
+  src: 'string';
 }
 
 const props = defineProps<Props>();
+
+
+console.log(props.src);
+
 const emit = defineEmits(["onCrop"]);
 
 const cropper = ref<VueCropper>(null);

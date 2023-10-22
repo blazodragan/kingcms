@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { useForm, Head } from "@inertiajs/vue3";
-import { Button, TextInput } from "craftable-pro/Components";
+import { Button, TextInput } from "kingcms/Components";
 
 const form = useForm({
   password: "",

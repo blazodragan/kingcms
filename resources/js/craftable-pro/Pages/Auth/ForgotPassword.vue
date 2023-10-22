@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import ForgotPasswordPage from "craftable-pro/Pages/Auth/ForgotPassword.vue";
+import ForgotPasswordPage from "kingcms/Pages/Auth/ForgotPassword.vue";
 
 interface Props {
   status: string;

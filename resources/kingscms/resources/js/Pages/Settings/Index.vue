@@ -95,9 +95,9 @@ import {
   Tab,
   TabGroup,
   LocaleFlag,
-} from "craftable-pro/Components";
-import { useForm } from "craftable-pro/hooks/useForm";
-import { GeneralSettings } from "craftable-pro/Pages/Settings/types";
+} from "kingcms/Components";
+import { useForm } from "kingcms/hooks/useForm";
+import { GeneralSettings } from "kingcms/Pages/Settings/types";
 import { TabPanel } from "@headlessui/vue";
 import { MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
 

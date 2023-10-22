@@ -173,14 +173,14 @@ import {
   Card,
   CardFooter,
   CardHeader,
-} from "craftable-pro/Components";
+} from "kingcms/Components";
 import { EmptyListing, ListingHeaderCell, ListingDataCell } from "./index";
-import { PaginatedCollection } from "craftable-pro/types/pagination";
-import { Model } from "craftable-pro/types/models";
-import { useBulkSelect } from "craftable-pro/hooks/useBulkSelect";
-import { useBulkAction } from "craftable-pro/hooks/useBulkAction";
-import { useAction } from "craftable-pro/hooks/useAction";
-import { useListingSearch } from "craftable-pro/hooks/useListingSearch";
+import { PaginatedCollection } from "kingcms/types/pagination";
+import { Model } from "kingcms/types/models";
+import { useBulkSelect } from "kingcms/hooks/useBulkSelect";
+import { useBulkAction } from "kingcms/hooks/useBulkAction";
+import { useAction } from "kingcms/hooks/useAction";
+import { useListingSearch } from "kingcms/hooks/useListingSearch";
 
 interface Props {
   data: PaginatedCollection<Model>;

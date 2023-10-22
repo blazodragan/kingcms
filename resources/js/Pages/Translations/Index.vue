@@ -146,18 +146,18 @@ import {
   FiltersDropdown,
   DropdownItem,
   ButtonGroup,
-} from "craftable-pro/Components";
-import { PaginatedCollection } from "craftable-pro/types/pagination";
-import type { LanguageLine } from "craftable-pro/types/models";
-import type { PageProps } from "craftable-pro/types/page";
-import { useAction } from "craftable-pro/hooks/useAction";
-import EditTranslationModal from "craftable-pro/Pages/Translations/Components/EditTranslationModal.vue";
-import ExportModal from "craftable-pro/Pages/Translations/Components/ExportModal.vue";
-import ImportModal from "craftable-pro/Pages/Translations/Components/ImportModal.vue";
+} from "kingcms/Components";
+import { PaginatedCollection } from "kingcms/types/pagination";
+import type { LanguageLine } from "kingcms/types/models";
+import type { PageProps } from "kingcms/types/page";
+import { useAction } from "kingcms/hooks/useAction";
+import EditTranslationModal from "kingcms/Pages/Translations/Components/EditTranslationModal.vue";
+import ExportModal from "kingcms/Pages/Translations/Components/ExportModal.vue";
+import ImportModal from "kingcms/Pages/Translations/Components/ImportModal.vue";
 import { useToast } from "@brackets/vue-toastification";
 import { ref } from "vue";
 import { usePage } from "@inertiajs/vue3";
-import { useListingFilters } from "craftable-pro/hooks/useListingFilters";
+import { useListingFilters } from "kingcms/hooks/useListingFilters";
 import dayjs from "dayjs";
 import { ChevronDownIcon } from "@heroicons/vue/24/outline";
 

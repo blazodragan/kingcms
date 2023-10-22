@@ -35,9 +35,9 @@ import {
   PageContent,
   Button,
   Multiselect,
-} from "craftable-pro/Components";
-import type { User } from "craftable-pro/types/models";
-import { useForm } from "craftable-pro/hooks/useForm";
+} from "kingcms/Components";
+import type { User } from "kingcms/types/models";
+import { useForm } from "kingcms/hooks/useForm";
 import dayjs from "dayjs";
 import ProfileCard from "../Components/ProfileCard.vue";
 

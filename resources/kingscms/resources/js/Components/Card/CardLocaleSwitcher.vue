@@ -24,8 +24,8 @@
 
 <script setup lang="ts">
 import { computed,ref, onMounted, onBeforeUnmount } from "vue";
-import { Card, Tooltip, LocaleFlag } from "craftable-pro/Components";
-import { useFormLocale } from "craftable-pro/hooks/useFormLocale";
+import { Card, Tooltip, LocaleFlag } from "kingcms/Components";
+import { useFormLocale } from "kingcms/hooks/useFormLocale";
 
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue"]);

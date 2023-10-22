@@ -68,10 +68,10 @@
 </template>
 
 <script setup lang="ts">
-import { Button, TextInput, Multiselect } from "craftable-pro/Components";
+import { Button, TextInput, Multiselect } from "kingcms/Components";
 import { useForm, Head } from "@inertiajs/vue3";
 import { useToast } from "@brackets/vue-toastification";
-import { trans } from "craftable-pro/plugins/laravel-vue-i18n";
+import { trans } from "kingcms/plugins/laravel-vue-i18n";
 interface Props {
   locales?: string[];
   defaultLocale: string;

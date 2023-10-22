@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useForm, Head } from "@inertiajs/vue3";
-import { Button, Alert } from "craftable-pro/Components";
+import { Button, Alert } from "kingcms/Components";
 
 interface Props {
   status: string;

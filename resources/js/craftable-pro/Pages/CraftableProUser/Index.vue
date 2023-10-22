@@ -3,9 +3,9 @@
 </template>
 
 <script setup lang="ts">
-import CraftableProUserPage from "craftable-pro/Pages/CraftableProUser/Index.vue";
-import { PaginatedCollection } from "craftable-pro/types/pagination";
-import type { CraftableProUser } from "craftable-pro/types/models";
+import CraftableProUserPage from "kingcms/Pages/CraftableProUser/Index.vue";
+import { PaginatedCollection } from "kingcms/types/pagination";
+import type { CraftableProUser } from "kingcms/types/models";
 
 interface Props {
   craftableProUsers: PaginatedCollection<CraftableProUser>;

@@ -464,13 +464,13 @@ import {
   Dropdown,
   DropdownItem,
   TextInput,
-} from "craftable-pro/Components";
-import { PaginatedCollection } from "craftable-pro/types/pagination";
-import type { CraftableProUser } from "craftable-pro/types/models";
-import { useAction } from "craftable-pro/hooks/useAction";
-import { useListingFilters } from "craftable-pro/hooks/useListingFilters";
-import { PageProps } from "craftable-pro/types/page";
-import { wTrans } from "craftable-pro/plugins/laravel-vue-i18n";
+} from "kingcms/Components";
+import { PaginatedCollection } from "kingcms/types/pagination";
+import type { CraftableProUser } from "kingcms/types/models";
+import { useAction } from "kingcms/hooks/useAction";
+import { useListingFilters } from "kingcms/hooks/useListingFilters";
+import { PageProps } from "kingcms/types/page";
+import { wTrans } from "kingcms/plugins/laravel-vue-i18n";
 import dayjs from "dayjs";
 import { CraftableProUserInviteUserForm } from "./types";
 import { useToast } from "@brackets/vue-toastification";

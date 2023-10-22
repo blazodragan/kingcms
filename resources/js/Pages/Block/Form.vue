@@ -44,12 +44,12 @@ import {
     RadioGroupLink,
     Multiselect,
     CardLocaleSwitcher
-} from "craftable-pro/Components";
-import { InertiaForm } from "craftable-pro/types";
+} from "kingcms/Components";
+import { InertiaForm } from "kingcms/types";
 import type { BlockForm } from "./types";
 import { ref,reactive, watch } from "vue";
 
-import { useFormLocale } from "craftable-pro/hooks/useFormLocale"; 
+import { useFormLocale } from "kingcms/hooks/useFormLocale"; 
 
 
 const { availableLocales, currentLocale, translatableDefaultValue, getLabelWithLocale } = useFormLocale();

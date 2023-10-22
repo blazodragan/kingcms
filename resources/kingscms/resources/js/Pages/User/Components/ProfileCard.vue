@@ -55,7 +55,7 @@ import {
   Multiselect,
   TextInput,
   LocaleFlag,
-} from "craftable-pro/Components";
+} from "kingcms/Components";
 import { InertiaForm, usePage } from "@inertiajs/vue3";
 import type { CraftableProUserProfileForm } from "../types";
 

@@ -37,7 +37,6 @@ class Review extends Model  implements HasMedia {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'category_review', 'review_id', 'category_id');
@@ -46,6 +45,11 @@ class Review extends Model  implements HasMedia {
     public function faqs()
     {
         return $this->morphMany(FAQ::class, 'faqable');
+    }
+
+    public function tips()
+    {
+        return $this->morphMany(Tip::class, 'tipable');
     }
 
     public function registerMediaCollections(): void

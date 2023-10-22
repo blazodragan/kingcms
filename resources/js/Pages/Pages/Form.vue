@@ -4,7 +4,7 @@
     <div class="col-span-4">
         <CardLocaleSwitcher v-model="currentLocale" ref="switcher" id="cardlocale"/>
         <Card class="mb-6 ">
-        <div class="space-y-4">
+          <div class="space-y-4">
             <TextInput
                 v-model="form.title[currentLocale]"
                 :name="`title.${currentLocale}`"
@@ -27,6 +27,7 @@
                 name="cover"
                 :maxFileSize="10485760"
                 :label="'Cover'"
+                :maxNumberOfFiles="1"
             /> 
 
             <TextInput
@@ -442,15 +443,14 @@ import {
     RadioGroupLink,
     Accordion,
     IconSelector,
-} from "craftable-pro/Components";
-import { ref } from "vue";
-import { InertiaForm } from "craftable-pro/types";
-import { slugify } from "craftable-pro/helpers/slugify";
+} from "kingcms/Components";
+import { ref,reactive, watch } from 'vue';
+import { InertiaForm } from "kingcms/types";
+import { slugify } from "kingcms/helpers/slugify";
 import type { PagesForm } from "./types";
-import { reactive, watch } from 'vue';
 import { ChevronUpIcon } from "@heroicons/vue/20/solid";
 
-import { useFormLocale } from "craftable-pro/hooks/useFormLocale"; 
+import { useFormLocale } from "kingcms/hooks/useFormLocale"; 
 
 
 const { availableLocales, currentLocale, translatableDefaultValue, getLabelWithLocale } = useFormLocale();
@@ -469,7 +469,7 @@ interface Props {
 
 const handleInput = (index: number, newValue: string) => {
       props.form.tips[index].icon = [newValue];
-    };
+};
 
 
 

@@ -162,10 +162,10 @@ import {
     FiltersDropdown,
     Publish,
     ListingToggle,
-} from "craftable-pro/Components";
-import { PaginatedCollection } from "craftable-pro/types/pagination";
+} from "kingcms/Components";
+import { PaginatedCollection } from "kingcms/types/pagination";
 import type { [[modelIndexName]] } from "./types";
-import type { PageProps } from "craftable-pro/types/page";
+import type { PageProps } from "kingcms/types/page";
 import dayjs from "dayjs";
 
 [[translatableFunctionality]]

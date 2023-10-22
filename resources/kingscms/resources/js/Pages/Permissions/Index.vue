@@ -65,10 +65,10 @@ import {
   PageContent,
   Button,
   Card,
-} from "craftable-pro/Components";
-import type { Role } from "craftable-pro/types/models";
+} from "kingcms/Components";
+import type { Role } from "kingcms/types/models";
 import { ArrowDownTrayIcon } from "@heroicons/vue/24/outline";
-import { useForm } from "craftable-pro/hooks/useForm";
+import { useForm } from "kingcms/hooks/useForm";
 import PermissionTableRow from "./Components/PermissionTableRow.vue";
 
 interface Permission {

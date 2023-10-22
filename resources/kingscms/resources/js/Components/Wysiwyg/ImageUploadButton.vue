@@ -8,5 +8,5 @@
 <script setup lang="ts">
 import { Image } from "./icons";
 import ToolbarButton from "./ToolbarButton.vue";
-import { ImageUploadModal } from "craftable-pro/Components";
+import { ImageUploadModal } from "kingcms/Components";
 </script>

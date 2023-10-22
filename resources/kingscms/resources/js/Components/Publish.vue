@@ -219,14 +219,14 @@ import {
   IconButton,
   ButtonGroup,
   Tooltip,
-} from "craftable-pro/Components";
+} from "kingcms/Components";
 import {
   CheckCircleIcon,
   ClockIcon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
 import { CheckCircleIcon as CheckCircleIconSolid } from "@heroicons/vue/24/solid";
-import { useAction } from "craftable-pro/hooks/useAction";
+import { useAction } from "kingcms/hooks/useAction";
 import { computed, watch } from "vue";
 import dayjs from "dayjs";
 import { useForm } from "@inertiajs/vue3";

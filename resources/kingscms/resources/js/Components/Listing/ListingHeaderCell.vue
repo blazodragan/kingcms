@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/vue/20/solid";
 import { usePage,Link } from "@inertiajs/vue3";
-import { PageProps } from "craftable-pro/types/page";
+import { PageProps } from "kingcms/types/page";
 import { computed, inject } from "vue";
 
 interface Props {

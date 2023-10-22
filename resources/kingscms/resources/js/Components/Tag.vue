@@ -30,7 +30,7 @@
 import { XMarkIcon } from "@heroicons/vue/24/solid";
 import { computed } from "vue";
 import type { Component } from "vue";
-import type { TagColorsType, TagVariantsType } from "craftable-pro/types";
+import type { TagColorsType, TagVariantsType } from "kingcms/types";
 import Dot from "./Dot.vue";
 
 interface Props {

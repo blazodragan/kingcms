@@ -1,4 +1,4 @@
-import type { UploadedFile } from "craftable-pro/types";
+import type { UploadedFile } from "kingcms/types";
 
 export type Review = {
     id: string | number; 
@@ -24,8 +24,9 @@ published_at: string;
 created_at: string; 
 updated_at: string; 
 deleted_at: string
-    media?: UploadedFile[];
-    faqs: Array<{ question: string, answer: string }>;
+media?: UploadedFile[];
+faqs: Array<{ question: string, answer: string }>;
+tips: Array<{ title: string, body: string , icon: string, type: string}>;
 };
 
 export type ReviewForm = {
@@ -51,5 +52,5 @@ published_at: string;
 cover_review: Array<UploadedFile>; 
 og_cover_review: Array<UploadedFile>
 faqs: Array<{ question: string, answer: string }>;
-
+tips: Array<{ title: string, body: string , icon: string, type: string}>;
 };

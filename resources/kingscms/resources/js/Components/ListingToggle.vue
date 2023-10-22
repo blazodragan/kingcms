@@ -44,7 +44,7 @@ import { Switch } from "@headlessui/vue";
 import { XMarkIcon, CheckIcon } from "@heroicons/vue/24/solid";
 import { useInput } from "../hooks/useInput";
 import {watch} from "vue";
-import {useAction} from "craftable-pro/hooks/useAction";
+import {useAction} from "kingcms/hooks/useAction";
 
 interface Props {
   name: string;

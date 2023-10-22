@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
 import { useForm, Head } from "@inertiajs/vue3";
-import { Button, TextInput, Checkbox, Alert } from "craftable-pro/Components";
+import { Button, TextInput, Checkbox, Alert } from "kingcms/Components";
 
 interface Props {
   canResetPassword: boolean;

@@ -122,7 +122,7 @@ import {
   ChevronUpDownIcon,
   XMarkIcon,
 } from "@heroicons/vue/20/solid";
-import { useInput } from "craftable-pro/hooks/useInput";
+import { useInput } from "kingcms/hooks/useInput";
 import { Tag, FormControl } from ".";
 
 interface Props {

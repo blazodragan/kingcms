@@ -9,6 +9,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Storage;
 
 class FileUploadController extends BaseController
 {
@@ -27,9 +28,14 @@ class FileUploadController extends BaseController
         // $this->authorize('admin.upload');
 
         if ($request->hasFile('file')) {
+
             $path = $request->file('file')->store('', ['disk' => 'uploads']);
 
-            return response()->json(['path' => $path], 200);
+             // Get the URL using Laravel's Storage facade
+            $fullUrl = Storage::disk('uploads')->url($path);
+
+            return response()->json(['path' => $path, 'full_url' => $fullUrl], 200);
+
         }
 
         return response()->json('File not provided', 422);

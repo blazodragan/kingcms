@@ -3,5 +3,5 @@
 </template>
 
 <script setup lang="ts">
-import HomePage from "craftable-pro/Pages/Home.vue";
+import HomePage from "kingcms/Pages/Home.vue";
 </script>

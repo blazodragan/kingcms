@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import InviteUserCreate from "craftable-pro/Pages/Auth/InviteUser.vue"
+import InviteUserCreate from "kingcms/Pages/Auth/InviteUser.vue"
 
 interface Props {
   email: string;

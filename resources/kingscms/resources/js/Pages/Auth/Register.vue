@@ -66,8 +66,8 @@
 
 <script setup lang="ts">
 import { useForm, Head } from "@inertiajs/vue3";
-import { Button, TextInput } from "craftable-pro/Components";
-import SelectInput from "craftable-pro/Components/SelectInput.vue";
+import { Button, TextInput } from "kingcms/Components";
+import SelectInput from "kingcms/Components/SelectInput.vue";
 
 interface Props {
   locales: string[];

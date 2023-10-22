@@ -55,9 +55,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { useFormLocale } from "craftable-pro/hooks/useFormLocale";
+import { useFormLocale } from "kingcms/hooks/useFormLocale";
 import { PencilSquareIcon, ArrowDownTrayIcon } from "@heroicons/vue/20/solid";
-import { IconButton, TextInput } from "craftable-pro/Components";
+import { IconButton, TextInput } from "kingcms/Components";
 import LocaleFlag from "../../../Components/LocaleFlag.vue";
 
 interface Props {

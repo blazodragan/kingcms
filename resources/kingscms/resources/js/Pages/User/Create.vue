@@ -18,8 +18,8 @@
 
 <script setup lang="ts">
 import { ArrowDownTrayIcon } from "@heroicons/vue/24/outline";
-import { PageHeader, PageContent, Button } from "craftable-pro/Components";
-import { useForm } from "craftable-pro/hooks/useForm";
+import { PageHeader, PageContent, Button } from "kingcms/Components";
+import { useForm } from "kingcms/hooks/useForm";
 import Form from "./Form.vue";
 import type { CraftableProUserForm } from "./types";
 

@@ -55,11 +55,11 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { computed, ref, watch } from "vue";
 import { useToast } from "@brackets/vue-toastification";
-import { trans } from "craftable-pro/plugins/laravel-vue-i18n";
+import { trans } from "kingcms/plugins/laravel-vue-i18n";
 import { Avatar, Button } from ".";
-import { UploadedFile } from "craftable-pro/types";
+import { UploadedFile } from "kingcms/types";
 import omit from "lodash/omit";
-import { PageProps } from "craftable-pro/types/page";
+import { PageProps } from "kingcms/types/page";
 import { usePage } from "@inertiajs/vue3";
 
 interface Props {

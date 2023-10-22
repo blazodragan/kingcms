@@ -1,4 +1,4 @@
-import type { UploadedFile } from "craftable-pro/types";
+import type { UploadedFile } from "kingcms/types";
 
 export const formatBytes = (bytes?: number, decimals?: number) => {
   if (!bytes || bytes === 0) return "0 Bytes";

@@ -20,9 +20,9 @@
 
 <script setup lang="ts">
 import { ArrowDownTrayIcon } from "@heroicons/vue/24/outline";
-import { PageHeader, PageContent, Button } from "craftable-pro/Components";
-import type { CraftableProUser } from "craftable-pro/types/models";
-import { useForm } from "craftable-pro/hooks/useForm";
+import { PageHeader, PageContent, Button } from "kingcms/Components";
+import type { CraftableProUser } from "kingcms/types/models";
+import { useForm } from "kingcms/hooks/useForm";
 import PasswordCard from "../Components/PasswordCard.vue";
 
 interface Props {

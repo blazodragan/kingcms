@@ -3,8 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import CraftableProUserEditPage from "craftable-pro/Pages/CraftableProUser/Edit.vue";
-import type { CraftableProUser, Role } from "craftable-pro/types/models";
+import CraftableProUserEditPage from "kingcms/Pages/CraftableProUser/Edit.vue";
+import type { CraftableProUser, Role } from "kingcms/types/models";
 
 interface Props {
   craftableProUser: CraftableProUser;

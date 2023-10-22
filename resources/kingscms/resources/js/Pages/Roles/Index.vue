@@ -63,9 +63,9 @@ import {
   Button,
   Avatar,
   AvatarGroup,
-} from "craftable-pro/Components";
-import { PaginatedCollection } from "craftable-pro/types/pagination";
-import type { Role } from "craftable-pro/types/models";
+} from "kingcms/Components";
+import { PaginatedCollection } from "kingcms/types/pagination";
+import type { Role } from "kingcms/types/models";
 import { ref } from "vue";
 
 interface Props {

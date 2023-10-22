@@ -87,9 +87,6 @@ class PagesController extends Controller
                 AllowedFilter::custom('search', new FuzzyFilter(
                     'id',
                     'title',
-                    'user_id',
-                    'published_at',
-                    'status'
                 )),
                 AllowedFilter::exact('user_id'),
                 AllowedFilter::exact('status'),
@@ -172,11 +169,7 @@ class PagesController extends Controller
     public function edit(EditPagesRequest $request, Page $page): Response
     {
 
-        $page->load('media');
-
-        $page->load('faqs');
-
-        $page->load('tips');
+        $page->load('media','faqs','tips');
 
         return Inertia::render('Pages/Edit', [
             'pages' => $page,
@@ -194,35 +187,34 @@ class PagesController extends Controller
     {
         $pages->update($request->validated());
 
+        // Eager load faqs and tips relationships
+        $pages->load('faqs', 'tips');
 
-    // Eager load faqs and tips relationships
-    $pages->load('faqs', 'tips');
+        $faqsData = $request->get('faqs', []);
+        $tipsData = $request->get('tips', []);
 
-    $faqsData = $request->get('faqs', []);
-    $tipsData = $request->get('tips', []);
+        $receivedFaqIds = collect($faqsData)->pluck('id')->filter()->all();
+        $receivedTipIds = collect($tipsData)->pluck('id')->filter()->all();
 
-    $receivedFaqIds = collect($faqsData)->pluck('id')->filter()->all();
-    $receivedTipIds = collect($tipsData)->pluck('id')->filter()->all();
+        // Check if faqs key is present in the request
+        if ($request->has('faqs')) {
+            // Delete FAQs not present in the received list
+            $pages->faqs()->whereNotIn('id', $receivedFaqIds)->delete();
 
-    // Check if faqs key is present in the request
-    if ($request->has('faqs')) {
-        // Delete FAQs not present in the received list
-        $pages->faqs()->whereNotIn('id', $receivedFaqIds)->delete();
-
-        foreach ($faqsData as $faqData) {
-            $this->updateOrCreateFAQ($pages, $faqData);
+            foreach ($faqsData as $faqData) {
+                $this->updateOrCreateFAQ($pages, $faqData);
+            }
         }
-    }
 
-    // Check if tips key is present in the request
-    if ($request->has('tips')) {
-        // Delete Tips not present in the received list
-        $pages->tips()->whereNotIn('id', $receivedTipIds)->delete();
+        // Check if tips key is present in the request
+        if ($request->has('tips')) {
+            // Delete Tips not present in the received list
+            $pages->tips()->whereNotIn('id', $receivedTipIds)->delete();
 
-        foreach ($tipsData as $tipData) {
-            $this->updateOrCreateTip($pages, $tipData);
+            foreach ($tipsData as $tipData) {
+                $this->updateOrCreateTip($pages, $tipData);
+            }
         }
-    }
 
         return redirect()->route('pages.index')->with('toast', [
             'type' => 'success',
@@ -237,6 +229,7 @@ class PagesController extends Controller
     public function destroy(DestroyPagesRequest $request, Page $pages): RedirectResponse
     {
         $pages->faqs()->delete();
+        
         $pages->tips()->delete();
 
         $pages->delete();
@@ -286,38 +279,38 @@ class PagesController extends Controller
 
 
     protected function updateOrCreateFAQ($pages, $faqData)
-{
-    if (isset($faqData['id']) && $pages->faqs->contains('id', $faqData['id'])) {
-        // Update existing FAQ
-        $faq = $pages->faqs()->find($faqData['id']);
-        $faq->update(['question' => $faqData['question'], 'answer' => $faqData['answer']]);
-    } else {
-        // Create a new FAQ
-        $faq = new FAQ(['question' => $faqData['question'], 'answer' => $faqData['answer']]);
-        $pages->faqs()->save($faq);
+    {
+        if (isset($faqData['id']) && $pages->faqs->contains('id', $faqData['id'])) {
+            // Update existing FAQ
+            $faq = $pages->faqs()->find($faqData['id']);
+            $faq->update(['question' => $faqData['question'], 'answer' => $faqData['answer']]);
+        } else {
+            // Create a new FAQ
+            $faq = new FAQ(['question' => $faqData['question'], 'answer' => $faqData['answer']]);
+            $pages->faqs()->save($faq);
+        }
     }
-}
 
-protected function updateOrCreateTip($pages, $tipData)
-{
-    if (isset($tipData['id']) && $pages->tips->contains('id', $tipData['id'])) {
-        // Update existing Tip
-        $tip = $pages->tips()->find($tipData['id']);
-        $tip->update([
-            'title' => $tipData['title'] ?? null,
-            'body' => $tipData['body'] ?? null,
-            'icon' => $tipData['icon'] ?? null,
-            'type' => $tipData['type'] ?? null,
-        ]);
-    } else {
-        // Create a new Tip
-        $tip = new Tip([
-            'title' => $tipData['title'] ?? null,
-            'body' => $tipData['body'] ?? null,
-            'icon' => $tipData['icon'] ?? null,
-            'type' => $tipData['type'] ?? null,
-        ]);
-        $pages->tips()->save($tip);
+    protected function updateOrCreateTip($pages, $tipData)
+    {
+        if (isset($tipData['id']) && $pages->tips->contains('id', $tipData['id'])) {
+            // Update existing Tip
+            $tip = $pages->tips()->find($tipData['id']);
+            $tip->update([
+                'title' => $tipData['title'] ?? null,
+                'body' => $tipData['body'] ?? null,
+                'icon' => $tipData['icon'] ?? null,
+                'type' => $tipData['type'] ?? null,
+            ]);
+        } else {
+            // Create a new Tip
+            $tip = new Tip([
+                'title' => $tipData['title'] ?? null,
+                'body' => $tipData['body'] ?? null,
+                'icon' => $tipData['icon'] ?? null,
+                'type' => $tipData['type'] ?? null,
+            ]);
+            $pages->tips()->save($tip);
+        }
     }
-}
 }

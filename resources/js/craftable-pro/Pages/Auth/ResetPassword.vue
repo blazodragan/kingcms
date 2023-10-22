@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import ResetPasswordPage from "craftable-pro/Pages/Auth/ResetPassword.vue";
+import ResetPasswordPage from "kingcms/Pages/Auth/ResetPassword.vue";
 
 interface Props {
   email: string;

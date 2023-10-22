@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { useForm, Head } from "@inertiajs/vue3";
-import { Button, TextInput, Alert } from "craftable-pro/Components";
+import { Button, TextInput, Alert } from "kingcms/Components";
 
 interface Props {
   status: string;

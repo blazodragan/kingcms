@@ -20,9 +20,9 @@
 
 <script setup lang="ts">
 import { DocumentIcon } from "@heroicons/vue/24/outline";
-import { UploadedFile } from "craftable-pro/types";
-import { isFileImage, getFileExtension } from "craftable-pro/helpers";
-import { Media } from "craftable-pro/Pages/Media/types";
+import { UploadedFile } from "kingcms/types";
+import { isFileImage, getFileExtension } from "kingcms/helpers";
+import { Media } from "kingcms/Pages/Media/types";
 import { ref, watch } from "vue";
 
 interface Props {

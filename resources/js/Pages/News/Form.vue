@@ -213,12 +213,12 @@ import {
     Multiselect,
     CardLocaleSwitcher,
     RadioGroupLink,
-} from "craftable-pro/Components";
-import { InertiaForm } from "craftable-pro/types";
+} from "kingcms/Components";
+import { InertiaForm } from "kingcms/types";
 import type { NewsForm } from "./types";
 
 
-import { useFormLocale } from "craftable-pro/hooks/useFormLocale"; 
+import { useFormLocale } from "kingcms/hooks/useFormLocale"; 
 
 
 const { availableLocales, currentLocale, translatableDefaultValue, getLabelWithLocale } = useFormLocale();

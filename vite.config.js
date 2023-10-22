@@ -34,7 +34,7 @@ export default defineConfig({
     resolve: {
         alias: {
           "@": resolve(__dirname, "./resources/js"),
-          "craftable-pro": resolve(
+          "kingcms": resolve(
             __dirname,
             "./resources/kingscms/resources/js"
           ),

@@ -2,14 +2,14 @@ import { createApp, h } from "vue";
 import { createInertiaApp, Link } from "@inertiajs/vue3";
 import Toast, { POSITION } from "@brackets/vue-toastification";
 import "@brackets/vue-toastification/dist/index.css";
-import { AuthenticatedLayout, GuestLayout } from "craftable-pro/Layouts";
-import { Notification } from "craftable-pro/Components";
+import { AuthenticatedLayout, GuestLayout } from "kingcms/Layouts";
+import { Notification } from "kingcms/Components";
 import {
   i18nVue,
   loadTranslations,
-} from "craftable-pro/plugins/laravel-vue-i18n";
-import { can } from "craftable-pro/plugins/can";
-import { PageProps } from "craftable-pro/types/page";
+} from "kingcms/plugins/laravel-vue-i18n";
+import { can } from "kingcms/plugins/can";
+import { PageProps } from "kingcms/types/page";
 
 const appName = "Craftable PRO";
 
