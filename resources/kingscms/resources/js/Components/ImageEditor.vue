@@ -42,7 +42,6 @@
       viewMode="1"
     />
   </div>
-
 </template>
 
 <script setup lang="ts">
@@ -62,14 +61,11 @@ import { PageProps } from "kingcms/types/page";
 import { usePage } from "@inertiajs/vue3";
 
 interface Props {
-  src: 'string';
+  src: string;
+  // modelValue: string;
 }
 
 const props = defineProps<Props>();
-
-
-console.log(props.src);
-
 const emit = defineEmits(["onCrop"]);
 
 const cropper = ref<VueCropper>(null);
