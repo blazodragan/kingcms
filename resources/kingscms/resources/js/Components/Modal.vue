@@ -5,7 +5,7 @@
       <Dialog
         as="div"
         :open="externalOpen ? props.open : open"
-        class="fixed inset-0 z-50 overflow-y-auto"
+        class="fixed inset-0 z-[10000] overflow-y-auto"
         @close="setIsOpen"
       >
         <button class="absolute h-0 w-0 opacity-0" />
