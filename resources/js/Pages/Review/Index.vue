@@ -170,7 +170,7 @@
           <div class="flex items-center justify-end gap-3">
             <IconButton
               :as="Link"
-              :href="route('reviews.edit', item)"
+              :href="route('review.edit', item)"
               variant="ghost"
               color="gray"
               :icon="PencilSquareIcon"

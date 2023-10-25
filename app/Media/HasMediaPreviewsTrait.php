@@ -54,4 +54,15 @@ trait HasMediaPreviewsTrait
             ->nonQueued()
             ->performOnCollections(...$this->getRegisteredMediaCollections()->map->getName()->toArray());
     }
+
+    public function autoRegisterBigThumbs($width = 500, $height = 300): void
+    {
+        $this->addMediaConversion('bigThumb')
+            ->width($width)
+            ->height($height)
+            ->fit('crop', $width, $height)
+            ->optimize()
+            ->nonQueued()
+            ->performOnCollections(...$this->getRegisteredMediaCollections()->map->getName()->toArray());
+    }
 }

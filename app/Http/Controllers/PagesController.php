@@ -37,6 +37,77 @@ class PagesController extends Controller
 {
     use IconRetriever;
 
+    public function showParent(Page $parentPage)
+    {
+
+        $parentPage->load('media');
+        $parentPage->load('faqs');
+        $parentPage->load('tips');
+    
+        $processedContent = preg_replace_callback('/@block\(\s*\'([^\']+)\'\s*(?:,\s*(\[[^\]]+\]))?\s*\)/', function ($matches) {
+            $blockName = $matches[1];
+            $paramsStr = isset($matches[2]) ? $matches[2] : '';
+
+            if ($paramsStr) {
+                // Convert Laravel array syntax to JSON string
+                $paramsStr = html_entity_decode($paramsStr);
+                $jsonStr = str_replace(['[', ']', '=>', "'"], ['{', '}', ':', '"'], $paramsStr);
+                // Decode the JSON string to an array
+                $parameters = json_decode($jsonStr, true);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    // If there's an error in decoding the JSON, just return the string as is
+                    return $matches[0];
+                }
+            } else {
+                $parameters = [];
+            }
+
+            // Use the block resolver to fetch the block content
+            return app(\App\Services\BlockResolver::class)->resolve($blockName, $parameters);
+        }, $parentPage->content);
+
+
+        // Render the page (e.g., using a view)
+        return view('pages.showParent', compact('parentPage', 'processedContent'));
+    }
+
+    public function showChild(Page $parentPage, Page $childPage)
+    {
+
+        
+
+        $childPage->load('media');
+        $childPage->load('faqs');
+        $childPage->load('tips');
+    
+
+        $processedContent = preg_replace_callback('/@block\(\s*\'([^\']+)\'\s*(?:,\s*(\[[^\]]+\]))?\s*\)/', function ($matches) {
+            $blockName = $matches[1];
+            $paramsStr = isset($matches[2]) ? $matches[2] : '';
+
+            if ($paramsStr) {
+                // Convert Laravel array syntax to JSON string
+                $paramsStr = html_entity_decode($paramsStr);
+                $jsonStr = str_replace(['[', ']', '=>', "'"], ['{', '}', ':', '"'], $paramsStr);
+                // Decode the JSON string to an array
+                $parameters = json_decode($jsonStr, true);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    // If there's an error in decoding the JSON, just return the string as is
+                    return $matches[0];
+                }
+            } else {
+                $parameters = [];
+            }
+
+            // Use the block resolver to fetch the block content
+            return app(\App\Services\BlockResolver::class)->resolve($blockName, $parameters);
+        }, $childPage->content);
+
+
+        // Render the page (e.g., using a view)
+        return view('pages.show', compact('childPage', 'processedContent'));
+    }
+
     public function show($slug)
     {
         $page = Page::where('slug->' . app()->getLocale(), $slug)->firstOrFail();
@@ -124,6 +195,7 @@ class PagesController extends Controller
             'tempaltesOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Templates::cases()),
             'statusOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Status::cases()),
             'iconOptions' => $this->getAllIconNames(),
+            'parentPages' => Page::where('is_parent', true)->get()->map(fn ($model) => ['value' => $model->id, 'label' => $model->title]),
         ]);
     }
 
@@ -171,12 +243,14 @@ class PagesController extends Controller
 
         $page->load('media','faqs','tips');
 
+
         return Inertia::render('Pages/Edit', [
             'pages' => $page,
             'userOptions' => User::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->name]),
             'statusOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Status::cases()),
             'tempaltesOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Templates::cases()),
             'iconOptions' => $this->getAllIconNames(),
+            'parentPages' => Page::where('is_parent', true)->get()->map(fn ($model) => ['value' => $model->id, 'label' => $model->title]),
         ]);
     }
 
@@ -188,7 +262,7 @@ class PagesController extends Controller
         $pages->update($request->validated());
 
         // Eager load faqs and tips relationships
-        $pages->load('faqs', 'tips');
+        $pages->load('media','faqs','tips');
 
         $faqsData = $request->get('faqs', []);
         $tipsData = $request->get('tips', []);

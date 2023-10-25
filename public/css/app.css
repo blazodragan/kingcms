@@ -340,9 +340,7 @@ legend {
 ol,
 ul,
 menu {
-  list-style: none;
   margin: 0;
-  padding: 0;
 }
 
 /*
@@ -1059,6 +1057,10 @@ input[type="range"]::-ms-fill-lower {
   height: 0.875rem;
 }
 
+.h-4 {
+  height: 1rem;
+}
+
 .h-5 {
   height: 1.25rem;
 }
@@ -1137,6 +1139,9 @@ input[type="range"]::-ms-fill-lower {
 
 .w-5 {
   width: 1.25rem;
+}
+.w-4 {
+  width: 1rem;
 }
 
 .w-6 {
@@ -2291,4 +2296,64 @@ a.hover-group:hover .read-now .arrow {
   .\32xl\:p-20 {
     padding: 5rem;
   }
+}
+
+
+
+.bodycontent > h1,
+.bodycontent > h2,
+.bodycontent > h3,
+.bodycontent > h4,
+.bodycontent > h5 {
+  line-height: 1.75rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.bodycontent > h2 {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.bodycontent > h3 {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.bodycontent > h4 {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.bodycontent > ul, .bodycontent p  {
+margin-top: 1rem;
+margin-bottom: 1rem;
+
+}
+
+
+
+.divtable > table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  text-align: left;
+}
+
+.divtable > table thead {
+  background-color: #f5f5f5;
+}
+
+.divtable > table thead th {
+  padding: 10px 15px;
+  font-weight: 600;
+}
+
+.divtable > table tbody td {
+  padding: 10px 15px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.divtable > table tbody tr:hover {
+  background-color: #f9f9f9;
 }

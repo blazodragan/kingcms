@@ -6,7 +6,7 @@
       :as="Link"
       :href="route('pages.create')"
       v-can="'sanctum.news.create'"
-    >New News
+    >New Page
     </Button>
     <Button
       :leftIcon="ArrowDownTrayIcon"
@@ -130,7 +130,18 @@
              {{ item.id }}
         </ListingDataCell> 
         <ListingDataCell>
-             {{ item.title?.[currentLocale] }}
+          <div class="flex items-center">
+            <Avatar
+              :src="item.cover_url"
+              :name="`${item.alias}`"
+            />
+            <div class="ml-4">
+              <div class="font-medium text-gray-900">
+                {{ item.title?.[currentLocale] }}
+              </div>
+            </div>
+          </div>
+             
         </ListingDataCell> 
         <ListingDataCell>
              {{ item.user.name }}
@@ -164,7 +175,7 @@
           <div class="flex items-center justify-end gap-3">
             <IconButton
               :as="Link"
-              :href="route('pages.edit', item)"
+              :href="route('page.edit', item)"
               variant="ghost"
               color="gray"
               :icon="PencilSquareIcon"

@@ -10,7 +10,7 @@ import GlobalSearch from '@/Components/GlobalSearch.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import NavItem from '@/Components/NavItem.vue';
-import {HomeIcon, DocumentTextIcon, NewspaperIcon, StarIcon, TagIcon, Cog6ToothIcon, DocumentIcon, UserCircleIcon, FolderIcon, BuildingStorefrontIcon, LanguageIcon, ChatBubbleOvalLeftIcon} from '@heroicons/vue/24/outline';
+import {HomeIcon, DocumentTextIcon, NewspaperIcon, StarIcon, TagIcon, Cog6ToothIcon, DocumentIcon, UserCircleIcon, FolderIcon, BuildingStorefrontIcon, LanguageIcon, ChatBubbleOvalLeftIcon, MicrophoneIcon} from '@heroicons/vue/24/outline';
 import ToastList from "@/Components/ToastList.vue";
 
 
@@ -28,6 +28,7 @@ const page = usePage();
 // Navigation Menu
 const mainNavItems = [
     {href:"pages.index", label: "Pages", children: [], icon: DocumentIcon, permission: 'sanctum'},
+    {href:"posts.index", label: "Posts", children: [], icon: MicrophoneIcon, permission: 'sanctum'},
     {href:"news.index", label: "News", children: [], icon: NewspaperIcon, permission: 'sanctum'},
     {href:"reviews.index", label: "Reviews", children: [], icon: StarIcon, permission: 'sanctum'},
     {href:"categories.index", label: "Categories", children: [], icon: TagIcon, permission: 'sanctum'},
@@ -122,22 +123,6 @@ onUnmounted(() => {
                 <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between py-6 space-x-6">
                         <GlobalSearch :results="results"/>
-                        <form action="" class="w-full max-w-md">
-                                <div class="relative flex items-center text-gray-400 focus-within:text-gray-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 absolute ml-2 mr-2 " pointer-events-none>
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                                    </svg>
-                                    <input 
-                                    type="text"
-                                    name="search"
-                                    placeholder="Global Search"
-                                    autocomplete="off"
-                                    aria-label="Global Search"
-                                    class="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-black rounded-md border-none ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2"
-
-                                    >
-                                </div>
-                            </form>
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
                             <div class="ml-3 relative">
                                 <!-- Teams Dropdown -->
@@ -394,20 +379,11 @@ onUnmounted(() => {
                         <!-- Page Heading -->
             <footer class="bg-white mt-auto">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 md:flex md:items-center md:justify-between md:p-6">
-                    <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2022 <a href="https://dagoimaimetonasajtottuakili.com/" class="hover:underline">dagoimaimetonasajtottuakili.com™</a>. All Rights Reserved.
+                    <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2022 <a href="https://mietwagenparadies.de/" class="hover:underline">mietwagenparadies.com™</a>. All Rights Reserved.
     </span>
     <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
         <li>
             <a href="#" class="mr-4 hover:underline md:mr-6 ">About</a>
-        </li>
-        <li>
-            <a href="#" class="mr-4 hover:underline md:mr-6">Privacy Policy</a>
-        </li>
-        <li>
-            <a href="#" class="mr-4 hover:underline md:mr-6">Licensing</a>
-        </li>
-        <li>
-            <a href="#" class="hover:underline">Contact</a>
         </li>
     </ul>
                 </div>

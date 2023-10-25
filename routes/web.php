@@ -25,7 +25,9 @@ use App\Http\Controllers\TagsController;
 use App\Http\Controllers\Translations\TranslationsController;
 use App\Http\Controllers\TrustReviewController;
 use App\Http\Controllers\BlockController;
-
+use App\Models\Page;
+use App\Http\Controllers\PostController;
+use App\Models\Post;
 use Laravel\Sanctum\PersonalAccessToken;
 
 /*
@@ -41,10 +43,13 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 
 
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/location', [LocationController::class, 'index'])->name('location');
 Route::get('/allnews', [NewsSiteController::class, 'index'])->name('allnews');
-Route::get('/{slug}', [PagesController::class, 'show'])->name('show');
+
+
+
 
 
 
@@ -113,7 +118,7 @@ Route::middleware([
     Route::get('categories/create', [CategoryController::class, 'create'])->name('categories.create');
     Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');
     Route::get('categories/export', [CategoryController::class, 'export'])->name('categories.export');
-    Route::get('categories/edit/{category}', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::get('category/edit/{category}', [CategoryController::class, 'edit'])->name('category.edit');
     Route::match(['put', 'patch'], 'categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     Route::post('categories/bulk-destroy', [CategoryController::class, 'bulkDestroy'])->name('categories.bulk-destroy');
@@ -149,13 +154,23 @@ Route::middleware([
     Route::delete('news/{news}', [App\Http\Controllers\NewsController::class, 'destroy'])->name('news.destroy');
     Route::post('news/bulk-destroy', [App\Http\Controllers\NewsController::class, 'bulkDestroy'])->name('news.bulk-destroy');
 
+    // posts
+    Route::get('posts', [App\Http\Controllers\PostController::class, 'index'])->name('posts.index');
+    Route::get('post/create', [App\Http\Controllers\PostController::class, 'create'])->name('post.create');
+    Route::post('post', [App\Http\Controllers\PostController::class, 'store'])->name('post.store');
+    Route::get('posts/export', [App\Http\Controllers\PostController::class, 'export'])->name('posts.export');
+    Route::get('post/edit/{post}', [App\Http\Controllers\PostController::class, 'edit'])->name('post.edit');
+    Route::match(['put', 'patch'], 'post/{post}', [App\Http\Controllers\PostController::class, 'update'])->name('post.update');
+    Route::delete('post/{post}', [App\Http\Controllers\PostController::class, 'destroy'])->name('post.destroy');
+    Route::post('posts/bulk-destroy', [App\Http\Controllers\PostController::class, 'bulkDestroy'])->name('posts.bulk-destroy');
+
 
         // pages
     Route::get('pages', [PagesController::class, 'index'])->name('pages.index');
     Route::get('pages/create', [PagesController::class, 'create'])->name('pages.create');
     Route::post('pages', [PagesController::class, 'store'])->name('pages.store');
     Route::get('pages/export', [PagesController::class, 'export'])->name('pages.export');
-    Route::get('pages/edit/{page}', [PagesController::class, 'edit'])->name('pages.edit');
+    Route::get('page/edit/{page}', [PagesController::class, 'edit'])->name('page.edit');
     Route::match(['put', 'patch'], 'pages/{pages}', [PagesController::class, 'update'])->name('pages.update');
     Route::delete('pages/{pages}', [PagesController::class, 'destroy'])->name('pages.destroy');
     Route::post('pages/bulk-destroy', [PagesController::class, 'bulkDestroy'])->name('pages.bulk-destroy');
@@ -166,7 +181,7 @@ Route::middleware([
     Route::get('reviews/create', [App\Http\Controllers\ReviewController::class, 'create'])->name('reviews.create');
     Route::post('reviews', [App\Http\Controllers\ReviewController::class, 'store'])->name('reviews.store');
     Route::get('reviews/export', [App\Http\Controllers\ReviewController::class, 'export'])->name('reviews.export');
-    Route::get('reviews/edit/{review}', [App\Http\Controllers\ReviewController::class, 'edit'])->name('reviews.edit');
+    Route::get('review/edit/{review}', [App\Http\Controllers\ReviewController::class, 'edit'])->name('review.edit');
     Route::match(['put', 'patch'], 'reviews/{review}', [App\Http\Controllers\ReviewController::class, 'update'])->name('reviews.update');
     Route::delete('reviews/{review}', [App\Http\Controllers\ReviewController::class, 'destroy'])->name('reviews.destroy');
     Route::post('reviews/bulk-destroy', [App\Http\Controllers\ReviewController::class, 'bulkDestroy'])->name('reviews.bulk-destroy');
@@ -188,3 +203,29 @@ Route::middleware([
     
 
 });
+
+// Custom binding to resolve the page by slug
+Route::bind('postSlug', function ($value) {
+    return Post::where('slug->' . app()->getLocale(), $value)->firstOrFail();
+});
+
+Route::get('/blog/{postSlug:slug}', [PostController::class, 'show'])->name('showBlogPost');
+
+
+
+// Custom binding to resolve the page by slug
+Route::bind('parentPage', function ($value) {
+    return Page::where('slug->' . app()->getLocale(), $value)->firstOrFail();
+});
+
+Route::bind('childPage', function ($value, $route) {
+    return Page::where('slug->' . app()->getLocale(), $value)
+        ->where('parent_id', $route->parameter('parentPage')->id)
+        ->firstOrFail();
+});
+
+// Specific route for parent and child combination
+Route::get('{parentPage:slug}/{childPage:slug}', [PagesController::class, 'showChild'])->name('showChild');
+// General route for just the parent
+Route::get('{parentPage:slug}', [PagesController::class, 'showParent'])->name('showParent');
+

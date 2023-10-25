@@ -22,7 +22,7 @@ class Category extends Model  implements HasMedia {
 
     protected $table = 'categories';
     protected $fillable = ['alias', 'slug', 'title', 'description', 'type'];
-
+    public $searchable = ['alias']; 
     public $translatable = ['slug', 'title', 'description'];
 
 
@@ -52,4 +52,5 @@ class Category extends Model  implements HasMedia {
     {
         return Attribute::make(get: fn ($value) => $this->getFirstMediaUrl('cover', 'preview'));
     }
+
 }

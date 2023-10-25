@@ -16,7 +16,7 @@
     </Button>
   </PageHeader>
 
-  <Form :form="form" :submit="submit" :userOptions="userOptions" :tempaltesOptions="tempaltesOptions" :statusOptions="statusOptions" :iconOptions="iconOptions"/>
+  <Form :form="form" :submit="submit" :userOptions="userOptions" :tempaltesOptions="tempaltesOptions" :statusOptions="statusOptions" :iconOptions="iconOptions" :parentPages="parentPages"/>
 </AppLayout>
 </template>
 
@@ -44,6 +44,7 @@ interface Props {
   statusOptions: Array<{value: string|number, label: string}>;
   tempaltesOptions: Array<{ value: string | number; label: string }>;
   iconOptions: Array<{value: string|number, label: string}>;
+  parentPages: Array<{value: string|number, label: string}>;
 }
 
 const props = defineProps<Props>();
@@ -54,12 +55,15 @@ title: props.pages?.title ?? { ...translatableDefaultValue },
 slug: props.pages?.slug ?? { ...translatableDefaultValue }, 
 perex: props.pages?.perex ?? { ...translatableDefaultValue }, 
 content: props.pages?.content ?? { ...translatableDefaultValue }, 
+text: props.pages?.text ?? { ...translatableDefaultValue }, 
+why: props.pages?.why ?? { ...translatableDefaultValue }, 
 template: props.pages?.template ?? "", 
 meta_title: props.pages?.meta_title ?? { ...translatableDefaultValue }, 
 meta_description: props.pages?.meta_description ?? { ...translatableDefaultValue }, 
 meta_url_canolical: props.pages?.meta_url_canolical ?? { ...translatableDefaultValue }, 
 href_lang: props.pages?.href_lang ?? { ...translatableDefaultValue }, 
 is_index: props.pages?.is_index ?? false, 
+is_parent: props.pages?.is_parent ?? false, 
 no_index: props.pages?.no_index ?? false, 
 no_follow: props.pages?.no_follow ?? false, 
 og_title: props.pages?.og_title ?? { ...translatableDefaultValue }, 
@@ -67,6 +71,7 @@ og_description: props.pages?.og_description ?? { ...translatableDefaultValue },
 og_type: props.pages?.og_type ?? { ...translatableDefaultValue }, 
 og_url: props.pages?.og_url ?? { ...translatableDefaultValue }, 
 user_id: props.pages?.user_id ?? "", 
+parent_id: props.pages?.parent_id ?? "", 
 status: props.pages?.status ?? "", 
 published_at: props.pages?.published_at ?? "", 
 cover: getMediaCollection(props.pages?.media, 'cover'), 

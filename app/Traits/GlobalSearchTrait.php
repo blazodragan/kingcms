@@ -33,7 +33,7 @@ trait GlobalSearchTrait
                 foreach ($modelResults as $result) {
                     $results[] = [
                         'title' => $result->title,
-                        'edit_link' => route('edit.' . strtolower(class_basename($model)), ['id' => $result->id])
+                        
                     ];
                 }
             }

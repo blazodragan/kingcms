@@ -2,15 +2,29 @@
 import NavLink from '@/Components/NavLink.vue';
 import {Disclosure,DisclosureButton,DisclosurePanel} from '@headlessui/vue'
 import {ChevronDownIcon} from '@heroicons/vue/24/outline';
+import pluralize from 'pluralize';
 
 const props = defineProps({
     item: Object,
 })
 // this is done because we need to split the current path because it's like this groups.index and for ziggy it needs to be groups* if you want to watch for any route in to groups
 let link = props.item.href.split('.')[0]
-let newLink = link+'*'
+
+
+let check = route().current();
+check = check.split('.')[0];
+
+
+
+// If the link is singular, convert it to its plural form
+if (pluralize.isSingular(check)) {
+    link = pluralize.singular(link);
+}
+let newLink = link + '*';
+
 </script>
 <template>
+
     <NavLink v-if="item.children && !item.children.length" :href="route(item.href)" :active="route().current(newLink)">
         <component
         :class="['w-6 h-6 mr-2 shrink-0']"

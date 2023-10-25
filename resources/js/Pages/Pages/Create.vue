@@ -9,7 +9,14 @@
     >Save
     </Button>
   </PageHeader>
-  <Form :form="form" :submit="submit" :userOptions="userOptions" :categoriesOptions="categoriesOptions" :tempaltesOptions="tempaltesOptions" :statusOptions="statusOptions" :iconOptions="iconOptions" :slugDisabled="slugDisabled"/>
+  <Form :form="form"
+        :submit="submit"
+        :userOptions="userOptions"
+        :parentPages="parentPages"
+        :tempaltesOptions="tempaltesOptions"
+        :statusOptions="statusOptions"
+        :iconOptions="iconOptions"
+        :slugDisabled="slugDisabled"/>
 </AppLayout>
 </template>
 
@@ -33,7 +40,8 @@ interface Props {
   userOptions: Array<{value: string|number, label: string}>;
   statusOptions: Array<{value: string|number, label: string}>;
   tempaltesOptions: Array<{value: string|number, label: string}>;
-  iconOptions: Array<{value: string|number, label: string}>;
+  iconOptions: Array<{name: string|number, path: string}>;
+  parentPages: Array<{value: string|number, label: string}>;
 }
 
 const props = defineProps<Props>();
@@ -44,19 +52,23 @@ title: { ...translatableDefaultValue },
 slug: { ...translatableDefaultValue }, 
 perex: { ...translatableDefaultValue }, 
 content: { ...translatableDefaultValue }, 
+text: { ...translatableDefaultValue }, 
+why: { ...translatableDefaultValue }, 
 template: "", 
 meta_title: { ...translatableDefaultValue }, 
 meta_description: { ...translatableDefaultValue }, 
 meta_url_canolical: { ...translatableDefaultValue }, 
 href_lang: { ...translatableDefaultValue }, 
 is_index: false, 
+is_parent: false, 
 no_index: false, 
 no_follow: false, 
 og_title: { ...translatableDefaultValue }, 
 og_description: { ...translatableDefaultValue }, 
 og_type: { ...translatableDefaultValue }, 
 og_url: { ...translatableDefaultValue }, 
-user_id: "", 
+user_id: "",
+parent_id:"",
 status: "", 
 published_at: "", 
 cover: [], 

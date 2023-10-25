@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 class GlobalSearchController extends Controller
 {
@@ -11,7 +12,6 @@ class GlobalSearchController extends Controller
     {
         $query = $request->get('q');
         $results = $this->globalSearch($query);
-
         return response()->json(['results' => $results]);
     }
     
@@ -20,10 +20,10 @@ class GlobalSearchController extends Controller
     {
         $models = [
             \App\Models\News::class,
+            \App\Models\Page::class,
             \App\Models\Category::class,
             \App\Models\Review::class,
-            \App\Models\TrustReview::class,
-            \App\Models\User::class,
+
         ];
 
         $results = [];
@@ -35,18 +35,36 @@ class GlobalSearchController extends Controller
                 
                 $modelResults = $model::where(function ($q) use ($searchableFields, $query) {
                     foreach ($searchableFields as $field) {
-                        $q->orWhere($field, 'LIKE', '%' . $query . '%');
+                        $q->orWhere(DB::raw('LOWER(' . $field . ')'), 'LIKE', '%' . strtolower($query) . '%');
                     }
-                })->get();
+                })->take(10)->get();
+
+                $groupedResults = [];
 
                 foreach ($modelResults as $result) {
-                    $results[] = [
+                    
+                    $modelName = strtolower(class_basename($model));
+                    $routeName = $modelName . '.edit'; // assumes your routes are named like 'model.edit'
+                    
+                    $editLink = ''; // default to an empty string
+
+                    if(Route::has($routeName)) {
+                        $editLink = route($routeName, [$modelName => $result->id]);
+                    }
+
+                    if (!isset($groupedResults[$model])) {
+                        $groupedResults[$model] = [];
+                    }
+
+                    $results[$modelName][] = [
                         'title' => $result->{$searchableFields[0]},  // assuming first field is 'title' or similar primary descriptor
+                        'edit_link' => $editLink
                     ];
                 }
             }
         }
-
+        
+        
         return $results;
     }
 }

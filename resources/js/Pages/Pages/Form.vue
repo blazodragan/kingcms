@@ -13,15 +13,29 @@
             /> 
 
 
+            <div class="col-span-1 flex items-start gap-2">
+            <div class="flex gap-1 flex-col flex-1">
+              <TextInput v-model="form.slug[currentLocale]" :name="`slug.${currentLocale}`" :label="getLabelWithLocale('Slug')" :disabled="slugDisabled" @input="handleSlugInput" />
+            </div>
+            <Modal type="danger">
+                <template #trigger="{ setIsOpen }">
+                  <Button :leftIcon="slugDisabled ? EyeIcon : EyeSlashIcon" @click="() => { slugDisabled ? setIsOpen(true) : toggleSlugInput() }" class="text-sm mt-6" :loading="form.processing" v-can="'sanctum.category.create'">{{ slugDisabled ? 'Edit' : 'Disable' }}</Button>
+                </template>
 
-            <TextInput
-                v-model="form.slug[currentLocale]"
-                :name="`slug.${currentLocale}`"
-                :label="getLabelWithLocale('Slug')"
-                @input="handleSlugInput"
-                
-            /> 
+              <template #title>Edit Slug
+              </template>
+              <template #content>Are you sure you want to edit the slug. If you do you need to make a rule for redirecting
+                to the new slug
+              </template>
 
+              <template #buttons="{ setIsOpen }">
+                <Button @click="toggleSlugInput" @click.prevent="() => setIsOpen()" color="primary">Ok
+                </Button>
+                <Button @click.prevent="() => setIsOpen()" color="gray" variant="outline">Cancel
+                </Button>
+              </template>
+            </Modal>
+          </div>
             <Dropzone
                 v-model="form.cover"
                 name="cover"
@@ -43,17 +57,7 @@
                 :label="getLabelWithLocale('Content')"
             /> 
 
-
-          
-
-        
-
-        </div>
-      </Card>
-      
-              <!-- Nested Grid -->
-              <div class="grid items-start gap-6 xl:grid-cols-1">
-                <Accordion>
+            <Accordion>
           <template #title> Useful Tips </template>
           <template #content>
             <div class="grid grid-cols-4 gap-4">
@@ -111,6 +115,20 @@
 <div class="flex justify-center"><button class="px-2 hover:bg-slate-50 rounded border"  @click="addTip('question')">+ add new</button></div>
           </template>
           </Accordion>
+            <Wysiwyg
+                v-model="form.text[currentLocale]"
+                :name="`text.${currentLocale}`"
+                :label="getLabelWithLocale('text')"
+            /> 
+
+        
+
+        </div>
+      </Card>
+      
+              <!-- Nested Grid -->
+              <div class="grid items-start gap-6 xl:grid-cols-1">
+
           <!-- First Card in Nested Grid -->
           <Accordion>
           <template #title> FAQs </template>
@@ -212,18 +230,69 @@
                 :label="'User'"
                 :options="userOptions"
                 mode="single"
+            />
+            <div v-if="!form.is_parent">
+            <Multiselect
+                v-model="form.parent_id"
+                name="parent_id"
+                :label="'Parent Page'"
+                :options="parentPages"
+                mode="single"
             /> 
-            <Checkbox
-                v-model="form.is_index"
-                name="is_index"
-                :label="'Is Index'"
-            /> 
+          </div>
+            <div v-if="!form.parent_id">
+  <div class="flex flex-row justify-between">
+    <SwitchGroup>
+    <div class="flex items-center">
+      <SwitchLabel class="mr-4">Index</SwitchLabel>
+      <Switch
+        v-model="form.is_index"
+        :class='form.is_index ? "bg-blue-600" : "bg-gray-200"'
+        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+      >
+        <span
+          :class='form.is_index ? "translate-x-6" : "translate-x-1"'
+          class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+        />
+      </Switch>
+    </div>
+  </SwitchGroup>
+  <SwitchGroup>
+    <div class="flex items-center">
+      <SwitchLabel class="mr-4">Parent</SwitchLabel>
+      <Switch
+        v-model="form.is_parent"
+        :class='form.is_parent ? "bg-blue-600" : "bg-gray-200"'
+        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+      >
+        <span
+          :class='form.is_parent ? "translate-x-6" : "translate-x-1"'
+          class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+        />
+      </Switch>
+    </div>
+  </SwitchGroup>
+  </div>
+</div>
+
+
+
+
+
+ 
         
         </div>
       </Card>
       <Accordion class="mb-4">
           <template #title> Why Box </template>
           <template #content>
+            <TextInput
+                v-model="form.why[currentLocale]"
+                :name="`why.${currentLocale}`"
+                :label="getLabelWithLocale('Why Title')"
+                class="mb-4"
+                
+            /> 
     <div v-for="(tip, index) in form.tips.filter(tip => tip.type === 'suggestion')" :key="'suggestion-' + index">
               <div class="border border-gray-200/50 p-6 rounded-md bg-gray-100 mb-4 relative">
                 <div class="space-y-4">
@@ -236,7 +305,7 @@
                     :name="`title.${currentLocale}`"
                     :label="getLabelWithLocale('Title')"
                     />
-                    <TextInput
+                    <TextArea
                     v-model="tip.body[currentLocale]"
                     :name="`body.${currentLocale}`"
                     :label="getLabelWithLocale('body')"
@@ -276,61 +345,7 @@
 <div class="flex justify-center"><button class="px-2 hover:bg-slate-50 rounded border"  @click="addTip('suggestion')">+ add new</button></div>
           </template>
           </Accordion>
-          <Accordion class="mb-4">
-          <template #title> Dejan Box </template>
-          <template #content>
-    <div v-for="(tip, index) in form.tips.filter(tip => tip.type === 'dejan')" :key="'dejan-' + index">
-              <div class="border border-gray-200/50 p-6 rounded-md bg-gray-100 mb-4 relative">
-                <div class="space-y-4">
-                  <IconSelector 
-                  v-model="tip.icon"
-                  :iconOptions="iconOptions"
-                  />
-                    <TextInput
-                    v-model="tip.title[currentLocale]"
-                    :name="`title.${currentLocale}`"
-                    :label="getLabelWithLocale('Title')"
-                    />
-                    <TextInput
-                    v-model="tip.body[currentLocale]"
-                    :name="`body.${currentLocale}`"
-                    :label="getLabelWithLocale('body')"
-                    />
-                </div>
-                <div class="absolute top-0 right-0 px-3 py-3">
-                <Tooltip position="top">
-                  <template #button>
-                    <button
-                    @click="removeTip(tip.id)"
-                      class="hover:cursor-pointer"
-                    >
-                      <svg
-                        class="h-5 w-5 stroke-gray-400 hover:stroke-gray-700"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </button>
-                  </template>
-                  <template #content> Delete </template>
-                </Tooltip>
 
-                </div>
-
-              </div>
-            </div>
-<div class="flex justify-center"><button class="px-2 hover:bg-slate-50 rounded border"  @click="addTip('dejan')">+ add new</button></div>
-          </template>
-          </Accordion>
       <Card class="mb-4">
         <div class="space-y-4">
         <TextInput
@@ -361,17 +376,42 @@
                 
             /> 
 
-            <Checkbox
-                v-model="form.no_index"
-                name="no_index"
-                :label="'No Index'"
-            /> 
+            <div class="flex flex-row justify-between">
+    <SwitchGroup>
+    <div class="flex items-center">
+      <SwitchLabel class="mr-4">No Index</SwitchLabel>
+      <Switch
+        v-model="form.no_index"
+        :class='form.no_index ? "bg-blue-600" : "bg-gray-200"'
+        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+      >
+        <span
+          :class='form.no_index ? "translate-x-6" : "translate-x-1"'
+          class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+        />
+      </Switch>
+    </div>
+  </SwitchGroup>
+  <SwitchGroup>
+    <div class="flex items-center">
+      <SwitchLabel class="mr-4">No Follow</SwitchLabel>
+      <Switch
+        v-model="form.no_follow"
+        :class='form.no_follow ? "bg-blue-600" : "bg-gray-200"'
+        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+      >
+        <span
+          :class='form.no_follow ? "translate-x-6" : "translate-x-1"'
+          class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+        />
+      </Switch>
+    </div>
+  </SwitchGroup>
+  </div>
 
-            <Checkbox
-                v-model="form.no_follow"
-                name="no_follow"
-                :label="'No Follow'"
-            /> 
+
+
+
         </div>
       </Card>
       <Card>
@@ -443,13 +483,16 @@ import {
     RadioGroupLink,
     Accordion,
     IconSelector,
+    Button,
+    IconButton,
+    Modal
 } from "kingcms/Components";
-import { ref,reactive, watch } from 'vue';
+import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
+import { ref, reactive, watch, Ref } from 'vue';
+import { EyeDropperIcon, EyeSlashIcon, EyeIcon, ChevronUpIcon } from "@heroicons/vue/24/outline";
 import { InertiaForm } from "kingcms/types";
 import { slugify } from "kingcms/helpers/slugify";
 import type { PagesForm } from "./types";
-import { ChevronUpIcon } from "@heroicons/vue/20/solid";
-
 import { useFormLocale } from "kingcms/hooks/useFormLocale"; 
 
 
@@ -463,16 +506,11 @@ interface Props {
   statusOptions: Array<{ value: string | number; label: string }>;
   tempaltesOptions: Array<{ value: string | number; label: string }>;
   iconOptions: Array<{ name: string ; path: string }>;
+  parentPages: Array<{ value: string ; label: string }>; 
+  slugDisabled: Ref<boolean>;
 
   
 }
-
-const handleInput = (index: number, newValue: string) => {
-      props.form.tips[index].icon = [newValue];
-};
-
-
-
 
 const props = defineProps<Props>();
 
@@ -488,6 +526,8 @@ const removeFAQ = (index: number): void => {
   props.form.faqs.splice(index, 1);
 };
 
+
+// for the tips section
 
 let nextTipId = 1;
 
@@ -508,10 +548,18 @@ const removeTip = (id: number): void => {
 };
 
 
+// for the slug section 
 
+const slugDisabled = ref<boolean>(props.form.slug[currentLocale.value] ? true : false);
+
+const toggleSlugInput = () => {
+  slugDisabled.value = !slugDisabled.value;
+};
 
 watch(() => props.form.title[currentLocale.value], (newTitle) => {
+  if (!slugDisabled.value) {
     props.form.slug[currentLocale.value] = slugify(newTitle);
+  }
 });
 
 const handleSlugInput = () => {

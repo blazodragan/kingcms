@@ -51,6 +51,7 @@ const submit = () => {
     .then((response: any) => {
       emit("imageUploaded", response.data.media);
       form.default = [];
+      console.log(response.data.media);
     })
     .catch((error) => console.error(error));
 };

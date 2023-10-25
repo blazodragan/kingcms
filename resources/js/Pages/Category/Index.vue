@@ -154,7 +154,7 @@
           <div class="flex items-center justify-end gap-3">
             <IconButton
               :as="Link"
-              :href="route('categories.edit', item)"
+              :href="route('category.edit', item)"
               variant="ghost"
               color="gray"
               :icon="PencilSquareIcon"

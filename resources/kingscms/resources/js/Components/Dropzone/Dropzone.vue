@@ -103,8 +103,9 @@
                     </Button>
                   </template>
                   <template #content="{ setIsOpen }">
+
                     <ImageEditor
-                      :src="file.path"
+                      :src="file.full_url"
                       @onCrop="(croppedFile, path) => {file.file = croppedFile;file.path = path;setIsOpen(false);}"
                     />
                   </template>
@@ -148,6 +149,7 @@
           </div>
         </div>
       </div>
+      
       <label
         v-if="!maxNumberOfFiles || filteredFiles.length < maxNumberOfFiles"
         :for="name"
@@ -355,7 +357,7 @@ const uploadFiles = (filesToUpload: File[]) => {
 
   filesToUpload.forEach((file: File) => {
     if (file.size > props.maxFileSize!) {
-      toast.error("File size is too big!");
+      alert("File size is too big! Up to "+formatBytes(props.maxFileSize));
       return;
     }
 
@@ -376,7 +378,8 @@ const uploadFiles = (filesToUpload: File[]) => {
           uuid: uuidv4(),
           collection_name: "images",
           action: "add",
-          path: response.data.full_url,
+          path: response.data.path,
+          full_url: response.data.full_url,
           size: file.size,
           file_name: file.name,
           custom_properties: {
@@ -424,7 +427,8 @@ const switchFile = (uuid: string, e: HTMLInputElement) => {
             ...fileToReplace,
             id: null,
             action: "add",
-            path: response.data.full_url,
+            path: response.data.path,
+            full_url: response.data.full_url,
             file: fileToSwitch,
             file_name: fileToSwitch.name,
             size: fileToSwitch.size,

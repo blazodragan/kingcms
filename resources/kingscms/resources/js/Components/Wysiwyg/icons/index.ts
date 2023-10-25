@@ -15,6 +15,11 @@ import UnderlineIcon from "./Underline.vue";
 import HtmlIcon from "./HtmlIcon.vue";
 import YouTube from "./YouTube.vue";
 import CommandLineIcon from "./CommandLineIcon.vue";
+import AddTable from "./AddTable.vue";
+import DeleteTable from "./DeleteTable.vue";
+import AddColumn from "./AddColumn.vue";
+import AddRow from "./AddRow.vue";
+
 
 export {
   BlockquoteIcon,
@@ -34,4 +39,8 @@ export {
   Image,
   YouTube,
   CommandLineIcon,
+  AddTable,
+  DeleteTable,
+  AddColumn,
+  AddRow
 };

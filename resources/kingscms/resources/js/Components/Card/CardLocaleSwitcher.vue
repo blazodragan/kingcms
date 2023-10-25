@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-wrap items-center justify-between gap-2 sticky top-0 z-50 transition duration-300 p-4 mb-4" :class="baseClasses">
+    <div class="flex flex-wrap items-center justify-between gap-2 sticky top-0 z-40 transition duration-300 p-4 mb-4" :class="baseClasses">
       <h3>Translations </h3>
       <div class="flex items-center divide-x-2">
         <Tooltip v-for="locale in availableLocales" :position="positionToptip">

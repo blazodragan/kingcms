@@ -1,0 +1,53 @@
+Hostname: ssh.mietwagenparadies.de
+
+Username: u28-gyzwh0thvymo
+
+Password: The SSH key password
+
+Port: 18765
+
+rffw%ROneQdPP0bz
+
+
+
+database 
+
+database : db2vanuwlzgxus
+user : usxdgq4a5clzb
+pass : "dd323a1efasd4#asd"
+
+"d323a1efasd4#asd"
+
+
+usxdgq4a5clzb
+d323a1efasd4
+
+db2vanuwlzgxus
+
+
+
+164.92.220.92\
+
+
+DB_DATABASE=laravel
+DB_USERNAME=laravel_user
+DB_PASSWORD=jdye1gV9vUGRob
+
+
+
+sudo chown -R www-data:www-data /var/www/laravel/
+
+
+
+
+DIGITAL
+
+KVH5QBHHFQ7QKNXKRRJWYXL2PXBGQV5T
+
+stavi si go za 2fa 
+
+itopsmietwagen@gmail.com
+
+@4[#_11qb252
+
+zapisi i zibrisi pass bab , namesteno

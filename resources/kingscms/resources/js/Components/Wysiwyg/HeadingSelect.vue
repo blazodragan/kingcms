@@ -82,32 +82,32 @@ const textStyles: Array<{
     shortcut: "⌘⎇0",
   },
   {
-    label: "Heading 1",
+    label: "H1",
     level: 1,
     shortcut: "⌘⎇1",
   },
   {
-    label: "Heading 2",
+    label: "H2",
     level: 2,
     shortcut: "⌘⎇2",
   },
   {
-    label: "Heading 3",
+    label: "H3",
     level: 3,
     shortcut: "⌘⎇3",
   },
   {
-    label: "Heading 4",
+    label: "H4",
     level: 4,
     shortcut: "⌘⎇4",
   },
   {
-    label: "Heading 5",
+    label: "H5",
     level: 5,
     shortcut: "⌘⎇5",
   },
   {
-    label: "Heading 6",
+    label: "H6",
     level: 6,
     shortcut: "⌘⎇6",
   },
