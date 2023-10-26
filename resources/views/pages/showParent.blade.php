@@ -14,7 +14,7 @@
 <section class="antialiased bg-gray-50 p-12">
 <h1 class="text-4xl mb-10 text-site-blue-dark text-center">{{ $parentPage->title }}</h1>
 
-    <div class="w-4/5 sm:w-full 2xl:w-3/5 mx-auto bodycontent">
+    <div class="w-4/5 sm:w-full 2xl:w-3/5 mx-auto bodycontent divtable">
 
     @if($parentPage->media->first())
     <figure class="relative h-0 pb-[36.25%] overflow-hidden mb-8 rounded">
@@ -22,18 +22,20 @@
 
         </figure>
     @endif    
+
+    {!! $processedContent !!}  
     </div>
 </section>
-<section class="antialiased bg-white">
-    {!! $processedContent !!}  
-  </section>
 
+
+
+@if($parentPage && $parentPage->faqs->count() > 0)
   <!-- Snippet -->
   <section class="bg-site-bg-gray">
     <div class="w-3/4 lg:w-1/2 mx-auto">
       <div class="text-4xl mb-5 text-site-blue-dark text-center pt-10">{{__('Frequently Asked Questions (FAQ)')}}</div>
       <div class="faq-box">
-      @if($parentPage && $parentPage->faqs->count() > 0)
+      
     @foreach($parentPage->faqs as $faq)
     <div class="faq-item mb-4 rounded-xl border-2 border-site-border-faq bg-white">
           <div class="faq-question cursor-pointer flex justify-between items-center p-4">
@@ -47,7 +49,7 @@
           </div>
         </div>
     @endforeach
-@endif
+
 
 
       </div>
@@ -58,5 +60,6 @@
   
     </div>
   </section>
+  @endif
 
 @endsection

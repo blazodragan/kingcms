@@ -32,6 +32,7 @@ use App\Models\FAQ;
 use App\Models\Tip;
 use App\Services\BlockResolver;
 use App\Traits\IconRetriever;
+use Illuminate\Support\Str;
 
 class PagesController extends Controller
 {
@@ -171,8 +172,8 @@ class PagesController extends Controller
         }
 
         $pages = $PagesQuery
-            ->with('user')
-            ->select('id', 'title', 'user_id', 'published_at', 'status')
+            ->with('user','parent')
+            ->select('id', 'title', 'user_id', 'published_at', 'status', 'slug', 'parent_id')
             ->paginate($request->get('per_page'))->withQueryString();
 
         Session::put('pages_url', $request->fullUrl());
@@ -180,7 +181,6 @@ class PagesController extends Controller
         return Inertia::render('Pages/Index', [
             'pages' => $pages,
             'userOptions' => User::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->name]),
-            'categoriesOptions' => Category::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->alias]),
             'statusOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Status::cases()),
         ]);
     }
@@ -386,5 +386,49 @@ class PagesController extends Controller
             ]);
             $pages->tips()->save($tip);
         }
+    }
+    public function clone(Page $page): RedirectResponse
+    {
+        $newpage = $page->replicate(); // Replicate creates a new unsaved instance from the current model
+        
+        $date = now()->format('Y-m-d');
+        $newpage->title = "{$page->title} clone {$date}";
+        $newpage->status = Status::DRAFT;
+        $baseSlug = Str::slug("{$page->title} clone {$date}");
+        $newpage->slug = $this->uniqueSlug($baseSlug);
+
+        $newpage->save();
+
+        // Cloning associated FAQs
+        foreach ($page->faqs as $faq) {
+            $newFaq = $faq->replicate();
+            $newFaq->faqable_id = $newpage->id;
+            $newFaq->save();
+        }
+
+        // Cloning associated Tips
+        foreach ($page->tips as $tip) {
+            $newTip = $tip->replicate();
+            $newTip->tipable_id = $newpage->id;
+            $newTip->save();
+        }
+
+        
+        return back()->with('toast', [
+            'type' => 'success',
+            'message' => __('Page cloned'),
+            'durration' => 2000,
+        ]);
+    }
+    protected function uniqueSlug($baseSlug)
+    {
+        $slug = $baseSlug;
+        $count = 2; // Start the count for adding suffixes
+
+        while (Page::withTrashed()->where('slug->' . app()->getLocale(), $slug)->exists()) {
+            $slug = "{$baseSlug}-" . ($count++);
+        }
+
+        return $slug;
     }
 }

@@ -11,7 +11,7 @@
 
   </PageHeader>
 
-  <Form :form="form" :submit="submit" :userOptions="userOptions" :categoriesOptions="categoriesOptions" :statusOptions="statusOptions" :iconOptions="iconOptions" :slugDisabled="slugDisabled"/>
+  <Form :form="form" :submit="submit" :userOptions="userOptions" :categoriesOptions="categoriesOptions" :statusOptions="statusOptions" :iconOptions="iconOptions" :slugDisabled="slugDisabled" :templates="templates"/>
 
 </AppLayout>
 </template>
@@ -36,6 +36,7 @@ interface Props {
   categoriesOptions: Array<{value: string|number, label: string}>;
   statusOptions: Array<{value: string|number, label: string}>;
   iconOptions: Array<{value: string|number, label: string}>;
+  templates: Array<{value: string|number, label: string}>;
 }
 
 const props = defineProps<Props>();
@@ -49,6 +50,7 @@ slug: { ...translatableDefaultValue },
 perex: { ...translatableDefaultValue }, 
 content: { ...translatableDefaultValue }, 
 text: { ...translatableDefaultValue }, 
+why: { ...translatableDefaultValue }, 
 active: false, 
 meta_title: { ...translatableDefaultValue }, 
 meta_description: { ...translatableDefaultValue }, 
@@ -61,7 +63,9 @@ og_description: { ...translatableDefaultValue },
 og_type: { ...translatableDefaultValue }, 
 og_url: { ...translatableDefaultValue }, 
 user_id: "", 
-status: "", 
+rating: "", 
+status: "",
+tempalte: "",
 published_at: "", 
 cover_review: [], 
 og_cover_review: [], 

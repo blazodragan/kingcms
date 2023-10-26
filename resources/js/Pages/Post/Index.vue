@@ -111,6 +111,9 @@
         <ListingHeaderCell sortBy="title">
             Title
         </ListingHeaderCell> 
+        <ListingHeaderCell>
+            Slug
+        </ListingHeaderCell> 
         <ListingHeaderCell sortBy="user_id">
             User
         </ListingHeaderCell> 
@@ -136,12 +139,15 @@
               :name="`${item.alias}`"
             />
             <div class="ml-4">
-              <div class="font-medium text-gray-900">
+              <div class="font-medium text-gray-900 truncate w-44">
                 {{ item.title?.[currentLocale] }}
               </div>
             </div>
           </div>
              
+        </ListingDataCell> 
+        <ListingDataCell>
+            {{ item.slug?.[currentLocale] }}
         </ListingDataCell> 
         <ListingDataCell>
              {{ item.user.name }}

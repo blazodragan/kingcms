@@ -29,22 +29,27 @@ use App\Models\Tip;
 use App\Traits\IconRetriever;
 use App\Enums\Status;
 use Illuminate\Database\Eloquent\Builder;
+use App\Traits\HasTemplates;
+use Illuminate\Support\Str;
 
 class ReviewController extends Controller
 {
     use IconRetriever;
+    use HasTemplates;
 
-    public function show($slug)
+    // template folder 
+    protected $templatePath = 'review';
+
+    public function show(Review $review)
     {
-        $page = Review::where('slug->' . app()->getLocale(), $slug)->firstOrFail();
 
         // If the page doesn't exist, show a 404 page
-        if (!$page) {
+        if (!$review) {
             abort(404);
         }
-        $page->load('media');
-        $page->load('faqs');
-        $page->load('tips');
+        $review->load('media');
+        $review->load('faqs');
+        $review->load('tips');
 
 
         $processedContent = preg_replace_callback('/@block\(\s*\'([^\']+)\'\s*(?:,\s*(\[[^\]]+\]))?\s*\)/', function ($matches) {
@@ -67,11 +72,12 @@ class ReviewController extends Controller
 
             // Use the block resolver to fetch the block content
             return app(\App\Services\BlockResolver::class)->resolve($blockName, $parameters);
-        }, $page->content);
+        }, $review->content);
 
-
+        $templateName = $review->template ? $this->templatePath . '.' . $review->template : 'review.show';
         // Render the page (e.g., using a view)
-        return view('reviews.show', compact('page', 'processedContent'));
+        return view($templateName, compact('review', 'processedContent'));
+
     }
     /**
      * Display a listing of the resource.
@@ -101,7 +107,7 @@ class ReviewController extends Controller
 
         $reviews = $reviewsQuery
             ->with('user', 'categories')
-            ->select('id','title','active','user_id','published_at','status')
+            ->select('id','title','active','user_id','published_at','status','slug')
             ->paginate($request->get('per_page'))->withQueryString();
 
         Session::put('reviews_url', $request->fullUrl());
@@ -119,11 +125,13 @@ class ReviewController extends Controller
      */
     public function create(CreateReviewRequest $request): Response
     {
+    
         return Inertia::render('Review/Create', [
             'userOptions' => User::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->name]),
             'categoriesOptions' => Category::where('type', 'location')->get()->map(fn ($model) => ['value' => $model->id, 'label' => $model->alias]),
             'statusOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Status::cases()),
             'iconOptions' => $this->getAllIconNames(),
+            'templates' => $this->getTemplateNames(),
         ]);
     }
 
@@ -148,10 +156,10 @@ class ReviewController extends Controller
         if (isset($request['tips'])) {
             foreach ($request->input('tips') as $tipData) {
                 $tip = new Tip([
-                    'title' => $tipData['title'],
-                    'body' => $tipData['body'],
-                    'icon' => $tipData['icon'],
-                    'type' => $tipData['type'],
+                    'title' => $tipData['title'] ?? null,
+                    'body'  => $tipData['body']  ?? null,
+                    'icon'  => $tipData['icon']  ?? null,
+                    'type'  => $tipData['type']  ?? null,
                 ]);
                 $review->tips()->save($tip);
             }
@@ -180,6 +188,7 @@ class ReviewController extends Controller
             'categoriesOptions' => Category::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->alias]),
             'statusOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Status::cases()),
             'iconOptions' => $this->getAllIconNames(),
+            'templates' => $this->getTemplateNames(),
         ]);
     }
 
@@ -188,9 +197,9 @@ class ReviewController extends Controller
      */
     public function update(UpdateReviewRequest $request, Review $review): RedirectResponse
     {
-  
+     
         $review->update($request->validated());
-
+ 
         
         if ($request->input('categories_ids')) {
             $review->categories()->sync($request->input('categories_ids'));
@@ -246,7 +255,11 @@ class ReviewController extends Controller
         
         $review->delete();
 
-        return redirect()->back()->with(['message' => ___('craftable-pro', 'Operation successful')]);
+        return back()->with('toast', [
+            'type' => 'success',
+            'message' => __('Review have been successfully deleted'),
+            'durration' => 2000,
+        ]);
     }
 
     /**
@@ -266,16 +279,49 @@ class ReviewController extends Controller
                 });
         });
 
-        // Individual delete of resource items
-        //        DB::transaction(function () use ($request) {
-        //            collect($request->validated()['ids'])->each(function ($id) {
-        //                Review::find($id)->delete();
-        //            });
-        //        });
-
         return back()->with('toast', [
             'type' => 'success',
             'message' => __('Operation successful'),
+            'durration' => 2000,
+        ]);
+    }
+
+        /**
+     * Remove the specified resource from storage.
+     */
+    public function clone(Review $review): RedirectResponse
+    {
+        $newReview = $review->replicate(); // Replicate creates a new unsaved instance from the current model
+        
+        $date = now()->format('Y-m-d');
+        $newReview->title = "{$review->title} clone {$date}";
+        $newReview->status = Status::DRAFT;
+        $baseSlug = Str::slug("{$review->title} clone {$date}");
+        $newReview->slug = $this->uniqueSlug($baseSlug);
+
+        $newReview->save();
+
+        // Cloning associated FAQs
+        foreach ($review->faqs as $faq) {
+            $newFaq = $faq->replicate();
+            $newFaq->faqable_id = $newReview->id;
+            $newFaq->save();
+        }
+
+        // Cloning associated Tips
+        foreach ($review->tips as $tip) {
+            $newTip = $tip->replicate();
+            $newTip->tipable_id = $newReview->id;
+            $newTip->save();
+        }
+
+        $categoryIds = $review->categories->pluck('id')->toArray();
+        $newReview->categories()->sync($categoryIds);
+
+        
+        return back()->with('toast', [
+            'type' => 'success',
+            'message' => __('Review cloned'),
             'durration' => 2000,
         ]);
     }
@@ -323,4 +369,18 @@ class ReviewController extends Controller
             $review->tips()->save($tip);
         }
     }
+
+    protected function uniqueSlug($baseSlug)
+    {
+        $slug = $baseSlug;
+        $count = 2; // Start the count for adding suffixes
+
+        while (Review::withTrashed()->where('slug->' . app()->getLocale(), $slug)->exists()) {
+            $slug = "{$baseSlug}-" . ($count++);
+        }
+
+        return $slug;
+    }
+
+
 }

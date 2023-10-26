@@ -54,11 +54,10 @@ class UnassignedMediaController extends BaseController
      * @return JsonResponse
      */
     public function destroy(DestroyMediaRequest $request, $id): JsonResponse
+
     {
         $media = Media::findOrFail($id);
-
         $media->delete();
-
         return response()->json('Successfully deleted', 200);
     }
 }

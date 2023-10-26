@@ -1,5 +1,5 @@
-<section class="antialiased bg-gray-50 text-gray-600  p-12">
-    <div class="w-full 2xl:w-3/5 mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+<section class="antialiased bg-gray-50 text-gray-600">
+    <div class="w-full mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         @foreach($pageItems as $pageItem)
         <div class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow">
             <a href="{{ route('showChild', ['parentPage' => $pageItem->parent->slug, 'childPage' => $pageItem->slug]) }}">
@@ -10,7 +10,7 @@
 
                 </figure>
                 @endif
-                <div class="flex-grow flex flex-col p-5">
+                <div class="flex-grow flex flex-col p-5 h-[8rem]">
                     <!-- Card body -->
                     <div class="flex-grow">
                         <!-- Header -->
@@ -19,7 +19,7 @@
                         </header>
                         <!-- Content -->
                         <div class="mb-8">
-                            <p>{{ $pageItem->perex }}</p>
+                            <p class="truncate">{{ $pageItem->perex }}</p>
                         </div>
                     </div>
 

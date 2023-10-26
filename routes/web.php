@@ -27,7 +27,9 @@ use App\Http\Controllers\TrustReviewController;
 use App\Http\Controllers\BlockController;
 use App\Models\Page;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ReviewController;
 use App\Models\Post;
+use App\Models\Review;
 use Laravel\Sanctum\PersonalAccessToken;
 
 /*
@@ -173,6 +175,7 @@ Route::middleware([
     Route::get('page/edit/{page}', [PagesController::class, 'edit'])->name('page.edit');
     Route::match(['put', 'patch'], 'pages/{pages}', [PagesController::class, 'update'])->name('pages.update');
     Route::delete('pages/{pages}', [PagesController::class, 'destroy'])->name('pages.destroy');
+    Route::get('page/{page}', [App\Http\Controllers\PagesController::class, 'clone'])->name('page.clone');
     Route::post('pages/bulk-destroy', [PagesController::class, 'bulkDestroy'])->name('pages.bulk-destroy');
 
 
@@ -184,6 +187,7 @@ Route::middleware([
     Route::get('review/edit/{review}', [App\Http\Controllers\ReviewController::class, 'edit'])->name('review.edit');
     Route::match(['put', 'patch'], 'reviews/{review}', [App\Http\Controllers\ReviewController::class, 'update'])->name('reviews.update');
     Route::delete('reviews/{review}', [App\Http\Controllers\ReviewController::class, 'destroy'])->name('reviews.destroy');
+    Route::get('review/{review}', [App\Http\Controllers\ReviewController::class, 'clone'])->name('review.clone');
     Route::post('reviews/bulk-destroy', [App\Http\Controllers\ReviewController::class, 'bulkDestroy'])->name('reviews.bulk-destroy');
 
 
@@ -204,6 +208,16 @@ Route::middleware([
 
 });
 
+
+
+// Custom binding to resolve the page by slug
+Route::bind('reviewSlug', function ($value) {
+    return Review::where('slug->' . app()->getLocale(), $value)->firstOrFail();
+});
+
+Route::get('/reviews/{reviewSlug:slug}', [ReviewController::class, 'show'])->name('showReview');
+
+
 // Custom binding to resolve the page by slug
 Route::bind('postSlug', function ($value) {
     return Post::where('slug->' . app()->getLocale(), $value)->firstOrFail();
@@ -213,9 +227,15 @@ Route::get('/blog/{postSlug:slug}', [PostController::class, 'show'])->name('show
 
 
 
-// Custom binding to resolve the page by slug
 Route::bind('parentPage', function ($value) {
-    return Page::where('slug->' . app()->getLocale(), $value)->firstOrFail();
+    $page = Page::where('slug->' . app()->getLocale(), $value)->firstOrFail();
+
+    // If the page has a parent_id, it's a child and shouldn't be accessible without its parent slug
+    if ($page->parent_id) {
+        abort(404);
+    }
+
+    return $page;
 });
 
 Route::bind('childPage', function ($value, $route) {

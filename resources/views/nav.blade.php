@@ -1,8 +1,21 @@
 @php
-    function isActiveRoute($routeName, $output = "text-site-blue-dark") {
-        if (Route::currentRouteName() == $routeName) return $output;
-        return null;
+use Illuminate\Support\Str;
+
+function isActiveRoute($routeName, $slug = null, $output = "text-site-blue-dark") {
+    $currentUrl = url()->current();
+    $targetUrl = route($routeName, ['parentPage' => $slug]);
+
+    if ($routeName == 'home' && $currentUrl == $targetUrl) {
+        return $output;
     }
+
+    // If the current route is 'home' and the current URL is the root URL, don't apply active class
+    if ($routeName != 'home' && Str::startsWith($currentUrl, $targetUrl) && $currentUrl != url('/')) {
+        return $output;
+    }
+
+    return null;
+}
 @endphp
 
 
@@ -20,10 +33,10 @@
       <div class="hidden md:flex space-x-10">
         
         <a href="{{ route('home') }}" class="{{ isActiveRoute('home') }} text-gray-700 font-medium text-lg" >{{__('Car Rental')}}</a>
-        <a href="#" class="text-gray-700 font-medium text-lg">{{__('Vehicles')}}</a>
-        <a href="{{ route('location') }}" class="{{ isActiveRoute('location') }} text-gray-700 font-medium text-lg" >{{__('Locations')}}</a>
-        <a href="{{ route('allnews') }}" class="{{ isActiveRoute('allnews') }} text-gray-700 font-medium text-lg" >{{__('News')}}</a>
-        <a href="{{ route('home') }}" class="{{ isActiveRoute('home') }} text-gray-700 font-medium text-lg">{{__('Loyalty Program')}}</a>
+        <a href="{{ route('showParent', ['parentPage' => 'spanien']) }}" class="{{ isActiveRoute('showParent', 'spanien') }} text-gray-700 font-medium text-lg">{{ __('Locations') }}</a>
+        <a href="{{ route('showParent', ['parentPage' => 'reviews']) }}" class="{{ isActiveRoute('showParent', 'reviews') }} text-gray-700 font-medium text-lg">{{__('Vehicles')}}</a>
+        <a href="{{ route('showParent', ['parentPage' => 'blog']) }}" class="{{ isActiveRoute('showParent', 'blog') }} text-gray-700 font-medium text-lg">{{ __('News') }}</a>
+        <a href="{{ route('showParent', ['parentPage' => 'loyalty-program']) }}" class="{{ isActiveRoute('showParent', 'loyalty-program') }} text-gray-700 font-medium text-lg">{{ __('	Loyalty Program') }}</a>
       </div>
       <!-- Right Side Items -->
       <div class="hidden md:flex items-center space-x-4">
@@ -33,7 +46,7 @@
           <path d="M13.2595 1.87983C13.3257 1.47094 13.7122 1.19357 14.1211 1.25976C14.1464 1.26461 14.2279 1.27983 14.2705 1.28933C14.3559 1.30834 14.4749 1.33759 14.6233 1.38082C14.9201 1.46726 15.3347 1.60967 15.8323 1.8378C16.8286 2.29456 18.1544 3.09356 19.5302 4.46936C20.906 5.84516 21.705 7.17097 22.1617 8.16725C22.3899 8.66487 22.5323 9.07947 22.6187 9.37625C22.6619 9.52466 22.6912 9.64369 22.7102 9.72901C22.7197 9.77168 22.7267 9.80594 22.7315 9.83125L22.7373 9.86245C22.8034 10.2713 22.5286 10.6739 22.1197 10.7401C21.712 10.8061 21.3279 10.53 21.2601 10.1231C21.258 10.1121 21.2522 10.0828 21.2461 10.0551C21.2337 9.9997 21.2124 9.91188 21.1786 9.79572C21.1109 9.56339 20.9934 9.21806 20.7982 8.79238C20.4084 7.94207 19.7074 6.76789 18.4695 5.53002C17.2317 4.29216 16.0575 3.59117 15.2072 3.20134C14.7815 3.00618 14.4362 2.88865 14.2038 2.82097C14.0877 2.78714 13.9417 2.75363 13.8863 2.7413C13.4793 2.67347 13.1935 2.28755 13.2595 1.87983Z"/>
           <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4861 5.32931C13.5999 4.93103 14.015 4.70041 14.4133 4.81421L14.2072 5.53535C14.4133 4.81421 14.4136 4.81431 14.414 4.81441L14.4147 4.81462L14.4162 4.81506L14.4196 4.81604L14.4273 4.81835L14.4471 4.82451C14.4622 4.82934 14.481 4.83562 14.5035 4.84358C14.5484 4.85952 14.6077 4.88218 14.6805 4.91339C14.8262 4.97582 15.0253 5.07224 15.2698 5.21695C15.7593 5.50664 16.4275 5.98781 17.2124 6.77279C17.9974 7.55776 18.4786 8.22595 18.7683 8.71541C18.913 8.95992 19.0094 9.15899 19.0718 9.30467C19.103 9.37748 19.1257 9.43683 19.1416 9.48175C19.1496 9.5042 19.1559 9.52303 19.1607 9.5381L19.1669 9.55789L19.1692 9.56564L19.1702 9.56898L19.1706 9.57051L19.1708 9.57124C19.1709 9.5716 19.171 9.57195 18.4499 9.77799L19.171 9.57195C19.2848 9.97023 19.0542 10.3853 18.6559 10.4991C18.261 10.612 17.8496 10.3862 17.7317 9.99414L17.728 9.98336C17.7227 9.96833 17.7116 9.93875 17.6931 9.89555C17.6561 9.80921 17.589 9.66798 17.4774 9.47939C17.2544 9.10265 16.8517 8.5334 16.1518 7.83345C15.4518 7.13349 14.8826 6.73079 14.5058 6.50782C14.3172 6.3962 14.176 6.32911 14.0897 6.2921C14.0465 6.27359 14.0169 6.26256 14.0019 6.25722L13.9911 6.25353C13.599 6.13565 13.3733 5.7242 13.4861 5.32931Z"/>
           </svg>(023) 569 96 96</span>
-        <button class="bg-cyan-600 text-white px-8 py-2 rounded-3xl font-medium">{{__('Sign up')}}</button> 
+        <!-- <button class="bg-cyan-600 text-white px-8 py-2 rounded-3xl font-medium">{{__('Sign up')}}</button>  -->
 <!-- Language Selector Dropdown -->
 <div class="relative">
     <button id="langButton" class="lang-button rounded-full p-1 border overflow-hidden">

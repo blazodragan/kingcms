@@ -2,7 +2,7 @@
     <div class="w-full mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         @foreach($pageItems as $pageItem)
         <div class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow">
-            <a href="{{ route('showBlogPost', $pageItem->slug) }}">
+            <a href="{{ route('showReview', $pageItem->slug) }}">
                 <!-- Image -->
                 @if($pageItem->media->first())
                 <figure class="relative h-0 pb-[56.25%] overflow-hidden">

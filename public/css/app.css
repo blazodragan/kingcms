@@ -1361,6 +1361,7 @@ input[type="range"]::-ms-fill-lower {
   border-bottom-right-radius: 0.5rem;
 }
 
+
 .border {
   border-width: 1px;
 }
@@ -1368,7 +1369,11 @@ input[type="range"]::-ms-fill-lower {
 .border-2 {
   border-width: 2px;
 }
-
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .border-r {
   border-right-width: 1px;
 }
@@ -1851,10 +1856,6 @@ input[type="range"]::-ms-fill-lower {
 
 .ease-out {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-}
-
-body {
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, system-ui, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 }
 
 /* The "Read Now" overlay styles */

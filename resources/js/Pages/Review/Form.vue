@@ -57,10 +57,11 @@
 
 
             <Accordion>
+              {{ iconOptions }}
           <template #title> Useful Tips </template>
           <template #content>
-            <div class="grid grid-cols-4 gap-4">
-            <div v-for="(tip, index) in form.tips.filter(tip => tip.type === 'question')" :key="'question-' + index">
+            <div class="grid grid-cols-3 gap-4">
+            <div v-for="(tip, index) in form.tips.filter(tip => tip.type === 'usefultip')" :key="'usefultip-' + index">
               <div class="border border-gray-200/50 p-6 rounded-md bg-gray-100 mb-4 relative">
                 <div class="space-y-4">
     
@@ -111,7 +112,7 @@
               </div>
             </div>
           </div>
-<div class="flex justify-center"><button class="px-2 hover:bg-slate-50 rounded border"  @click="addTip('question')">+ add new</button></div>
+<div class="flex justify-center"><button class="px-2 hover:bg-slate-50 rounded border"  @click="addTip('usefultip')">+ add new</button></div>
           </template>
           </Accordion>
 
@@ -192,6 +193,20 @@
               :options="statusOptions"
               mode="single"
             />
+            <Multiselect
+              v-model="form.template"
+              name="template"
+              :label="'Template'"
+              :options="formattedTemplates"
+              mode="single"
+            />
+            <Multiselect
+              v-model="form.rating"
+              name="rating"
+              :label="'Rating'"
+              :options="starNumbers"
+              mode="single"
+            />
             <DatePicker
               v-model="form.published_at"
               name="published_at"
@@ -214,6 +229,69 @@
             <Checkbox v-model="form.active" name="active" :label="'Active'" />
           </div>
         </Card>
+
+        <Accordion class="mb-4">
+          <template #title> Why Box </template>
+          <template #content>
+            <TextInput
+                v-model="form.why[currentLocale]"
+                :name="`why.${currentLocale}`"
+                :label="getLabelWithLocale('Why Title')"
+                class="mb-4"
+                
+            /> 
+    <div v-for="(tip, index) in form.tips.filter(tip => tip.type === 'why')" :key="'why-' + index">
+              <div class="border border-gray-200/50 p-6 rounded-md bg-gray-100 mb-4 relative">
+                <div class="space-y-4">
+                  <IconSelector 
+                  v-model="tip.icon"
+                  :iconOptions="iconOptions"
+                  />
+                    <TextInput
+                    v-model="tip.title[currentLocale]"
+                    :name="`title.${currentLocale}`"
+                    :label="getLabelWithLocale('Title')"
+                    />
+                    <TextArea
+                    v-model="tip.body[currentLocale]"
+                    :name="`body.${currentLocale}`"
+                    :label="getLabelWithLocale('body')"
+                    />
+                </div>
+                <div class="absolute top-0 right-0 px-3 py-3">
+                <Tooltip position="top">
+                  <template #button>
+                    <button
+                    @click="removeTip(tip.id)"
+                      class="hover:cursor-pointer"
+                    >
+                      <svg
+                        class="h-5 w-5 stroke-gray-400 hover:stroke-gray-700"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </template>
+                  <template #content> Delete </template>
+                </Tooltip>
+
+                </div>
+
+              </div>
+            </div>
+<div class="flex justify-center"><button class="px-2 hover:bg-slate-50 rounded border"  @click="addTip('why')">+ add new</button></div>
+          </template>
+          </Accordion>
         <Card class="mb-6">
           <div class="space-y-4">
             <TextInput
@@ -314,7 +392,7 @@ import {
   Modal
 } from "kingcms/Components";
 import { TrashIcon } from "@heroicons/vue/20/solid";
-import { ref,reactive, watch, Ref } from 'vue';
+import { ref,reactive, watch, Ref, computed } from 'vue';
 import { EyeDropperIcon, EyeSlashIcon, EyeIcon } from "@heroicons/vue/24/outline";
 import { slugify } from "kingcms/helpers/slugify";
 import { InertiaForm } from "kingcms/types";
@@ -336,10 +414,22 @@ interface Props {
   categoriesOptions: Array<{ value: string | number; label: string }>;
   statusOptions: Array<{ value: string | number; label: string }>;
   iconOptions: Array<{ name: string ; path: string }>;
+  templates: Array<{value: string|number, label: string}>;
   slugDisabled: Ref<boolean>;
 }
 
+
 const props = defineProps<Props>();
+
+
+// we are formating here the template array because it needs to have a value and a label for the radio or the multiseclet componenet
+const formattedTemplates = computed(() => {
+  return props.templates.map(temp => ({ value: temp, label: temp }));
+});
+const starNumbers = computed(() => {
+  return Array.from({ length: 10 }, (_, i) => i + 1);
+});
+
 
 const addFAQ = (): void => {
   props.form.faqs.push({

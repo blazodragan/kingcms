@@ -112,6 +112,9 @@
         <ListingHeaderCell sortBy="title">
             Title
         </ListingHeaderCell> 
+        <ListingHeaderCell>
+            Slug
+        </ListingHeaderCell> 
         <ListingHeaderCell sortBy="active">
             Active
         </ListingHeaderCell> 
@@ -133,7 +136,20 @@
              {{ item.id }}
         </ListingDataCell> 
         <ListingDataCell>
-             {{ item.title?.[currentLocale] }}
+          <div class="flex items-center">
+            <Avatar
+              :src="item.cover_big"
+              :name="`${item.alias}`"
+            />
+            <div class="ml-4">
+              <div class="font-medium text-gray-900 truncate w-44">
+                {{ item.title?.[currentLocale] }}
+              </div>
+            </div>
+          </div>
+        </ListingDataCell> 
+        <ListingDataCell>
+            {{ item.slug?.[currentLocale] }}
         </ListingDataCell> 
         <ListingDataCell>
             <ListingToggle name="active" v-model="item.active" :updateUrl="route('reviews.update', item.id)" />
@@ -215,6 +231,14 @@
                 </Button>
               </template>
             </Modal>
+            <IconButton
+              :as="Link"
+              :href="route('review.clone', item)"
+              variant="ghost"
+              color="gray"
+              :icon="DocumentDuplicateIcon"
+              v-can="'sanctum.review.edit'"
+            />
           </div>
         </ListingDataCell>
       </template>
@@ -233,7 +257,8 @@ import {
     ArrowDownTrayIcon,
     CheckCircleIcon,
     ExclamationCircleIcon,
-    XCircleIcon
+    XCircleIcon,
+    DocumentDuplicateIcon
 } from "@heroicons/vue/24/outline";
 
 import {

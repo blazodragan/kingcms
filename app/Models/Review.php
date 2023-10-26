@@ -16,21 +16,65 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\FAQ;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
-class Review extends Model  implements HasMedia {
+
+class Review extends Model implements HasMedia {
 
     use SoftDeletes;
-
     use HasTranslations;
     use ProcessMediaTrait;
     use AutoProcessMediaTrait;
     use InteractsWithMedia;
     use HasMediaPreviewsTrait;
 
+    
+
     protected $table = 'reviews';
-    protected $fillable = ['title', 'slug', 'perex', 'content', 'text', 'status', 'active', 'meta_title', 'meta_description', 'meta_url_canolical', 'href_lang', 'no_index', 'no_follow', 'og_title', 'og_description', 'og_type', 'og_url', 'user_id', 'published_at'];
-    public $searchable = ['title'];
-    public $translatable = ['title', 'slug', 'perex', 'content', 'text', 'meta_title', 'meta_description', 'meta_url_canolical', 'href_lang', 'og_title', 'og_description', 'og_type', 'og_url'];
+    protected $fillable = [
+        'title',
+        'slug',
+        'perex',
+        'content',
+        'text',
+        'status','template','why','active',
+        'meta_title',
+        'meta_description',
+        'meta_url_canolical',
+        'href_lang',
+        'no_index',
+        'no_follow',
+        'og_title',
+        'og_description',
+        'og_type',
+        'og_url',
+        'user_id',
+        'rating',
+        'published_at'
+    ];
+    public $searchable = [
+        'title'
+    ];
+
+    public $translatable = [
+        'title',
+        'slug',
+        'perex',
+        'content',
+        'text',
+        'why','meta_title',
+        'meta_description',
+        'meta_url_canolical',
+        'href_lang',
+        'og_title',
+        'og_description',
+        'og_type',
+        'og_url'
+    ];
+
+    protected $appends = [
+        'cover_big',
+    ];
 
     public function user(): BelongsTo
     {
@@ -61,5 +105,13 @@ class Review extends Model  implements HasMedia {
     public function registerMediaConversions(Media $media = null): void
     {
         $this->autoRegisterPreviews();
+        $this->autoRegisterBigThumbs();
     }
+
+    protected function coverBig(): Attribute
+    {
+        return Attribute::make(get: fn ($value) => $this->getFirstMediaUrl('cover_review', 'bigThumb'));
+    }
+
+
 }

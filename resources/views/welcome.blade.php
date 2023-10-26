@@ -23,8 +23,7 @@
                 <svg class="absolute ml-4 w-6 h-6" fill="#12B0DF" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
                 <!-- SVG for Calendar goes here -->
               </div>
-
-              <div class="grid gap-4 grid-cols-2">
+                      <div class="grid gap-4 grid-cols-2">
                 <!-- Pick up date -->
                 <div class="w-full basis-1/2 flex">
                 <div class="flex items-center relative w-1/2 mb-4">
@@ -100,113 +99,57 @@
         </div>
       </div>
   </section>
-  <section class="antialiased bg-gray-50 text-gray-600 p-12">
-    <div class="text-4xl mb-10 text-site-blue-dark text-center">Gunstige Mietwegen Mallorca</div>
-    <div class="w-full 2xl:w-3/5 mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <!-- Box 1 -->
-      <div class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow">
-        <a href="#">
-         <!-- Image -->
-          <figure class="relative h-0 pb-[56.25%] overflow-hidden">
-          <img src="{{ asset('images/compettitve.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out" width="240" height="120" alt="Course">
-          </figure>
-      <div class="flex-grow flex flex-col p-5">
-        <!-- Card body -->
-        <div class="flex-grow h-[8rem]">
-            <!-- Header -->
-            <header class="mb-3">
-                    <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">Die besten Preise für Autovermietung</h3>
-            </header>
-            <!-- Content -->
-            <div class="mb-8">
-                <p>Ob Kleinwagen, Mittelklasse oder Cabrio, vergleichen Sie und finden Sie bei uns die besten Preise.</p>
-            </div>
-        </div>
-        <!-- Card footer -->
-        <div class="flex justify-center space-x-2">
-          <a class="inline-flex items-center justify-center px-8 py-3 border border-transparent rounded-3xl leading-5 shadow-sm transition duration-150 ease-in-out bg-[#0C87C6] focus:outline-none focus-visible:ring-2 hover:bg-[#49a5d4] text-white" href="#0">
-              Upgrade now
-            </a>
-        </div>
-    </div>
-  </a>
-      </div>
-      
-        <!-- Box 1 -->
-        <div class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow">
-          <a href="#">
-           <!-- Image -->
-            <figure class="relative h-0 pb-[56.25%] overflow-hidden">
-            <img src="{{ asset('images/43023.jpg') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out" width="240" height="120" alt="Course">
-                
-            </figure>
-        <div class="flex-grow flex flex-col p-5">
-          <!-- Card body -->
-          <div class="flex-grow h-[8rem]">
-              <!-- Header -->
-              <header class="mb-3">
-                      <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">Versicherung ist bei jeder unserer Buchungen inklusive
-</h3>
-              </header>
-              <!-- Content -->
-              <div class="mb-8">
-                  <p>Spontanbucher profitieren auch von unserer Last-Minute Autovermietung</p>
-              </div>
-          </div>
-          <!-- Card footer -->
-          <div class="flex justify-center space-x-2">
-            <a class="inline-flex items-center justify-center px-8 py-3 border border-transparent rounded-3xl leading-5 shadow-sm transition duration-150 ease-in-out bg-[#0C87C6] focus:outline-none focus-visible:ring-2 hover:bg-[#49a5d4] text-white" href="#0">
-              Save now
-            </a>
-          </div>
-      </div>
-    </a>
-        </div>
-      
-      <!-- Box 1 -->
-      <div class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow">
-        <a href="#">
-         <!-- Image -->
-          <figure class="relative h-0 pb-[56.25%] overflow-hidden">
-          <img src="{{ asset('images/651.jpg') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out" width="240" height="120" alt="Course">
-          </figure>
-      <div class="flex-grow flex flex-col p-5">
-        <!-- Card body -->
-        <div class="flex-grow h-[8rem]">
-            <!-- Header -->
-            <header class="mb-3">
-                    <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">Stressfrei-Garantie bei jeder Autovermietung
-</h3>
-            </header>
-            <!-- Content -->
-            <div class="mb-8">
-                <p>Unser Wunsch ist es, Ihre Wünsche zu erfüllen.</p>
-            </div>
-        </div>
-        <!-- Card footer -->
-        <div class="flex justify-center space-x-2">
-          <a class="inline-flex items-center justify-center px-8 py-3 border border-transparent rounded-3xl leading-5 shadow-sm transition duration-150 ease-in-out bg-[#0C87C6] focus:outline-none focus-visible:ring-2 hover:bg-[#49a5d4] text-white" href="#0">
-            Save now
-          </a>
-        </div>
-    </div>
-  </a>
-      </div>
-    </div>
-  </section>
+  <div class="text-4xl pt-10 bg-gray-50 text-site-blue-dark text-center">Gunstige Mietwegen</div>
+  <div class="w-full pt-10 pb-10 bg-gray-50">
+<div class="w-4/5 sm:w-full 2xl:w-3/5 mx-auto bodycontent">
+@block('ChildPagesBlock', ['count' => 3, 'parent_id' => '17'])
+</div>
+</div>
+  
   <!-- Snippet -->
   <div class="text-4xl mt-10 text-site-blue-dark text-center">{{__('Meet The Fleet')}}</div>
   <section class="block bg-white text-gray-600 relative h-1/3 min-h-[450px] p-12">
   
     <div class="items">
-      <div class="item active">
+    <div class=" item active">
+                <!-- Box 1 -->
+                <div
+                class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow mt-4">
+                <a href="#">
+                  <!-- Image -->
+                  <figure class="relative h-0 pb-[56.25%] overflow-hidden mt-5">
+                  <img src="{{ asset('images/2023_Porsche_Panamera.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
+
+                  </figure>
+                  <div class="flex-grow flex flex-col p-5">
+                    <!-- Card body -->
+                    <div class="flex-grow">
+                      <!-- Header -->
+                      <header class="mb-3 text-center">
+                        <h3 class="text-[18px] text-[#0C87C6] font-semibold leading-snug">Exklusiv</h3>
+                      </header>
+                      <!-- Content -->
+                      <div class="mb-3 text-center">
+                        <p>from</p>
+                      </div>
+                    </div>
+                    <!-- Card footer -->
+                    <div class="flex justify-center space-x-2">
+                      <a class="font-semibold text-sm inline-flex items-center justify-center  text-[#0F6C9B]" href="#0">$ 90/
+                        Day</a>
+                    </div>
+                  </div>
+                </a>
+              </div>
+      </div>
+      <div class="item next">
         <!-- Box 1 -->
         <div
           class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow mt-4">
           <a href="#">
             <!-- Image -->
             <figure class="relative h-0 pb-[56.25%] overflow-hidden mt-5">
-            <img src="{{ asset('images/toyota.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
+            <img src="{{ asset('images/minivan.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
 
             </figure>
             <div class="flex-grow flex flex-col p-5">
@@ -230,37 +173,7 @@
           </a>
         </div>
       </div>
-      <div class=" item next">
-                <!-- Box 1 -->
-                <div
-                class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow mt-4">
-                <a href="#">
-                  <!-- Image -->
-                  <figure class="relative h-0 pb-[56.25%] overflow-hidden mt-5">
-                  <img src="{{ asset('images/bmv.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
 
-                  </figure>
-                  <div class="flex-grow flex flex-col p-5">
-                    <!-- Card body -->
-                    <div class="flex-grow">
-                      <!-- Header -->
-                      <header class="mb-3 text-center">
-                        <h3 class="text-[18px] text-[#0C87C6] font-semibold leading-snug">BMW</h3>
-                      </header>
-                      <!-- Content -->
-                      <div class="mb-3 text-center">
-                        <p>from</p>
-                      </div>
-                    </div>
-                    <!-- Card footer -->
-                    <div class="flex justify-center space-x-2">
-                      <a class="font-semibold text-sm inline-flex items-center justify-center  text-[#0F6C9B]" href="#0">$ 90/
-                        Day</a>
-                    </div>
-                  </div>
-                </a>
-              </div>
-      </div>
       <div class="item">
         <!-- Box 1 -->
         <div
@@ -268,7 +181,7 @@
         <a href="#">
           <!-- Image -->
           <figure class="relative h-0 pb-[56.25%] overflow-hidden mt-5">
-          <img src="{{ asset('images/minivan.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
+          <img src="{{ asset('images/polo.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
 
           </figure>
           <div class="flex-grow flex flex-col p-5">
@@ -276,7 +189,7 @@
             <div class="flex-grow">
               <!-- Header -->
               <header class="mb-3 text-center">
-                <h3 class="text-[18px] text-[#0C87C6] font-semibold leading-snug">Minivan</h3>
+                <h3 class="text-[18px] text-[#0C87C6] font-semibold leading-snug">Klein</h3>
               </header>
               <!-- Content -->
               <div class="mb-3 text-center">
@@ -300,7 +213,7 @@
                 <a href="#">
                   <!-- Image -->
                   <figure class="relative h-0 pb-[56.25%] overflow-hidden mt-5">
-                  <img src="{{ asset('images/minivan.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
+                  <img src="{{ asset('images/e-tron.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
 
                   </figure>
                   <div class="flex-grow flex flex-col p-5">
@@ -308,7 +221,7 @@
                     <div class="flex-grow">
                       <!-- Header -->
                       <header class="mb-3 text-center">
-                        <h3 class="text-[18px] text-[#0C87C6] font-semibold leading-snug">Minivan</h3>
+                        <h3 class="text-[18px] text-[#0C87C6] font-semibold leading-snug">Mittel</h3>
                       </header>
                       <!-- Content -->
                       <div class="mb-3 text-center">
@@ -332,7 +245,7 @@
                 <a href="#">
                   <!-- Image -->
                   <figure class="relative h-0 pb-[56.25%] overflow-hidden mt-5">
-                  <img src="{{ asset('images/toyota.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
+                  <img src="{{ asset('images/jeta.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
      
                   </figure>
                   <div class="flex-grow flex flex-col p-5">
@@ -340,7 +253,7 @@
                     <div class="flex-grow">
                       <!-- Header -->
                       <header class="mb-3 text-center">
-                        <h3 class="text-[18px] text-[#0C87C6] font-semibold leading-snug">Toyota</h3>
+                        <h3 class="text-[18px] text-[#0C87C6] font-semibold leading-snug">Groß</h3>
                       </header>
                       <!-- Content -->
                       <div class="mb-3 text-center">
@@ -368,86 +281,12 @@
     View All Vehicles
     </a>
 </div>
-
-<section class="antialiased bg-gray-50 text-gray-600  p-12">
-  <div class="text-4xl mb-10 text-site-blue-dark text-center">Geheimtipp für Mietwagen in [Insert Location]</div>
-  <div class="w-full 2xl:w-3/5 mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-    <!-- Box 1 -->
-    <div class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow">
-      <a href="#">
-       <!-- Image -->
-        <figure class="relative h-0 pb-[56.25%] overflow-hidden">
-        <img src="{{ asset('images/tp212-socialmedia-07.jpg') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
-        </figure>
-    <div class="flex-grow flex flex-col p-5">
-      <!-- Card body -->
-      <div class="flex-grow">
-          <!-- Header -->
-          <header class="mb-3">
-                  <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">Gut versichert während Ihrer Reise
-                  </h3>
-          </header>
-          <!-- Content -->
-          <div class="mb-8">
-              <p>Genießen Sie einen sorgenfreien Urlaub mit unsern Partner, der ANWB Reiseversicherung. Berechnen Sie Ihre Versicherung hier Online.
-</p>
-          </div>
-      </div>
-
-  </div>
-</a>
-    </div>
-    
-      <!-- Box 1 -->
-      <div class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow">
-        <a href="#"></a>
-         <!-- Image -->
-          <figure class="relative h-0 pb-[56.25%] overflow-hidden">
-          <img src="{{ asset('images/Wavy_Edu-03_Single-09.jpg') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
-          </figure>
-      <div class="flex-grow flex flex-col p-5">
-        <!-- Card body -->
-        <div class="flex-grow">
-            <!-- Header -->
-            <header class="mb-3">
-                    <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">Travel Guides</h3>
-            </header>
-            <!-- Content -->
-            <div class="mb-8">
-                <p>Vorbereitung ist der halbe Urlaub. Werfen Sie einen Blick auf die Reiseführer von ANWB und planen Sie Ihren Urlaub perfekt. </p>
-            </div>
-        </div>
- 
-    </div>
-  </a>
-      </div>
-    
-    <!-- Box 1 -->
-    <div class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow">
-      <a href="#">
-       <!-- Image -->
-        <figure class="relative h-0 pb-[56.25%] overflow-hidden">
-        <img src="{{ asset('images/Person ordering cab to airport online.jpg') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
-
-        </figure>
-    <div class="flex-grow flex flex-col p-5">
-      <!-- Card body -->
-      <div class="flex-grow">
-          <!-- Header -->
-          <header class="mb-3">
-                  <h3 class="text-[22px] text-gray-900 font-extrabold leading-snug">Die Top 7 der besten Urlaubsorte, die Sie nur mit einem Mietwagen erreichen</h3>
-          </header>
-          <!-- Content -->
-          <div class="mb-8">
-              <p>Erreichen Sie auch die entlegensten Plätze und geheimen Paradiese mit einem unserer Mietwagen. </p>
-          </div>
-      </div>
-
-  </div>
-</a>
-    </div>
-  </div>
-</section>
+<div class="text-4xl pt-10 bg-gray-50 text-site-blue-dark text-center">Geheimtipp für Mietwagen</div>
+<div class="w-full pt-10 pb-10 bg-gray-50">
+<div class="w-4/5 sm:w-full 2xl:w-3/5 mx-auto bodycontent">
+@block('ReviewsBlock', ['count' => 3])
+</div>
+</div>
 <!-- say about us-->
 <!-- Snippet -->
 <div class="text-4xl mt-10 text-site-blue-dark text-center">{{__('What customers say about us')}}</div>

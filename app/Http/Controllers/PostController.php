@@ -95,7 +95,7 @@ class PostController extends Controller
 
         $post = $postQuery
             ->with('user', 'categories')
-            ->select('id','title','user_id','published_at','status')
+            ->select('id','title','user_id','published_at','status', 'slug')
             ->paginate($request->get('per_page'))->withQueryString();
 
         Session::put('post_url', $request->fullUrl());

@@ -10,8 +10,9 @@ const page = usePage();
 
 
 let removeFinishEventListener = router.on("finish", () => {
-  console.log("Adding toast");
+  console.log(toast);
   if (page.props.toast) {
+    
     toast.add({
       message: page.props.toast.message,
       duration: page.props.toast.duration,

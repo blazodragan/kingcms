@@ -499,9 +499,11 @@ const imageUploaded = (media: UploadedFile) => {
   }
 };
 
+const path = "/"+(usePage().props as PageProps).admin_path+"/unassigned-media-destroy/";
+
 const deleteMedia = (id: number) => {
   axios
-    .delete("/unassigned-media-destroy/" + id)
+    .delete(path + id)
     .then((response: any) => {
       selectedImage.value = null;
 
@@ -513,7 +515,9 @@ const deleteMedia = (id: number) => {
 
 const updateMedia = () => {
 
-  axios.post("/media/update/" + selectedImage.value.id, {
+  const pathUpload = "/"+(usePage().props as PageProps).admin_path+"/media/update/";
+
+  axios.post(pathUpload + selectedImage.value.id, {
     custom_properties: selectedImage.value.custom_properties
   })
     .then((response: any) => {

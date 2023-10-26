@@ -16,7 +16,7 @@
     </Button>
   </PageHeader>
 
-  <Form :form="form" :submit="submit" :userOptions="userOptions" :categoriesOptions="categoriesOptions" :statusOptions="statusOptions"/>
+  <Form :form="form" :submit="submit" :userOptions="userOptions" :categoriesOptions="categoriesOptions" :statusOptions="statusOptions" :templates="templates" :iconOptions="iconOptions"/>
 </AppLayout>
 </template>
 
@@ -42,6 +42,8 @@ interface Props {
   userOptions: Array<{value: string|number, label: string}>;
   categoriesOptions: Array<{value: string|number, label: string}>;
   statusOptions: Array<{value: string|number, label: string}>;
+  iconOptions: Array<{value: string|number, label: string}>;
+  templates: Array<{value: string|number, label: string}>;
 }
 
 const props = defineProps<Props>();
@@ -53,6 +55,7 @@ slug: props.review?.slug ?? { ...translatableDefaultValue },
 perex: props.review?.perex ?? { ...translatableDefaultValue }, 
 content: props.review?.content ?? { ...translatableDefaultValue }, 
 text: props.review?.text ?? { ...translatableDefaultValue }, 
+why: props.review?.why ?? { ...translatableDefaultValue }, 
 active: props.review?.active ?? false, 
 meta_title: props.review?.meta_title ?? { ...translatableDefaultValue }, 
 meta_description: props.review?.meta_description ?? { ...translatableDefaultValue }, 
@@ -65,7 +68,9 @@ og_description: props.review?.og_description ?? { ...translatableDefaultValue },
 og_type: props.review?.og_type ?? { ...translatableDefaultValue }, 
 og_url: props.review?.og_url ?? { ...translatableDefaultValue }, 
 user_id: props.review?.user_id ?? "", 
+rating: props.review?.rating ?? "", 
 status: props.review?.status ?? "", 
+template: props.review?.template ?? "", 
 published_at: props.review?.published_at ?? "", 
 cover_review: getMediaCollection(props.review?.media, 'cover_review'), 
 og_cover_review: getMediaCollection(props.review?.media, 'og_cover_review'), 

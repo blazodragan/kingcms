@@ -46,15 +46,6 @@
             optionsLabel="label"
             optionsValueProp="value"
           />
-          <Multiselect
-            v-model="filtersForm.category"
-            name="category"
-            mode="tags"
-            :label="'Categories'"
-            :options="categoriesOptions"
-            optionsLabel="label"
-            optionsValueProp="value"
-          />
           <DatePicker
             v-model="filtersForm.published_at"
             name="published_at"
@@ -111,6 +102,9 @@
         <ListingHeaderCell sortBy="title">
             Title
         </ListingHeaderCell> 
+        <ListingHeaderCell>
+            Slug
+        </ListingHeaderCell> 
         <ListingHeaderCell sortBy="user_id">
             User
         </ListingHeaderCell> 
@@ -136,13 +130,16 @@
               :name="`${item.alias}`"
             />
             <div class="ml-4">
-              <div class="font-medium text-gray-900">
+              <div class="font-medium text-gray-900 truncate w-44">
                 {{ item.title?.[currentLocale] }}
               </div>
             </div>
           </div>
-             
+  
         </ListingDataCell> 
+        <ListingDataCell>
+            {{ item.slug?.[currentLocale] }}
+        </ListingDataCell>   
         <ListingDataCell>
              {{ item.user.name }}
         </ListingDataCell> 
@@ -172,7 +169,8 @@
           </div>
         </ListingDataCell>
         <ListingDataCell>
-          <div class="flex items-center justify-end gap-3">
+          <div class="flex items-center justify-end">
+            
             <IconButton
               :as="Link"
               :href="route('page.edit', item)"
@@ -219,6 +217,22 @@
                 </Button>
               </template>
             </Modal>
+            <IconButton
+              :as="Link"
+              :href="item.parent_id ? route('showChild', { parentPage: item.parent.slug?.[currentLocale], childPage: item.slug?.[currentLocale]}) : route('showParent', { parentPage: item.slug?.[currentLocale] })"
+              variant="ghost"
+              color="gray"
+              :icon="EyeIcon"
+              v-can="'sanctum.news.edit'"
+            />
+            <IconButton
+              :as="Link"
+              :href="route('page.clone', item)"
+              variant="ghost"
+              color="gray"
+              :icon="DocumentDuplicateIcon"
+              v-can="'sanctum.news.edit'"
+            />
           </div>
         </ListingDataCell>
       </template>
@@ -237,7 +251,9 @@ import {
     ArrowDownTrayIcon,
     CheckCircleIcon,
     ExclamationCircleIcon,
-    XCircleIcon
+    XCircleIcon,
+    EyeIcon,
+    DocumentDuplicateIcon
 } from "@heroicons/vue/24/outline";
 import {
     PageHeader,
@@ -255,6 +271,7 @@ import {
     Publish,
     ListingToggle,
     Tag,
+    
 } from "kingcms/Components";
 import { PaginatedCollection } from "kingcms/types/pagination";
 import type { PageProps } from "kingcms/types/page";
@@ -272,7 +289,6 @@ interface Props {
   pages: PaginatedCollection<Pages>;
   userOptions: Object[];
   statusOptions: Object[];
-  categoriesOptions: Object[];
 }
 defineProps<Props>();
 
@@ -282,7 +298,6 @@ const { filtersForm, resetFilters, activeFiltersCount } = useListingFilters(
     user_id: usePage().props.filter?.user_id ?? null,
     published_at: usePage().props.filter?.published_at ?? null,
     status: usePage().props.filter?.status ?? null,
-    category: usePage().props.filter?.category ?? null,
   }
 );
 

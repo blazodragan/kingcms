@@ -15,12 +15,16 @@ https://mietwagenparadies.de/	/spanien	/barcelona
 		/formentera
 		/alicante
 	/blog	
-	/reviews	/rentalCars
+	/reviews
+		/rentalCars
 		/avis 
 		/hertz
 		/thrifty
 		/vipcars
 		/sixt
+
 	/loyalty-program	
 	/about-us	/authors
 	/contact	
+
+
