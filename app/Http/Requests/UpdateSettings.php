@@ -27,6 +27,12 @@ class UpdateSettings extends FormRequest
             'available_locales' => ['array', 'required'],
             'default_locale' => ['string', 'required'],
             'default_route' => ['string', 'required'],
+            'default_siteTitle' => ['nullable'],
+            'default_siteDescription' => ['nullable'],
+            'default_googleAnalytics' => ['nullable'],
+            'default_customCss' => ['nullable'],
+            
+
         ];
     }
 

@@ -60,13 +60,11 @@ function clearToasts() {
 
 const props = defineProps<Props>();
 
-const baseUrl = inject("listingBaseUrl");
+const baseUrl = '';
 
-const dataKey = inject("listingDataKey");
+const dataKey = '';
 
-if (props.sortBy && !baseUrl) {
-  console.error("baseUrl in ListingHeaderCell is not provided");
-}
+
 
 const currentSortBy = computed(() => (usePage().props as PageProps).sort);
 

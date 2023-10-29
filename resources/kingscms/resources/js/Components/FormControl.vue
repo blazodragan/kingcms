@@ -33,16 +33,16 @@
       </label>
 
       <div
-        v-if="maxCharactersCount && charactersCount !== undefined"
-        class="text-sm font-medium leading-5"
-        :class="[
-          maxCharactersCount > charactersCount
-            ? 'text-gray-500'
-            : 'text-red-500',
-        ]"
-      >
-        {{ charactersCount }} / {{ maxCharactersCount }}
-      </div>
+  v-if="minCharactersCount && maxCharactersCount && charactersCount !== undefined"
+  class="text-sm font-medium leading-5"
+  :class="[
+    charactersCount < minCharactersCount || charactersCount > maxCharactersCount
+      ? 'text-red-500'
+      : 'text-green-500',
+  ]"
+>
+  {{ charactersCount }} / {{ maxCharactersCount }}
+</div>
     </div>
 
     <div
@@ -67,7 +67,8 @@ interface Props {
   label?: string;
   labelPlacement?: "top" | "left";
   error?: string | boolean;
-  maxCharactersCount?: number;
+  maxCharactersCount?: number|string;
+  minCharactersCount?: number|string;
   charactersCount?: number;
 }
 
@@ -76,6 +77,7 @@ const props = withDefaults(defineProps<Props>(), {
   labelPlacement: "top",
   error: false,
   maxCharactersCount: undefined,
+  minCharactersCount: 0,
   charactersCount: undefined,
 });
 

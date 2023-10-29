@@ -46,23 +46,56 @@ class SettingsController extends Controller
                 'available_locales' => $settings->available_locales,
                 'default_locale' => $settings->default_locale,
                 'default_route' => $settings->default_route,
+                'default_siteTitle' => $settings->default_siteTitle,
+                'default_siteDescription' => $settings->default_siteDescription,
+                'default_googleAnalytics' => $settings->default_googleAnalytics,
+                'default_customCss' => $settings->default_customCss,
             ], 'availableRoutes' => $availableRoutes,
         ]);
     }
 
     public function update(GeneralSettings $settings, UpdateSettings $request)
     {
+        
         $sanitized = $request->validated();
         
         $settings->available_locales = $sanitized['available_locales'];
         $settings->default_locale = $sanitized['default_locale'];
         $settings->default_route = $sanitized['default_route'];
 
+        // Need to check if there is anything to updated add
+        if ($request->has('default_googleAnalytics')) {
+            $settings->default_googleAnalytics = $sanitized['default_googleAnalytics'] ?? '';
+        }
+        if ($request->has('default_customCss')) {
+            $settings->default_customCss = $sanitized['default_customCss'] ?? '';
+        }
+        // Doing it like this because we can't use tranltable in spati settings component 
+        if ($request->has('default_siteTitle')) {
+
+            $data = $request->input('default_siteTitle') ?? '';
+
+  
+
+            foreach ($data as $locale => $translation) {
+                $settings->setSiteTitleTranslation($locale, $translation);
+            }
+        }
+
+        if ($request->has('default_siteDescription')) {
+
+            $data = $request->input('default_siteDescription') ?? '';
+
+            foreach ($data as $locale => $translation) {
+                $settings->setSiteDescriptionTranslation($locale, $translation);
+            }
+        }
+
+
+        
         $settings->save();
 
-        if ($request->has('available_locales')) {
 
-        }
 
         return back()->with('toast', [
             'type' => 'success',

@@ -78,18 +78,18 @@
       </template>
       <template #tableHead>
         <ListingHeaderCell sortBy="group">
-          {{ $t("kingcms", "Group") }}
+          Group
         </ListingHeaderCell>
 
         <ListingHeaderCell sortBy="key">
-          {{ $t("kingcms", "Default") }}
+          Default
         </ListingHeaderCell>
         <ListingHeaderCell>
           {{ ($page.props as PageProps).auth.user.locale }}
         </ListingHeaderCell>
 
         <ListingHeaderCell>
-          {{ $t("kingcms", "Last update") }}
+          Last update
         </ListingHeaderCell>
 
         <ListingHeaderCell></ListingHeaderCell>

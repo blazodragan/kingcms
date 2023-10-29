@@ -2,7 +2,11 @@
 
 namespace App\Media;
 
-use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\Conversion\Conversion;
+use Spatie\MediaLibrary\Support\Conversion\ConversionCollection;
 
 /**
  * @property-read bool $autoProcessMedia
@@ -62,7 +66,14 @@ trait HasMediaPreviewsTrait
             ->height($height)
             ->fit('crop', $width, $height)
             ->optimize()
+            ->quality(70)
             ->nonQueued()
-            ->performOnCollections(...$this->getRegisteredMediaCollections()->map->getName()->toArray());
+            ->performOnCollections(...$this->getRegisteredMediaCollections()->map->getName()->toArray());      
+
+            $this
+            ->addMediaConversion('my-conversion')
+            ->quality(80)
+            ->withResponsiveImages();
+
     }
 }

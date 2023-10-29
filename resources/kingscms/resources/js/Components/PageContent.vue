@@ -5,7 +5,9 @@
         <TabList
           class="flex w-full border-b border-gray-200 bg-white px-4 sm:px-6"
         >
+        <div class="mx-auto flex w-full max-w-screen-2xl px-4 sm:px-6 md:px-8">
           <slot name="tabs" />
+        </div>
         </TabList>
 
         <div class="flex-1 pb-20">

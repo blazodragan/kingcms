@@ -4,6 +4,7 @@
     :label="label"
     :error="error"
     :characters-count="charactersCount"
+    :min-characters-count="minCharactersCount"
     :max-characters-count="maxCharactersCount"
     :label-placement="labelPlacement"
   >
@@ -112,9 +113,10 @@ interface Props {
   leadingAddon?: string;
   trailingAddon?: string;
   inputClass?: string;
-  modelValue: string;
+  modelValue: string|null;
   size?: SizesType;
-  maxCharactersCount?: number;
+  minCharactersCount?: number|string;
+  maxCharactersCount?: number|string;
   clearable?: boolean;
   labelPlacement?: "top" | "left";
 }
@@ -181,6 +183,7 @@ const styles = computed(() => {
 });
 
 const charactersCount = computed(() => {
+  if (!value.value || value.value.trim() === '') return 0;
   return props.maxCharactersCount ? value.value.length : 0;
 });
 </script>

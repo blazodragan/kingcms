@@ -33,10 +33,15 @@ use App\Models\Tip;
 use App\Services\BlockResolver;
 use App\Traits\IconRetriever;
 use Illuminate\Support\Str;
+use App\Traits\HasTemplates;
 
 class PagesController extends Controller
 {
     use IconRetriever;
+    use HasTemplates;
+
+    // template folder 
+    protected $templatePath = 'pages';
 
     public function showParent(Page $parentPage)
     {
@@ -68,8 +73,17 @@ class PagesController extends Controller
         }, $parentPage->content);
 
 
+        if ($parentPage->template) {
+
+            $templateName = $this->templatePath . '.' . $parentPage->template;
+
+            return view($templateName, compact('parentPage', 'processedContent'));
+        } 
+        
         // Render the page (e.g., using a view)
         return view('pages.showParent', compact('parentPage', 'processedContent'));
+
+        
     }
 
     public function showChild(Page $parentPage, Page $childPage)
@@ -104,9 +118,18 @@ class PagesController extends Controller
             return app(\App\Services\BlockResolver::class)->resolve($blockName, $parameters);
         }, $childPage->content);
 
+        if ($childPage->template) {
 
+            $templateName = $this->templatePath . '.' . $childPage->template;
+
+            return view($templateName, compact('childPage', 'processedContent'));
+        } 
+        
         // Render the page (e.g., using a view)
         return view('pages.show', compact('childPage', 'processedContent'));
+
+
+        
     }
 
     public function show($slug)
@@ -144,6 +167,13 @@ class PagesController extends Controller
             return app(\App\Services\BlockResolver::class)->resolve($blockName, $parameters);
         }, $page->content);
 
+
+        if ($page->template) {
+
+            $templateName = $this->templatePath . '.' . $page->template;
+
+            return view($templateName, compact('page', 'processedContent'));
+        } 
 
         // Render the page (e.g., using a view)
         return view('pages.show', compact('page', 'processedContent'));
@@ -196,6 +226,7 @@ class PagesController extends Controller
             'statusOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Status::cases()),
             'iconOptions' => $this->getAllIconNames(),
             'parentPages' => Page::where('is_parent', true)->get()->map(fn ($model) => ['value' => $model->id, 'label' => $model->title]),
+            'templates' => $this->getTemplateNames(),
         ]);
     }
 
@@ -251,6 +282,7 @@ class PagesController extends Controller
             'tempaltesOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Templates::cases()),
             'iconOptions' => $this->getAllIconNames(),
             'parentPages' => Page::where('is_parent', true)->get()->map(fn ($model) => ['value' => $model->id, 'label' => $model->title]),
+            'templates' => $this->getTemplateNames(),
         ]);
     }
 

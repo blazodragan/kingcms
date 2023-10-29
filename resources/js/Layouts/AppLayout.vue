@@ -29,8 +29,8 @@ const page = usePage();
 const mainNavItems = [
     {href:"pages.index", label: "Pages", children: [], icon: DocumentIcon, permission: 'sanctum'},
     {href:"posts.index", label: "Posts", children: [], icon: MicrophoneIcon, permission: 'sanctum'},
-    {href:"news.index", label: "News", children: [], icon: NewspaperIcon, permission: 'sanctum'},
     {href:"reviews.index", label: "Reviews", children: [], icon: StarIcon, permission: 'sanctum'},
+    {href:"news.index", label: "News", children: [], icon: NewspaperIcon, permission: 'sanctum'},
     {href:"categories.index", label: "Categories", children: [], icon: TagIcon, permission: 'sanctum'},
     {href:"trust_reviews.index", label: "Trust Reviews", children: [], icon: ChatBubbleOvalLeftIcon, permission: 'sanctum'},
     {href:"media.index", label: "Media", children: [], icon: FolderIcon, permission: 'sanctum'},

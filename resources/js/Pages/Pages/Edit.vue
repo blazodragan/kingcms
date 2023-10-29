@@ -16,7 +16,7 @@
     </Button>
   </PageHeader>
 
-  <Form :form="form" :submit="submit" :userOptions="userOptions" :tempaltesOptions="tempaltesOptions" :statusOptions="statusOptions" :iconOptions="iconOptions" :parentPages="parentPages"/>
+  <Form :form="form" :submit="submit" :userOptions="userOptions" :tempaltesOptions="tempaltesOptions" :statusOptions="statusOptions" :templates="templates" :iconOptions="iconOptions" :parentPages="parentPages"/>
 </AppLayout>
 </template>
 
@@ -45,6 +45,7 @@ interface Props {
   tempaltesOptions: Array<{ value: string | number; label: string }>;
   iconOptions: Array<{value: string|number, label: string}>;
   parentPages: Array<{value: string|number, label: string}>;
+  templates: Array<{value: string, label: string}>;
 }
 
 const props = defineProps<Props>();

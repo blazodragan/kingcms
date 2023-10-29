@@ -3,7 +3,8 @@
     :name="name"
     :label="label"
     :error="error"
-    :max-character-count="maxCharactersCount"
+    :min-characters-count="minCharactersCount"
+    :max-characters-count="maxCharactersCount"
     :characters-count="charactersCount"
     :label-placement="labelPlacement"
   >
@@ -51,8 +52,9 @@ interface Props {
   autocomplete?: string;
   rows?: number;
   required?: boolean;
-  modelValue: string;
-  maxCharactersCount?: number;
+  modelValue: string|null;
+  minCharactersCount?: number|string;
+  maxCharactersCount?: number|string;
   labelPlacement?: "top" | "left";
 }
 
@@ -67,6 +69,8 @@ const emit = defineEmits(["update:modelValue"]);
 const { value, error } = useInput(props, emit);
 
 const charactersCount = computed(() => {
-  return value.value?.length;
+  if (!value.value || value.value.trim() === '') return 0;
+  return props.maxCharactersCount ? value.value.length : 0;
+
 });
 </script>

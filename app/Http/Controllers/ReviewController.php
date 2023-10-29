@@ -74,9 +74,15 @@ class ReviewController extends Controller
             return app(\App\Services\BlockResolver::class)->resolve($blockName, $parameters);
         }, $review->content);
 
-        $templateName = $review->template ? $this->templatePath . '.' . $review->template : 'review.show';
+        if ($review->template) {
+
+            $templateName = $this->templatePath . '.' . $review->template;
+
+            return view($templateName, compact('review', 'processedContent'));
+        } 
+        
         // Render the page (e.g., using a view)
-        return view($templateName, compact('review', 'processedContent'));
+        return view('review.show', compact('review', 'processedContent'));
 
     }
     /**
@@ -286,8 +292,8 @@ class ReviewController extends Controller
         ]);
     }
 
-        /**
-     * Remove the specified resource from storage.
+    /**
+     * Clone the specified resource from storage.
      */
     public function clone(Review $review): RedirectResponse
     {

@@ -16,7 +16,9 @@
         :tempaltesOptions="tempaltesOptions"
         :statusOptions="statusOptions"
         :iconOptions="iconOptions"
-        :slugDisabled="slugDisabled"/>
+        :slugDisabled="slugDisabled"
+        :templates="templates"
+        />
 </AppLayout>
 </template>
 
@@ -42,6 +44,7 @@ interface Props {
   tempaltesOptions: Array<{value: string|number, label: string}>;
   iconOptions: Array<{name: string|number, path: string}>;
   parentPages: Array<{value: string|number, label: string}>;
+  templates: Array<{value: string, label: string}>;
 }
 
 const props = defineProps<Props>();
@@ -54,7 +57,7 @@ perex: { ...translatableDefaultValue },
 content: { ...translatableDefaultValue }, 
 text: { ...translatableDefaultValue }, 
 why: { ...translatableDefaultValue }, 
-template: "", 
+template: "",
 meta_title: { ...translatableDefaultValue }, 
 meta_description: { ...translatableDefaultValue }, 
 meta_url_canolical: { ...translatableDefaultValue }, 

@@ -13,14 +13,11 @@
   <PageContent>
     <template #tabs>
       <TabGroup variant="underline">
-        <Tab>
+        <Tab >
           General
         </Tab>
         <Tab>
-          <div class="flex items-center gap-3">
-            Other settings
-            <!-- <Tag color="amber" size="sm">Coming soon...</Tag> -->
-          </div>
+          SEO
         </Tab>
       </TabGroup>
     </template>
@@ -76,14 +73,56 @@
           :options="availableRoutes"
           labelPlacement="left"
         />
+        <TextInput
+                v-model="form.default_googleAnalytics"
+                name="default_googleAnalytics"
+                labelPlacement="left"
+                :label="'Google Analytics Code'"  
+            />
+
+            <TextArea
+                v-model="form.default_customCss"
+                name="default_customCss"
+                labelPlacement="left"
+                :label="'Custom Css Code'" 
+                
+            />
+            <!-- <p v-if="isValid !== null">{{ isValid ? 'Valid CSS' : 'Invalid CSS' }}</p> -->
+
       </div>
     </TabPanel>
-    <TabPanel>We can add more general settings here</TabPanel>
+    <TabPanel>
+      <div class="divide-y divide-slate-200 [&>*]:py-5 max-w-screen-lg mx-auto">
+      <CardLocaleSwitcher v-model="currentLocale" ref="switcher" id="cardlocale"/>
+      <TextInput
+                v-model="form.default_siteTitle[currentLocale]"
+                :name="`perex.${currentLocale}`"
+ 
+                maxCharactersCount="70"
+                minCharactersCount="50"
+                :label="getLabelWithLocale('Default Title')"  
+            />
+            <TextArea
+                v-model="form.default_siteDescription[currentLocale]"
+                :name="`perex.${currentLocale}`"
+ 
+                minCharactersCount="140"
+                maxCharactersCount="160"
+                :label="getLabelWithLocale('Default Description')"
+            />
+
+            
+
+      </div>
+    </TabPanel>
+
+
   </PageContent>
 </AppLayout>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { ArrowDownTrayIcon } from "@heroicons/vue/24/outline";
 import {
@@ -91,15 +130,24 @@ import {
   PageContent,
   Button,
   Multiselect,
+  TextInput,
+  TextArea,
   Tag,
   Tab,
   TabGroup,
   LocaleFlag,
+  CardLocaleSwitcher,
 } from "kingcms/Components";
 import { useForm } from "kingcms/hooks/useForm";
 import { GeneralSettings } from "kingcms/Pages/Settings/types";
 import { TabPanel } from "@headlessui/vue";
 import { MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
+
+import { useFormLocale } from "kingcms/hooks/useFormLocale"; 
+
+
+const { currentLocale, translatableDefaultValue, getLabelWithLocale } = useFormLocale();
+
 
 interface Props {
   generalSettings: GeneralSettings;
@@ -115,7 +163,36 @@ const { form, submit } = useForm<GeneralSettings>(
     available_locales: props.generalSettings.available_locales,
     default_locale: props.generalSettings.default_locale,
     default_route: props.generalSettings.default_route,
+    default_siteTitle: props.generalSettings?.default_siteTitle ?? { ...translatableDefaultValue }, 
+    default_siteDescription: props.generalSettings?.default_siteDescription ?? { ...translatableDefaultValue }, 
+    default_googleAnalytics: props.generalSettings.default_googleAnalytics,
+    default_customCss: props.generalSettings.default_customCss,
   },
   route("settings.update")
 );
+
+
+// // check if css is valid if it's empty dont do anything 
+// const isValid = ref<boolean | null>(null);
+
+// function cssomCheck(css: string): boolean {
+//   const styleEl = document.createElement('style');
+//   styleEl.textContent = css;
+
+//   document.head.appendChild(styleEl);
+//   const isValidCSS = !!styleEl.sheet?.cssRules.length; // If no rules, likely invalid
+//   document.head.removeChild(styleEl);
+
+//   return isValidCSS;
+// }
+
+// function checkCSSValidity() {
+//   console.log(form.default_customCss)
+//   if (cssomCheck(form.default_customCss)) {
+//     isValid.value = true;
+//   } else {
+//     isValid.value = false;
+//   }
+// }
+
 </script>

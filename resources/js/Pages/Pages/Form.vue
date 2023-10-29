@@ -210,6 +210,13 @@
               :options="statusOptions"
               mode="single"
             />
+            <Multiselect
+              v-model="form.template"
+              name="template"
+              :label="'Template'"
+              :options="formattedTemplates"
+              mode="single"
+            />
 
             <RadioGroupLink
             v-model="form.template"
@@ -352,6 +359,8 @@
                 v-model="form.meta_title[currentLocale]"
                 :name="`meta_title.${currentLocale}`"
                 :label="getLabelWithLocale('Meta Title')"
+                minCharactersCount="50"
+                maxCharactersCount="60"
                 
             /> 
 
@@ -359,6 +368,8 @@
                 v-model="form.meta_description[currentLocale]"
                 :name="`meta_description.${currentLocale}`"
                 :label="getLabelWithLocale('Meta Description')"
+                minCharactersCount="150"
+                maxCharactersCount="160"
                 
             /> 
 
@@ -420,6 +431,8 @@
                 v-model="form.og_title[currentLocale]"
                 :name="`og_title.${currentLocale}`"
                 :label="getLabelWithLocale('Og Title')"
+                minCharactersCount="50"
+                maxCharactersCount="60"
                 
             /> 
 
@@ -427,6 +440,8 @@
                 v-model="form.og_description[currentLocale]"
                 :name="`og_description.${currentLocale}`"
                 :label="getLabelWithLocale('Og Description')"
+                minCharactersCount="150"
+                maxCharactersCount="200"
                 
             /> 
 
@@ -488,7 +503,7 @@ import {
     Modal
 } from "kingcms/Components";
 import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
-import { ref, reactive, watch, Ref } from 'vue';
+import { ref, reactive, watch, Ref, computed } from 'vue';
 import { EyeDropperIcon, EyeSlashIcon, EyeIcon, ChevronUpIcon } from "@heroicons/vue/24/outline";
 import { InertiaForm } from "kingcms/types";
 import { slugify } from "kingcms/helpers/slugify";
@@ -508,11 +523,18 @@ interface Props {
   iconOptions: Array<{ name: string ; path: string }>;
   parentPages: Array<{ value: string ; label: string }>; 
   slugDisabled: Ref<boolean>;
+  templates: Array<{value: string, label: string}>;
 
   
 }
 
 const props = defineProps<Props>();
+
+
+// we are formating here the template array because it needs to have a value and a label for the radio or the multiseclet componenet
+const formattedTemplates = computed(() => {
+  return props.templates.map(temp => ({ value: temp, label: temp }));
+});
 
 
 const addFAQ = (): void => {
