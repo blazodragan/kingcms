@@ -5,7 +5,7 @@
       :leftIcon="PlusIcon"
       :as="Link"
       :href="route('pages.create')"
-      v-can="'sanctum.news.create'"
+      v-can="'sanctum.page.create'"
     >New Page
     </Button>
     <Button
@@ -62,7 +62,7 @@
               variant="outline"
               size="sm"
               :leftIcon="TrashIcon"
-              v-can="'sanctum.news.destroy'"
+              v-can="'sanctum.page.destroy'"
             >Delete
             </Button>
           </template>
@@ -82,7 +82,7 @@
                 }
               "
               color="danger"
-              v-can="'sanctum.news.destroy'"
+              v-can="'sanctum.page.destroy'"
             >Delete
             </Button>
             <Button
@@ -144,7 +144,7 @@
              {{ item.user.name }}
         </ListingDataCell> 
         <ListingDataCell>
-            <Publish :publishedAt="item.published_at" :updateUrl="route('pages.update', item.id)" columnName="published_at" mode="dateTime"/>
+            <Publish :publishedAt="item.published_at" :updateUrl="route('pages.date', item.id)" columnName="published_at" mode="dateTime"/>
         </ListingDataCell>
         <ListingDataCell class="text-left">
             <div v-if="item.status == 'Published'">
@@ -177,7 +177,7 @@
               variant="ghost"
               color="gray"
               :icon="PencilSquareIcon"
-              v-can="'sanctum.news.edit'"
+              v-can="'sanctum.page.edit'"
             />
 
             <Modal type="danger">
@@ -187,7 +187,7 @@
                   color="gray"
                   variant="ghost"
                   :icon="TrashIcon"
-                  v-can="'sanctum.news.destroy'"
+                  v-can="'sanctum.page.destroy'"
                 />
               </template>
 
@@ -206,7 +206,7 @@
                     }
                   "
                   color="danger"
-                  v-can="'sanctum.news.destroy'"
+                  v-can="'sanctum.page.destroy'"
                 >Delete
                 </Button>
                 <Button
@@ -219,20 +219,21 @@
             </Modal>
             <IconButton
               :as="Link"
-              :href="item.parent_id ? route('showChild', { parentPage: item.parent.slug?.[currentLocale], childPage: item.slug?.[currentLocale]}) : route('showParent', { parentPage: item.slug?.[currentLocale] })"
-              variant="ghost"
-              color="gray"
-              :icon="EyeIcon"
-              v-can="'sanctum.news.edit'"
-            />
-            <IconButton
-              :as="Link"
               :href="route('page.clone', item)"
               variant="ghost"
               color="gray"
               :icon="DocumentDuplicateIcon"
-              v-can="'sanctum.news.edit'"
+              v-can="'sanctum.page.edit'"
             />
+            <IconButton
+              :as="Link"
+              :href="item.parent_id ? route('showChild', { parentSlug: item.parent.slug?.[currentLocale], childSlug: item.slug?.[currentLocale]}) : route('showParent', { parentSlug: item.slug?.[currentLocale] })"
+              variant="ghost"
+              color="gray"
+              :icon="EyeIcon"
+              v-can="'sanctum.page.edit'"
+            />
+
           </div>
         </ListingDataCell>
       </template>

@@ -30,6 +30,7 @@ updated_at: string;
 deleted_at: string;
 faqs: Array<{ question: string, answer: string }>;
 tips: Array<{ title: string, body: string , icon: string, type: string}>;
+parent: Array<{ slug: Record<string, string>}>;
 media?: UploadedFile[];
 
 };
@@ -60,6 +61,7 @@ status: string;
 published_at: string; 
 faqs: Array<{ question: string, answer: string }>;
 tips: Array<{ title: string, body: string , icon: string, type: string}>;
+parent: Array<{ slug: Record<string, string>}>;
 cover: Array<UploadedFile>; 
 og_cover: Array<UploadedFile>
 };

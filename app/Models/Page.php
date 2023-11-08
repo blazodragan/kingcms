@@ -74,6 +74,7 @@ class Page extends Model  implements HasMedia {
     protected $appends = [
         'cover_url',
         'cover_big',
+        'cover_og_url'
     ];
     public function user(): BelongsTo
     {
@@ -124,6 +125,11 @@ class Page extends Model  implements HasMedia {
     protected function coverUrl(): Attribute
     {
         return Attribute::make(get: fn ($value) => $this->getFirstMediaUrl('cover', 'preview'));
+    }
+
+    protected function coverOgUrl(): Attribute
+    {
+        return Attribute::make(get: fn ($value) => $this->getFirstMediaUrl('og_cover', 'preview'));
     }
 
     protected function coverBig(): Attribute

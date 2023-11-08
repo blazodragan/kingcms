@@ -1,21 +1,45 @@
+@php
+
+use app\Settings\GeneralSettings;
+$settings = app(GeneralSettings::class);
+
+@endphp
+
 @extends('layout')
 
-@section('title', $review->title ?? 'Default Title')
+@section('meta')
+
+<x-seo :title="$page->meta_title ?: $page->title ?: $settings->default_siteTitle[app()->getLocale()]" :description="$page->meta_description ?: $settings->default_siteDescription[app()->getLocale()]" :titleog="$page->og_title ?: $page->title ?: $settings->default_siteTitle[app()->getLocale()]" :imageog="$page->cover_og_url ?: $page->cover_url ?: asset('images/logo.png')" />
+@if($page && $page->faqs->count() > 0)
+<x-faq-schema :faqs="$page->faqs" />
+@endif
+<x-artical-schema :page="$page" />
+
+@endsection
 
 @section('content')
 
+
 <section>
-    <div class="bg-[url('panoramic-aerial-shot-california-bixby-bridge-green-hill-near-beautiful-blue-water.jpg')] bg-no-repeat  bg-cover w-full p-5"> <!-- Hero Section -->
-        <div class="w-full xl:w-1/2 mx-auto m-auto text-center flex"> <!-- Container Box -->
-            <h1 class="text-2xl w-full text-white">{{__('Location Review')}}</h1>
+    <div class="bg-search-welcome bg-no-repeat  bg-cover w-full p-5"> <!-- Hero Section -->
+        <div class="md:flex-row w-4/5 sm:w-full 2xl:w-3/5 mx-auto"> <!-- Container Box -->
+            <h1 class="text-4xl text-white text-center">{{ $page->title }}</h1>
+            <div class="flex justify-center items-center text-sm mt-2 text-white space-x-3">
+                <span>By <a href="{{ route('showAuthor', ['slug' => $page->user->slug]) }}" class="underline hover:no-underline">{{ $page->user->name }}</a></span>
+                <span class="w-2 h-2 rounded-full bg-white"></span>
+                @if(strtotime($page->updated_at) > strtotime($page->published_at))
+                <span>Updated on {{ date('F Y, d', strtotime($page->updated_at)) }}</span>
+                @else
+                <span>Published on {{ date('F Y, d', strtotime($page->published_at)) }}</span>
+                @endif
+            </div>
         </div>
     </div>
 </section>
 <section class="antialiased bg-white  p-10">
-    <h1 class="text-4xl mb-10 text-site-blue-dark text-center">{{ $review->title }}</h1>
     <div class="flex flex-col md:flex-row w-4/5 sm:w-full 2xl:w-3/5 mx-auto">
         <!-- Left Column (60% on larger screens, 100% on mobile) -->
-        <div class="bodycontent w-full lg:w-4/6 p-4">
+        <div class="bodycontent w-full lg:w-4/6 px-4">
             {!! $processedContent !!}
         </div>
 
@@ -25,12 +49,12 @@
             <div class="rounded-lg overflow-hidden shadow">
                 <!-- Blue Header -->
                 <div class="bg-cyan-500 text-white text-center p-6">
-                    {{ $review->why }}
+                    {{ $page->why }}
                 </div>
                 <!-- Body with padding of 1.5rem -->
                 <div class="p-12 flex-col">
-                    @if($review && $review->tips->count() > 0)
-                    @foreach($review->tips->where('type', 'why') as $tip)
+                    @if($page && $page->tips->count() > 0)
+                    @foreach($page->tips->where('type', 'why') as $tip)
                     <div>
                         <!-- Header with SVG and h3 -->
                         <header class="flex flex-row mb-2">
@@ -59,10 +83,10 @@
 
 
 </section>
-@if($review && $review->tips->where('type', 'usefultip')->count() > 0)
+@if($page && $page->tips->where('type', 'usefultip')->count() > 0)
 <section class="antialiased bg-site-bg-gray p-10">
     <div class="w-4/5 sm:w-full 2xl:w-3/5 mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-        @foreach($review->tips->where('type', 'usefultip') as $tip)
+        @foreach($page->tips->where('type', 'usefultip') as $tip)
         <div class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow">
             <a href="#" class="hover-group">
                 <div class="p-6">
@@ -93,15 +117,15 @@
 <section class="antialiased bg-gray-50  p-12">
     <div class="w-4/5 sm:w-full 2xl:w-3/5 mx-auto bodycontent">
 
-    @if($review->media->first())
+    @if($page->media->first())
     <figure class="relative h-0 pb-[36.25%] overflow-hidden mb-8 rounded">
-    <img class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out" src="{{ $review->media->first()->getUrl() }}" alt="{{ $review->media->first()->custom_properties['name'] ?? '' }}">
+    <img class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out" src="{{ $page->media->first()->getUrl() }}" alt="{{ $page->media->first()->custom_properties['name'] ?? '' }}">
 
         </figure>
     @endif    
 
 
-        {!! $review->text !!}
+        {!! $page->text !!}
     </div>
 </section>
 
@@ -110,8 +134,8 @@
     <div class="w-3/4 lg:w-1/2 mx-auto">
         <div class="text-4xl mb-5 text-site-blue-dark text-center pt-10">{{__('Frequently Asked Questions (FAQ)')}}</div>
         <div class="faq-box">
-            @if($review && $review->faqs->count() > 0)
-            @foreach($review->faqs as $faq)
+            @if($page && $page->faqs->count() > 0)
+            @foreach($page->faqs as $faq)
             <div class="faq-item mb-4 rounded-xl border-2 border-site-border-faq bg-white">
                 <div class="faq-question cursor-pointer flex justify-between items-center p-4">
                     <span class="text-site-blue-ligter font-medium text-xl">{{ $loop->iteration }}. {{ $faq->question }}</span>

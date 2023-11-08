@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Welcome from '@/Components/Welcome.vue';
-import BarChart from "@/Components/BarChart.vue";
+
 import {ChevronRightIcon, DocumentTextIcon, PhotoIcon, RectangleGroupIcon, LinkIcon, Cog6ToothIcon, CreditCardIcon, UserCircleIcon, FingerPrintIcon, HomeIcon, TicketIcon, QuestionMarkCircleIcon, CheckIcon    } from '@heroicons/vue/24/outline';
 import TicketList from "@/Components/TicketList.vue";
 

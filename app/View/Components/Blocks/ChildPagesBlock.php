@@ -3,6 +3,7 @@ namespace App\View\Components\Blocks;
 
 use Illuminate\View\Component;
 use App\Models\Page;
+use App\Enums\Status;
 
 class ChildPagesBlock extends Component
 {
@@ -13,8 +14,8 @@ class ChildPagesBlock extends Component
         // Query the news model
         $query = Page::query();
 
-            // Eager load the parent page for each page
-    $query->with('parent');
+        // Eager load the parent page for each page
+        $query->with('parent');
 
       // If a parent_id is specified, filter by it
         if ($parent_id) {
@@ -24,6 +25,12 @@ class ChildPagesBlock extends Component
         if ($term) {
             $query->where('title', 'LIKE', '%' . $term . '%');
         }
+
+        // Filter reviews that are published
+        $query->where('status', Status::PUBLISHED);
+
+        // Filter reviews that have a published_at date of today or earlier
+        $query->whereDate('published_at', '<=', now());
 
         // Order the results
         $query->orderBy($orderby, $order);

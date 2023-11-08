@@ -89,7 +89,7 @@
       </CardHeader>
     </template>
 
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto max-w-lg md:max-w-full">
       <div class="inline-block min-w-full align-middle">
         <div class="relative overflow-hidden md:overflow-visible">
           <EmptyListing v-if="!collection?.length" />

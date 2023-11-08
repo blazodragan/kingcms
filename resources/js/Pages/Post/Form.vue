@@ -35,6 +35,7 @@
               </template>
             </Modal>
           </div>
+          <a class="text-xs pl-1 mt-1 text-blue-600" target="_balnk" :href="route('showBlogPost', {slug: form.slug?.[currentLocale]})">{{ route('showBlogPost', {slug: form.slug?.[currentLocale]}) }}</a>
 
             <Dropzone
                 v-model="form.cover"
@@ -127,7 +128,7 @@
 </div>
     </div>
 
-    <div class="col-span-2">     
+    <div class="col-span-4 md:col-span-2">
       <Card class="mb-4">
         <div class="space-y-4">
             <RadioGroupLink
@@ -137,6 +138,14 @@
               :options="statusOptions"
               mode="single"
             />
+            <Multiselect
+              v-model="form.template"
+              name="template"
+              :label="'Template'"
+              :options="formattedTemplates"
+              mode="single"
+            />
+
             <DatePicker
                 v-model="form.published_at"
                 name="published_at"
@@ -162,9 +171,83 @@
       <Card class="mb-4">
         <div class="space-y-4">
         <TextInput
+                v-model="form.meta_title[currentLocale]"
+                :name="`meta_title.${currentLocale}`"
+                :label="getLabelWithLocale('Meta Title')"
+                minCharactersCount="50"
+                maxCharactersCount="60"
+                
+            /> 
+
+            <TextInput
+                v-model="form.meta_description[currentLocale]"
+                :name="`meta_description.${currentLocale}`"
+                :label="getLabelWithLocale('Meta Description')"
+                minCharactersCount="150"
+                maxCharactersCount="160"
+                
+            /> 
+
+            <TextInput
+                v-model="form.meta_url_canolical[currentLocale]"
+                :name="`meta_url_canolical.${currentLocale}`"
+                :label="getLabelWithLocale('Meta Url Canolical')"
+                
+            /> 
+
+            <TextInput
+                v-model="form.href_lang[currentLocale]"
+                :name="`href_lang.${currentLocale}`"
+                :label="getLabelWithLocale('Href Lang')"
+                
+            /> 
+
+            <div class="flex flex-row justify-between">
+    <SwitchGroup>
+    <div class="flex items-center">
+      <SwitchLabel class="mr-4">No Index</SwitchLabel>
+      <Switch
+        v-model="form.no_index"
+        :class='form.no_index ? "bg-blue-600" : "bg-gray-200"'
+        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+      >
+        <span
+          :class='form.no_index ? "translate-x-6" : "translate-x-1"'
+          class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+        />
+      </Switch>
+    </div>
+  </SwitchGroup>
+  <SwitchGroup>
+    <div class="flex items-center">
+      <SwitchLabel class="mr-4">No Follow</SwitchLabel>
+      <Switch
+        v-model="form.no_follow"
+        :class='form.no_follow ? "bg-blue-600" : "bg-gray-200"'
+        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+      >
+        <span
+          :class='form.no_follow ? "translate-x-6" : "translate-x-1"'
+          class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+        />
+      </Switch>
+    </div>
+  </SwitchGroup>
+  </div>
+
+
+
+
+        </div>
+      </Card>
+      <Card>
+        <div class="space-y-4">
+        <TextInput
                 v-model="form.og_title[currentLocale]"
                 :name="`og_title.${currentLocale}`"
                 :label="getLabelWithLocale('Og Title')"
+                minCharactersCount="50"
+                maxCharactersCount="60"
                 
             /> 
 
@@ -172,6 +255,8 @@
                 v-model="form.og_description[currentLocale]"
                 :name="`og_description.${currentLocale}`"
                 :label="getLabelWithLocale('Og Description')"
+                minCharactersCount="150"
+                maxCharactersCount="200"
                 
             /> 
 
@@ -190,56 +275,11 @@
             /> 
 
 
-
-
             <Dropzone
                 v-model="form.og_cover"
                 name="og_cover"
                 :maxFileSize="10485760"
                 :label="'Og Cover'"
-            /> 
-        </div>
-      </Card>
-      <Card>
-        <div class="space-y-4">
-        <TextInput
-                v-model="form.meta_title[currentLocale]"
-                :name="`meta_title.${currentLocale}`"
-                :label="getLabelWithLocale('Meta Title')"
-                
-            /> 
-
-            <TextInput
-                v-model="form.meta_description[currentLocale]"
-                :name="`meta_description.${currentLocale}`"
-                :label="getLabelWithLocale('Meta Description')"
-                
-            /> 
-
-            <TextInput
-                v-model="form.meta_url_canolical[currentLocale]"
-                :name="`meta_url_canolical.${currentLocale}`"
-                :label="getLabelWithLocale('Meta Url Canolical')"
-                
-            /> 
-
-            <TextInput
-                v-model="form.href_lang[currentLocale]"
-                :name="`href_lang.${currentLocale}`"
-                :label="getLabelWithLocale('Href Lang')"
-                
-            /> 
-
-            <Checkbox
-                v-model="form.no_index"
-                name="no_index"
-                :label="'No Index'"
-            /> 
-
-            <Checkbox
-                v-model="form.no_follow"
-                name="no_follow"
-                :label="'No Follow'"
             /> 
         </div>
       </Card>
@@ -249,7 +289,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch, Ref } from 'vue';
+import { ref, reactive, watch, Ref, computed } from 'vue';
+import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import {
     Card,
     TextInput,
@@ -268,7 +309,7 @@ import {
     IconSelector,
     Button,
     IconButton,
-    Modal
+    Modal,
 } from "kingcms/Components";
 import { EyeDropperIcon, EyeSlashIcon, EyeIcon, ChevronUpIcon } from "@heroicons/vue/24/outline";
 import { InertiaForm } from "kingcms/types";
@@ -287,9 +328,16 @@ interface Props {
   categoriesOptions: Array<{value: string|number, label: string}>
   statusOptions: Array<{ value: string | number; label: string }>;
   slugDisabled: Ref<boolean>;
+  templates: Array<{value: string, label: string}>;
 }
 
 const props = defineProps<Props>();
+
+
+// we are formating here the template array because it needs to have a value and a label for the radio or the multiseclet componenet
+const formattedTemplates = computed(() => {
+  return props.templates.map(temp => ({ value: temp, label: temp }));
+});
 
 const addFAQ = (): void => {
   props.form.faqs.push({

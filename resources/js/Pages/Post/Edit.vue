@@ -14,7 +14,7 @@
     </Button>
   </PageHeader>
 
-  <Form :form="form" :submit="submit" :userOptions="userOptions" :categoriesOptions="categoriesOptions" :statusOptions="statusOptions"/>
+  <Form :form="form" :submit="submit" :userOptions="userOptions" :categoriesOptions="categoriesOptions" :statusOptions="statusOptions" :templates="templates"/>
 </AppLayout>
 </template>
 
@@ -40,6 +40,7 @@ interface Props {
   userOptions: Array<{value: string|number, label: string}>;
   categoriesOptions: Array<{value: string|number, label: string}>
   statusOptions: Array<{value: string|number, label: string}>;
+  templates: Array<{value: string, label: string}>;
 }
 
 const props = defineProps<Props>();
@@ -63,6 +64,7 @@ og_url: props.post?.og_url ?? { ...translatableDefaultValue },
 user_id: props.post?.user_id ?? "", 
 status: props.post?.status ?? "", 
 published_at: props.post?.published_at ?? "", 
+template: props.post?.template ?? "", 
 cover: getMediaCollection(props.post?.media, 'cover'), 
 og_cover: getMediaCollection(props.post?.media, 'og_cover'), 
 faqs: props.post?.faqs.map(faq => ({...faq,question: faq.question,answer: faq.answer})) ?? [],

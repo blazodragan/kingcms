@@ -3,7 +3,7 @@ namespace App\View\Components\Blocks;
 
 use Illuminate\View\Component;
 use App\Models\News;
-
+use App\Enums\Status;
 class TopNewsBlock extends Component
 {
     public $newsItems;
@@ -24,6 +24,11 @@ class TopNewsBlock extends Component
         if ($term) {
             $query->where('title', 'LIKE', '%' . $term . '%');
         }
+        // Filter reviews that are published
+        $query->where('status', Status::PUBLISHED);
+
+        // Filter reviews that have a published_at date of today or earlier
+        $query->whereDate('published_at', '<=', now());
 
         // Order the results
         $query->orderBy($orderby, $order);

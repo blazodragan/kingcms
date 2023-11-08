@@ -11,6 +11,8 @@ use App\Translations\Scanners\Internal\PhpScanner;
 
 return [
 
+    //
+    'twitter' => env('APP_TWITTER', 'Laravel'),
     //TODO: remeber to change the app/Providers/RouteServiceProvider.php to the new admin_oath because of rediect when login chaneg the logic here 
     'admin_path' => 'admina',
 

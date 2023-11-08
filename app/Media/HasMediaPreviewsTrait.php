@@ -48,32 +48,27 @@ trait HasMediaPreviewsTrait
     /**
      * Register preview with the default size of 200x200 for all media collections
      */
-    public function autoRegisterPreviews($size = 200): void
+    public function autoRegisterPreviews($width = 500, $height = 250): void
     {
         $this->addMediaConversion('preview')
-            ->width($size)
-            ->height($size)
-            ->fit('crop', $size, $size)
+            ->width($width)
+            ->height($height)
+            ->fit('crop', $width, $height)
             ->optimize()
+            ->quality(80)
             ->nonQueued()
             ->performOnCollections(...$this->getRegisteredMediaCollections()->map->getName()->toArray());
     }
 
-    public function autoRegisterBigThumbs($width = 500, $height = 300): void
+    public function autoRegisterBigThumbs($width = 1460, $height = 530): void
     {
         $this->addMediaConversion('bigThumb')
             ->width($width)
             ->height($height)
             ->fit('crop', $width, $height)
             ->optimize()
-            ->quality(70)
+            ->quality(80)
             ->nonQueued()
             ->performOnCollections(...$this->getRegisteredMediaCollections()->map->getName()->toArray());      
-
-            $this
-            ->addMediaConversion('my-conversion')
-            ->quality(80)
-            ->withResponsiveImages();
-
     }
 }

@@ -1,6 +1,6 @@
 <template>
   <Card :title="title">
-    <div class="grid grid-cols-6 gap-6">
+    <div class="grid gap-6">
       <slot></slot>
       <TextInput
         v-model="form.password"
@@ -34,6 +34,6 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  title: wTrans("craftable-pro", "Password").value,
+  title: wTrans("", "Password").value,
 });
 </script>

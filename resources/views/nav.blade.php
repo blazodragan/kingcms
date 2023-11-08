@@ -3,7 +3,7 @@ use Illuminate\Support\Str;
 
 function isActiveRoute($routeName, $slug = null, $output = "text-site-blue-dark") {
     $currentUrl = url()->current();
-    $targetUrl = route($routeName, ['parentPage' => $slug]);
+    $targetUrl = route($routeName, ['parentSlug' => $slug]);
 
     if ($routeName == 'home' && $currentUrl == $targetUrl) {
         return $output;
@@ -25,7 +25,7 @@ function isActiveRoute($routeName, $slug = null, $output = "text-site-blue-dark"
       <!-- Logo (Left Side) -->
       <div class="text-white ">
         <span>
-        <a href="{{ route('home') }}" ><img src="{{ asset('images/logo.png') }}" class="w-44" alt="Logo"></a>
+        <a href="{{ route('home') }}" ><img src="{{ asset('images/logo.png') }}" width="176px" height="66px" class="w-44" alt="Logo"></a>
 
         </span>
       </div>
@@ -33,10 +33,10 @@ function isActiveRoute($routeName, $slug = null, $output = "text-site-blue-dark"
       <div class="hidden md:flex space-x-10">
         
         <a href="{{ route('home') }}" class="{{ isActiveRoute('home') }} text-gray-700 font-medium text-lg" >{{__('Car Rental')}}</a>
-        <a href="{{ route('showParent', ['parentPage' => 'spanien']) }}" class="{{ isActiveRoute('showParent', 'spanien') }} text-gray-700 font-medium text-lg">{{ __('Locations') }}</a>
-        <a href="{{ route('showParent', ['parentPage' => 'reviews']) }}" class="{{ isActiveRoute('showParent', 'reviews') }} text-gray-700 font-medium text-lg">{{__('Vehicles')}}</a>
-        <a href="{{ route('showParent', ['parentPage' => 'blog']) }}" class="{{ isActiveRoute('showParent', 'blog') }} text-gray-700 font-medium text-lg">{{ __('News') }}</a>
-        <a href="{{ route('showParent', ['parentPage' => 'loyalty-program']) }}" class="{{ isActiveRoute('showParent', 'loyalty-program') }} text-gray-700 font-medium text-lg">{{ __('	Loyalty Program') }}</a>
+        <a href="{{ route('showParent', ['parentSlug' => 'spanien']) }}" class="{{ isActiveRoute('showParent', 'spanien') }} text-gray-700 font-medium text-lg">{{ __('Locations') }}</a>
+        <a href="{{ route('showParent', ['parentSlug' => 'reviews']) }}" class="{{ isActiveRoute('showParent', 'reviews') }} text-gray-700 font-medium text-lg">{{__('Vehicles')}}</a>
+        <a href="{{ route('showParent', ['parentSlug' => 'blog']) }}" class="{{ isActiveRoute('showParent', 'blog') }} text-gray-700 font-medium text-lg">{{ __('News') }}</a>
+        <a href="{{ route('showParent', ['parentSlug' => 'loyalty-program']) }}" class="{{ isActiveRoute('showParent', 'loyalty-program') }} text-gray-700 font-medium text-lg">{{ __('	Loyalty Program') }}</a>
       </div>
       <!-- Right Side Items -->
       <div class="hidden md:flex items-center space-x-4">
@@ -89,7 +89,7 @@ function isActiveRoute($routeName, $slug = null, $output = "text-site-blue-dark"
       </div>
       <!-- Burger Menu (Mobile) -->
       <div class="md:hidden flex items-center">
-        <button id="menuButton" class="text-white">
+        <button aria-label="Menu Button" id="menuButton" class="text-white">
           <!-- SVG for Burger Icon -->
           <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" stroke="#49a5d4" class="h-6 w-6">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -99,11 +99,11 @@ function isActiveRoute($routeName, $slug = null, $output = "text-site-blue-dark"
     </div>
     <!-- Dropdown Menu (Mobile) -->
     <div id="mobileMenu" class="md:hidden mt-2 space-y-2 hidden overflow-hidden transition-all duration-300" style="max-height: 0;">
-      <a class="{{ isActiveRoute('home') }} text-[#49a5d4] block" href="{{ route('home') }}">{{__('Car Rental')}}</a>
-      <a class="{{ isActiveRoute('home') }} text-[#49a5d4] block" href="{{ route('home') }}">{{__('Vehicles')}}</a>
-      <a class="{{ isActiveRoute('location') }} text-[#49a5d4] block" href="{{ route('location') }}">{{__('Locations')}}</a>
-      <a class="{{ isActiveRoute('allnews') }} text-[#49a5d4] block" href="{{ route('allnews') }}">{{__('News')}}</a>
-      <a class="{{ isActiveRoute('home') }} text-[#49a5d4] block" href="{{ route('home') }}">{{__('Loyalty Program')}}</a>
-
+    <a href="{{ route('home') }}" class="{{ isActiveRoute('home') }} text-gray-700 font-medium text-lg block" >{{__('Car Rental')}}</a>
+        <a href="{{ route('showParent', ['parentSlug' => 'spanien']) }}" class="{{ isActiveRoute('showParent', 'spanien') }} text-gray-700 font-medium text-lg block">{{ __('Locations') }}</a>
+        <a href="{{ route('showParent', ['parentSlug' => 'reviews']) }}" class="{{ isActiveRoute('showParent', 'reviews') }} text-gray-700 font-medium text-lg block">{{__('Vehicles')}}</a>
+        <a href="{{ route('showParent', ['parentSlug' => 'blog']) }}" class="{{ isActiveRoute('showParent', 'blog') }} text-gray-700 font-medium text-lg block">{{ __('News') }}</a>
+        <a href="{{ route('showParent', ['parentSlug' => 'loyalty-program']) }}" class="{{ isActiveRoute('showParent', 'loyalty-program') }} text-gray-700 font-medium text-lg block">{{ __('	Loyalty Program') }}</a>
     </div>
   </nav>
+  

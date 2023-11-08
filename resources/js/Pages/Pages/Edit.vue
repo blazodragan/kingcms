@@ -11,7 +11,7 @@
       :leftIcon="ArrowDownTrayIcon"
       @click="submit"
       :loading="form.processing"
-      v-can="'sanctum.news.edit'"
+      v-can="'sanctum.page.edit'"
     >Save
     </Button>
   </PageHeader>
@@ -79,6 +79,7 @@ cover: getMediaCollection(props.pages?.media, 'cover'),
 og_cover: getMediaCollection(props.pages?.media, 'og_cover'), 
 faqs: props.pages?.faqs.map(faq => ({...faq,question: faq.question,answer: faq.answer})) ?? [],
 tips: props.pages?.tips.map(tip => ({...tip,title: tip.title,body: tip.body,icon: tip.icon,type: tip.type})) ?? [],
+parent: props.pages?.parent ?? { ...translatableDefaultValue }, 
     },
     route("pages.update", [props.pages?.id])
 );

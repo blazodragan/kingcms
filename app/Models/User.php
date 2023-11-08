@@ -18,6 +18,9 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Page;
+use App\Models\Review;
+use App\Models\Post;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -49,7 +52,11 @@ class User extends Authenticatable implements HasMedia
         'invitation_sent_at',
         'invitation_accepted_at',
         'locale',
-        'active'
+        'about',
+        'twitter',
+        'facebook',
+        'linkedin',
+        'slug'
     ];
     protected $searchable = ['name'];
 
@@ -86,6 +93,22 @@ class User extends Authenticatable implements HasMedia
         'avatar_url',
         'media_details',
     ];
+
+
+    public function pages()
+    {
+        return $this->hasMany(Page::class); // Assuming the related model is named 'Page'
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class); // Assuming the related model is named 'Review'
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class); // Assuming the related model is named 'Post'
+    }
 
 
         /**

@@ -1,11 +1,11 @@
 <template>
-  <AppLayout title="News">
-  <PageHeader sticky :title="'Create News'">
+  <AppLayout title="Page">
+  <PageHeader sticky :title="'Create Page'">
     <Button
       :leftIcon="ArrowDownTrayIcon"
       @click="submit"
       :loading="form.processing"
-      v-can="'sanctum.news.create'"
+      v-can="'sanctum.page.create'"
     >Save
     </Button>
   </PageHeader>

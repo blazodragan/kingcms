@@ -27,18 +27,29 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Enums\Status;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\FAQ;
+use Illuminate\Support\Str;
+use App\Traits\HasTemplates;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function show(Post $post)
+    use HasTemplates;
+
+    // template folder 
+    protected $templatePath = 'posts';
+
+    public function show($slug)
     {
+        $locale = app()->getLocale();
+        $page = Post::where('slug->' . $locale, $slug)->firstOrFail();
+
 
         // If the page doesn't exist, show a 404 page
-        if (!$post) {
+        if (!$page) {
             abort(404);
         }
-        $post->load('media');
-        $post->load('faqs');
+        $page->load('media');
+        $page->load('faqs');
 
 
         $processedContent = preg_replace_callback('/@block\(\s*\'([^\']+)\'\s*(?:,\s*(\[[^\]]+\]))?\s*\)/', function ($matches) {
@@ -61,11 +72,17 @@ class PostController extends Controller
 
             // Use the block resolver to fetch the block content
             return app(\App\Services\BlockResolver::class)->resolve($blockName, $parameters);
-        }, $post->content);
+        }, $page->content);
 
+        if ($page->template) {
 
+            $templateName = $this->templatePath . '.' . $page->template;
+
+            return view($templateName, compact('page', 'processedContent'));
+        } 
+        
         // Render the page (e.g., using a view)
-        return view('posts.show', compact('post', 'processedContent'));
+        return view('posts.show', compact('page', 'processedContent'));
     }
     /**
      * Display a listing of the resource.
@@ -117,6 +134,7 @@ class PostController extends Controller
             'userOptions' => User::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->name]),
             'categoriesOptions' => Category::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->alias]),
             'statusOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Status::cases()),
+            'templates' => $this->getTemplateNames(),
         ]);
     }
 
@@ -158,6 +176,7 @@ class PostController extends Controller
             'userOptions' => User::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->name]),
             'categoriesOptions' => Category::all()->map(fn ($model) => ['value' => $model->id, 'label' => $model->alias]),
             'statusOptions' => array_map(fn ($case) => ['value' => $case, 'label' => $case], Status::cases()),
+            'templates' => $this->getTemplateNames(),
         ]);
     }
 
@@ -192,6 +211,30 @@ class PostController extends Controller
             'message' => __('Post have been successfully update'),
             'durration' => 2000,]);
         
+    }
+
+        /**
+     * Update the specified resource in storage.
+     */
+    public function date(Request $request, Post $post): RedirectResponse
+    {
+            // Validate the 'published_at' attribute
+            $validatedData = $request->validate([
+                'published_at' => 'nullable',
+            ]);
+    
+            // Update the 'published_at' attribute
+            $post->published_at = $validatedData['published_at'];
+    
+            // Save the changes; this will also update the 'updated_at' timestamp
+            $post->save();
+    
+            return redirect()->route('posts.index')->with('toast', [
+                'type' => 'success',
+                'message' => __('Date have been successfully update'),
+                'durration' => 2000,]);
+
+
     }
 
     /**
@@ -236,6 +279,43 @@ class PostController extends Controller
             'durration' => 2000,]);
     }
 
+    public function clone(Post $post): RedirectResponse
+    {
+        $newPost = $post->replicate(); // Replicate creates a new unsaved instance from the current model
+        
+        $date = now()->format('Y-m-d');
+        $newPost->title = "{$post->title} clone {$date}";
+        $newPost->status = Status::DRAFT;
+        $baseSlug = Str::slug("{$post->title} clone {$date}");
+        $newPost->slug = $this->uniqueSlug($baseSlug);
+
+        $newPost->save();
+
+        // Cloning associated FAQs
+        foreach ($post->faqs as $faq) {
+            $newFaq = $faq->replicate();
+            $newFaq->faqable_id = $newPost->id;
+            $newFaq->save();
+        }
+
+        // // Cloning associated Tips
+        // foreach ($post->tips as $tip) {
+        //     $newTip = $tip->replicate();
+        //     $newTip->tipable_id = $newPost->id;
+        //     $newTip->save();
+        // }
+
+        $categoryIds = $post->categories->pluck('id')->toArray();
+        $newPost->categories()->sync($categoryIds);
+
+        
+        return back()->with('toast', [
+            'type' => 'success',
+            'message' => __('Post cloned'),
+            'durration' => 2000,
+        ]);
+    }
+
     /**
      * Export
      */
@@ -255,5 +335,16 @@ class PostController extends Controller
             $faq = new FAQ(['question' => $faqData['question'], 'answer' => $faqData['answer']]);
             $pages->faqs()->save($faq);
         }
+    }
+    protected function uniqueSlug($baseSlug)
+    {
+        $slug = $baseSlug;
+        $count = 2; // Start the count for adding suffixes
+
+        while (Post::withTrashed()->where('slug->' . app()->getLocale(), $slug)->exists()) {
+            $slug = "{$baseSlug}-" . ($count++);
+        }
+
+        return $slug;
     }
 }

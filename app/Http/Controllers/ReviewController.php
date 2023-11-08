@@ -31,6 +31,7 @@ use App\Enums\Status;
 use Illuminate\Database\Eloquent\Builder;
 use App\Traits\HasTemplates;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
@@ -40,16 +41,18 @@ class ReviewController extends Controller
     // template folder 
     protected $templatePath = 'review';
 
-    public function show(Review $review)
+    public function show($slug)
     {
+        $locale = app()->getLocale();
+        $page = Review::where('slug->' . $locale, $slug)->firstOrFail();
 
         // If the page doesn't exist, show a 404 page
-        if (!$review) {
+        if (!$page) {
             abort(404);
         }
-        $review->load('media');
-        $review->load('faqs');
-        $review->load('tips');
+        $page->load('media');
+        $page->load('faqs');
+        $page->load('tips');
 
 
         $processedContent = preg_replace_callback('/@block\(\s*\'([^\']+)\'\s*(?:,\s*(\[[^\]]+\]))?\s*\)/', function ($matches) {
@@ -72,17 +75,17 @@ class ReviewController extends Controller
 
             // Use the block resolver to fetch the block content
             return app(\App\Services\BlockResolver::class)->resolve($blockName, $parameters);
-        }, $review->content);
+        }, $page->content);
 
-        if ($review->template) {
+        if ($page->template) {
 
-            $templateName = $this->templatePath . '.' . $review->template;
+            $templateName = $this->templatePath . '.' . $page->template;
 
-            return view($templateName, compact('review', 'processedContent'));
+            return view($templateName, compact('page', 'processedContent'));
         } 
         
         // Render the page (e.g., using a view)
-        return view('review.show', compact('review', 'processedContent'));
+        return view('review.show', compact('page', 'processedContent'));
 
     }
     /**
@@ -146,7 +149,6 @@ class ReviewController extends Controller
      */
     public function store(StoreReviewRequest $request): RedirectResponse
     {
-    
         $review = Review::create($request->validated());
         // Associate the FAQs
         if (isset($request['faqs'])) {
@@ -245,6 +247,34 @@ class ReviewController extends Controller
             'message' => __('Review have been successfully updated'),
             'durration' => 2000,
         ]);
+    }
+
+
+            /**
+     * Update the specified resource in storage.
+     */
+    public function date(Request $request, Review $review): RedirectResponse
+    {
+            // Validate the 'published_at' attribute
+            $validatedData = $request->validate([
+                'published_at' => 'nullable',
+            ]);
+    
+            // Update the 'published_at' attribute
+            $review->published_at = $validatedData['published_at'];
+    
+            // Save the changes; this will also update the 'updated_at' timestamp
+            $review->save();
+    
+            return back()->with('toast', [
+                'type' => 'success',
+                'message' => __('Review have been successfully updated'),
+                'durration' => 2000,
+            ]);
+
+
+
+
     }
 
     /**

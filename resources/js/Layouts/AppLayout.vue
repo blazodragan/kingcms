@@ -27,30 +27,29 @@ const page = usePage();
 
 // Navigation Menu
 const mainNavItems = [
-    {href:"pages.index", label: "Pages", children: [], icon: DocumentIcon, permission: 'sanctum'},
-    {href:"posts.index", label: "Posts", children: [], icon: MicrophoneIcon, permission: 'sanctum'},
-    {href:"reviews.index", label: "Reviews", children: [], icon: StarIcon, permission: 'sanctum'},
-    {href:"news.index", label: "News", children: [], icon: NewspaperIcon, permission: 'sanctum'},
-    {href:"categories.index", label: "Categories", children: [], icon: TagIcon, permission: 'sanctum'},
-    {href:"trust_reviews.index", label: "Trust Reviews", children: [], icon: ChatBubbleOvalLeftIcon, permission: 'sanctum'},
-    {href:"media.index", label: "Media", children: [], icon: FolderIcon, permission: 'sanctum'},
-    {href:"blocks.index", label: "Blocks", children: [], icon: BuildingStorefrontIcon, permission: 'sanctum'},
+    {href:"pages.index", label: "Pages", children: [], icon: DocumentIcon, permission: 'sanctum.page.index'},
+    {href:"posts.index", label: "Posts", children: [], icon: MicrophoneIcon, permission: 'sanctum.post.index'},
+    {href:"reviews.index", label: "Reviews", children: [], icon: StarIcon, permission: 'sanctum.review.index'},
+    // {href:"news.index", label: "News", children: [], icon: NewspaperIcon, permission: 'sanctum.permission.index'},
+    {href:"categories.index", label: "Categories", children: [], icon: TagIcon, permission: 'sanctum.category.index'},
+    {href:"trust_reviews.index", label: "Trust Reviews", children: [], icon: ChatBubbleOvalLeftIcon, permission: 'sanctum.permission.index'},
+    {href:"media.index", label: "Media", children: [], icon: FolderIcon, permission: 'sanctum.media.index'},
+    {href:"blocks.index", label: "Blocks", children: [], icon: BuildingStorefrontIcon, permission: 'sanctum.permission.index'},
     // {href:"dashboard", label: "Home", childern: [], icon: HomeIcon},
 ]
 
 
 const allNavItems = [
-    {href:"users.index", label: "Users", children: [], icon: UserCircleIcon, permission: 'sanctum'},
+    {href:"users.index", label: "Users", children: [], icon: UserCircleIcon, permission: 'sanctum.permission.index'},
     {href:"settings.index", label: "Settings", children: [], icon: Cog6ToothIcon, permission: 'sanctum.settings.edit'},
     {href:"translations.index", label: "Translations", children: [], icon: LanguageIcon, permission: 'sanctum.settings.edit'},
-
     {href:"permissions.index", label: "Permissions", children: [], icon: DocumentTextIcon, permission: 'sanctum.permission.index'},
     {href:"profile.show", label: "Profile", children: [], icon: UserCircleIcon, permission: 'sanctum'},
 ];
 
 
 
-
+const followingmainNavItems = mainNavItems.filter(item => page.props.premit.includes(item.permission));
 const followingNavItems = allNavItems.filter(item => page.props.premit.includes(item.permission));
 
 
@@ -69,29 +68,29 @@ const logout = () => {
 };
 
 
-const goToDashboard = (e) => {
-  if (e.key === "1" && (e.altKey || e.metaKey)) {
-    router.get(route('dashboard'));
-  }
-};
-const goToGroup = (e) => {
-  if (e.key === "2" && (e.altKey || e.metaKey)) {
-    router.get(route('groups.index'));
-  }
-};
-const goToKeywords = (e) => {
-  if (e.key === "3" && (e.altKey || e.metaKey)) {
-    router.get(route('keywords.index'));
-  }
-};
-onMounted(
-  () => document.addEventListener("keydown", goToDashboard),document.addEventListener("keydown", goToGroup),document.addEventListener("keydown", goToKeywords)
+// const goToDashboard = (e) => {
+//   if (e.key === "1" && (e.altKey || e.metaKey)) {
+//     router.get(route('pages.index'));
+//   }
+// };
+// const goToGroup = (e) => {
+//   if (e.key === "2" && (e.altKey || e.metaKey)) {
+//     router.get(route('posts.index'));
+//   }
+// };
+// const goToKeywords = (e) => {
+//   if (e.key === "3" && (e.altKey || e.metaKey)) {
+//     router.get(route('reviews.index'));
+//   }
+// };
+// onMounted(
+//   () => document.addEventListener("keydown", goToDashboard),document.addEventListener("keydown", goToGroup),document.addEventListener("keydown", goToKeywords)
 
-);
+// );
 
-onUnmounted(() => {
-  document.removeEventListener("keydown", goToDashboard),document.removeEventListener("keydown", goToGroup),document.removeEventListener("keydown", goToKeywords)
-});
+// onUnmounted(() => {
+//   document.removeEventListener("keydown", goToDashboard),document.removeEventListener("keydown", goToGroup),document.removeEventListener("keydown", goToKeywords)
+// });
 </script>
 
 <template>
@@ -108,7 +107,7 @@ onUnmounted(() => {
             <nav class="mt-8">
                 <div class="mb-5">
                     <h3 class="mx-6 mb-2 text-sm text-gray-400 uppercase tracking-widest">Main</h3>
-                    <NavItem :item="item" v-for="item in mainNavItems" :key="item.label"></NavItem>
+                    <NavItem :item="item" v-for="item in followingmainNavItems" :key="item.label"></NavItem>
                 </div>
 
                 <div class="mb-5">
@@ -279,6 +278,8 @@ onUnmounted(() => {
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
+                        <NavItem :item="item" v-for="item in followingmainNavItems" :key="item.label"></NavItem>
+                        <NavItem :item="item" v-for="item in followingNavItems" :key="item.label"></NavItem>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -379,7 +380,7 @@ onUnmounted(() => {
                         <!-- Page Heading -->
             <footer class="bg-white mt-auto">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 md:flex md:items-center md:justify-between md:p-6">
-                    <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2022 <a href="https://mietwagenparadies.de/" class="hover:underline">mietwagenparadies.com™</a>. All Rights Reserved.
+                    <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://mietwagenparadies.de/" class="hover:underline">mietwagenparadies.com™</a>. All Rights Reserved.
     </span>
     <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
         <li>

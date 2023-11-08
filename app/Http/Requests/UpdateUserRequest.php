@@ -26,10 +26,9 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', Rule::unique('users', 'email')->whereNull('deleted_at'), 'string'],
-            'password' => ['required', 'confirmed', 'min:7', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9]).*$/', 'string'],
             'role_id' => ['required', 'exists:roles,id'],
-            'active' => ['boolean'],
+
         ];
+
     }
 }

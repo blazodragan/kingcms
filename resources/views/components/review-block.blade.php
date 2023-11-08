@@ -6,7 +6,7 @@
                 <!-- Image -->
                 @if($pageItem->media->first())
                 <figure class="relative h-0 pb-[56.25%] overflow-hidden">
-                    <img class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out" src="{{ $pageItem->media->first()->getUrl('bigThumb') }}" alt="{{ $pageItem->media->first()->custom_properties['name'] ?? '' }}">
+                    <img class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out" src="{{ $pageItem->media->first()->getUrl('preview') }}" alt="{{ $pageItem->media->first()->custom_properties['name'] ?? '' }}">
 
                 </figure>
                 @endif

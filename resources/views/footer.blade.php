@@ -41,7 +41,7 @@
     <div class="">
       <div class="">
         <a href="#" class=" inline-flex items-center text-gray-100 text-xl md:text-2xl font-bold gap-2 ">
-          <img src="{{ asset('images/logo-footer.png') }}" alt="">
+          <img src="{{ asset('images/logo-footer.png') }}" width="256px" height="96px" alt="Logo">
           </a>
       </div>
       

@@ -18,8 +18,6 @@ use App\Http\Controllers\Media\MediaController;
 use App\Http\Controllers\FAQController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LocationController;
-use App\Http\Controllers\NewsSiteController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\Translations\TranslationsController;
@@ -28,9 +26,12 @@ use App\Http\Controllers\BlockController;
 use App\Models\Page;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\NewsController;
 use App\Models\Post;
 use App\Models\Review;
 use Laravel\Sanctum\PersonalAccessToken;
+use App\Http\Controllers\AuthorController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,29 +45,13 @@ use Laravel\Sanctum\PersonalAccessToken;
 */
 
 
-
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/location', [LocationController::class, 'index'])->name('location');
-Route::get('/allnews', [NewsSiteController::class, 'index'])->name('allnews');
-
-
-
-
-
 
 Route::get('invite-user/{email}', [UserController::class, 'createInviteAcceptationUser'])->name('invite-user.create');
 Route::post('invite-user', [UserController::class, 'storeInviteAcceptationUser'])->name('invite-user.store');
 
 Route::post('logout', [LogoutController::class, 'destroy'])->name('logout');
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
+
 
 Route::middleware([
     'auth:web',
@@ -77,7 +62,7 @@ Route::middleware([
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
 
-    Route::get('faqs', [FAQController::class, 'index'])->name('media.index');
+    Route::get('faqs', [FAQController::class, 'index'])->name('faq.index');
 
     // upload media
     Route::post('upload', [FileUploadController::class, 'upload'])->name('upload');
@@ -97,6 +82,7 @@ Route::middleware([
     Route::post('users/{User}/resend-verification-email',  [UserController::class, 'resendEmailVerificationNotification']);
     Route::post('users/bulk-deactivate', [UserController::class, 'bulkDeactivate']);
     Route::post('users/bulk-activate', [UserController::class, 'bulkActivate']);
+    Route::match(['put', 'patch'], 'users/{user}/activate', [UserController::class, 'activate'])->name('user.activate');
     Route::get('users/{User}/impersonalLogin', [UserController::class, 'impersonalLogin'])->name('user.impersonalLogin');
     Route::post('users/invite-user', [UserController::class, 'inviteUser'])->name('invite-user');
     
@@ -147,32 +133,36 @@ Route::middleware([
 
 
     // news
-    Route::get('news', [App\Http\Controllers\NewsController::class, 'index'])->name('news.index');
-    Route::get('news/create', [App\Http\Controllers\NewsController::class, 'create'])->name('news.create');
-    Route::post('news', [App\Http\Controllers\NewsController::class, 'store'])->name('news.store');
-    Route::get('news/export', [App\Http\Controllers\NewsController::class, 'export'])->name('news.export');
-    Route::get('news/edit/{news}', [App\Http\Controllers\NewsController::class, 'edit'])->name('news.edit');
-    Route::match(['put', 'patch'], 'news/{news}', [App\Http\Controllers\NewsController::class, 'update'])->name('news.update');
-    Route::delete('news/{news}', [App\Http\Controllers\NewsController::class, 'destroy'])->name('news.destroy');
-    Route::post('news/bulk-destroy', [App\Http\Controllers\NewsController::class, 'bulkDestroy'])->name('news.bulk-destroy');
+    Route::get('news', [NewsController::class, 'index'])->name('news.index');
+    Route::get('news/create', [NewsController::class, 'create'])->name('news.create');
+    Route::post('news', [NewsController::class, 'store'])->name('news.store');
+    Route::get('news/export', [NewsController::class, 'export'])->name('news.export');
+    Route::get('news/edit/{news}', [NewsController::class, 'edit'])->name('news.edit');
+    Route::match(['put', 'patch'], 'news/{news}', [NewsController::class, 'update'])->name('news.update');
+    Route::delete('news/{news}', [NewsController::class, 'destroy'])->name('news.destroy');
+    Route::post('news/bulk-destroy', [NewsController::class, 'bulkDestroy'])->name('news.bulk-destroy');
 
     // posts
-    Route::get('posts', [App\Http\Controllers\PostController::class, 'index'])->name('posts.index');
-    Route::get('post/create', [App\Http\Controllers\PostController::class, 'create'])->name('post.create');
-    Route::post('post', [App\Http\Controllers\PostController::class, 'store'])->name('post.store');
-    Route::get('posts/export', [App\Http\Controllers\PostController::class, 'export'])->name('posts.export');
-    Route::get('post/edit/{post}', [App\Http\Controllers\PostController::class, 'edit'])->name('post.edit');
-    Route::match(['put', 'patch'], 'post/{post}', [App\Http\Controllers\PostController::class, 'update'])->name('post.update');
-    Route::delete('post/{post}', [App\Http\Controllers\PostController::class, 'destroy'])->name('post.destroy');
-    Route::post('posts/bulk-destroy', [App\Http\Controllers\PostController::class, 'bulkDestroy'])->name('posts.bulk-destroy');
+    Route::get('posts', [PostController::class, 'index'])->name('posts.index');
+    Route::get('post/create', [PostController::class, 'create'])->name('post.create');
+    Route::post('post', [PostController::class, 'store'])->name('post.store');
+    Route::get('posts/export', [PostController::class, 'export'])->name('posts.export');
+    Route::get('post/edit/{post}', [PostController::class, 'edit'])->name('post.edit');
+    Route::match(['put', 'patch'], 'post/{post}/date', [PostController::class, 'date'])->name('post.date');
+    Route::match(['put', 'patch'], 'post/{post}', [PostController::class, 'update'])->name('post.update');
+    
+    Route::delete('post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
+    Route::get('post/{post}', [PostController::class, 'clone'])->name('post.clone');
+    Route::post('posts/bulk-destroy', [PostController::class, 'bulkDestroy'])->name('posts.bulk-destroy');
 
 
-        // pages
+    // pages
     Route::get('pages', [PagesController::class, 'index'])->name('pages.index');
     Route::get('pages/create', [PagesController::class, 'create'])->name('pages.create');
     Route::post('pages', [PagesController::class, 'store'])->name('pages.store');
     Route::get('pages/export', [PagesController::class, 'export'])->name('pages.export');
     Route::get('page/edit/{page}', [PagesController::class, 'edit'])->name('page.edit');
+    Route::match(['put', 'patch'], 'pages/{pages}/date', [PagesController::class, 'date'])->name('pages.date');
     Route::match(['put', 'patch'], 'pages/{pages}', [PagesController::class, 'update'])->name('pages.update');
     Route::delete('pages/{pages}', [PagesController::class, 'destroy'])->name('pages.destroy');
     Route::get('page/{page}', [App\Http\Controllers\PagesController::class, 'clone'])->name('page.clone');
@@ -180,15 +170,16 @@ Route::middleware([
 
 
     // reviews
-    Route::get('reviews', [App\Http\Controllers\ReviewController::class, 'index'])->name('reviews.index');
-    Route::get('reviews/create', [App\Http\Controllers\ReviewController::class, 'create'])->name('reviews.create');
-    Route::post('reviews', [App\Http\Controllers\ReviewController::class, 'store'])->name('reviews.store');
-    Route::get('reviews/export', [App\Http\Controllers\ReviewController::class, 'export'])->name('reviews.export');
-    Route::get('review/edit/{review}', [App\Http\Controllers\ReviewController::class, 'edit'])->name('review.edit');
-    Route::match(['put', 'patch'], 'reviews/{review}', [App\Http\Controllers\ReviewController::class, 'update'])->name('reviews.update');
-    Route::delete('reviews/{review}', [App\Http\Controllers\ReviewController::class, 'destroy'])->name('reviews.destroy');
-    Route::get('review/{review}', [App\Http\Controllers\ReviewController::class, 'clone'])->name('review.clone');
-    Route::post('reviews/bulk-destroy', [App\Http\Controllers\ReviewController::class, 'bulkDestroy'])->name('reviews.bulk-destroy');
+    Route::get('reviews', [ReviewController::class, 'index'])->name('reviews.index');
+    Route::get('reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
+    Route::post('reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::get('reviews/export', [ReviewController::class, 'export'])->name('reviews.export');
+    Route::get('review/edit/{review}', [ReviewController::class, 'edit'])->name('review.edit');
+    Route::match(['put', 'patch'], 'reviews/{review}/date', [ReviewController::class, 'date'])->name('reviews.date');
+    Route::match(['put', 'patch'], 'reviews/{review}', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+    Route::get('review/{review}', [ReviewController::class, 'clone'])->name('review.clone');
+    Route::post('reviews/bulk-destroy', [ReviewController::class, 'bulkDestroy'])->name('reviews.bulk-destroy');
 
 
     // translations management
@@ -209,43 +200,19 @@ Route::middleware([
 });
 
 
+Route::get('/author/{slug}', [AuthorController::class, 'show'])->name('showAuthor');
 
-// Custom binding to resolve the page by slug
-Route::bind('reviewSlug', function ($value) {
-    return Review::where('slug->' . app()->getLocale(), $value)->firstOrFail();
-});
+Route::get('/reviews/{slug}', [ReviewController::class, 'show'])->name('showReview');
 
-Route::get('/reviews/{reviewSlug:slug}', [ReviewController::class, 'show'])->name('showReview');
+Route::get('/blog/{slug}', [PostController::class, 'show'])->name('showBlogPost');
 
+Route::get('{parentSlug}/{childSlug}', [PagesController::class, 'showChild'])->name('showChild');
 
-// Custom binding to resolve the page by slug
-Route::bind('postSlug', function ($value) {
-    return Post::where('slug->' . app()->getLocale(), $value)->firstOrFail();
-});
-
-Route::get('/blog/{postSlug:slug}', [PostController::class, 'show'])->name('showBlogPost');
+Route::get('{parentSlug}', [PagesController::class, 'showParent'])->name('showParent');
 
 
 
-Route::bind('parentPage', function ($value) {
-    $page = Page::where('slug->' . app()->getLocale(), $value)->firstOrFail();
 
-    // If the page has a parent_id, it's a child and shouldn't be accessible without its parent slug
-    if ($page->parent_id) {
-        abort(404);
-    }
 
-    return $page;
-});
 
-Route::bind('childPage', function ($value, $route) {
-    return Page::where('slug->' . app()->getLocale(), $value)
-        ->where('parent_id', $route->parameter('parentPage')->id)
-        ->firstOrFail();
-});
-
-// Specific route for parent and child combination
-Route::get('{parentPage:slug}/{childPage:slug}', [PagesController::class, 'showChild'])->name('showChild');
-// General route for just the parent
-Route::get('{parentPage:slug}', [PagesController::class, 'showParent'])->name('showParent');
 

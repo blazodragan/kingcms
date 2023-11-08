@@ -9,7 +9,7 @@
 
 
 <section>
-    <div class="bg-[url('panoramic-aerial-shot-california-bixby-bridge-green-hill-near-beautiful-blue-water.jpg')] bg-no-repeat  bg-cover w-full p-5"> <!-- Hero Section -->
+    <div class="bg-no-repeat  bg-cover w-full p-5"> <!-- Hero Section -->
         <div class="w-full xl:w-1/2 mx-auto m-auto text-center flex"> <!-- Container Box -->
           
           <!-- Left Side -->

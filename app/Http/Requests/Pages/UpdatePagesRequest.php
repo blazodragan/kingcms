@@ -3,6 +3,7 @@ namespace App\Http\Requests\Pages;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use app\Settings\GeneralSettings;
 
 class UpdatePagesRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdatePagesRequest extends FormRequest
     */
     public function authorize()
     {
-        return Gate::allows("sanctum.news.edit");
+        return Gate::allows("sanctum.page.edit");
     }
 
     /**
@@ -23,9 +24,17 @@ class UpdatePagesRequest extends FormRequest
     */
     public function rules()
     {
+        $settings = app(GeneralSettings::class);
+        $defaultLocale = $settings->default_locale;
+
         return [
-            'title' => ['sometimes'],
-            'slug' => ['sometimes'],
+            "slug.$defaultLocale" => [
+                'sometimes',
+                'max:255',
+            ],
+            "title.$defaultLocale" => ['required'],
+            'template' => ['required'],
+            'status' => ['required'],
             'perex' => ['sometimes'],
             'content' => ['sometimes'],
             'text' => ['nullable'],
@@ -33,7 +42,6 @@ class UpdatePagesRequest extends FormRequest
             'meta_title' => ['nullable'],
             'meta_description' => ['nullable'],
             'meta_url_canolical' => ['nullable'],
-            'template' => ['nullable'],
             'is_index' => ['sometimes','boolean'],
             'is_parent' => ['sometimes','boolean'],
             'no_index' => ['sometimes','boolean'],
@@ -45,7 +53,6 @@ class UpdatePagesRequest extends FormRequest
             'user_id' => ['required','exists:users,id'],
             'parent_id' => ['nullable'],
             'published_at' => ['nullable'],
-            'status' => ['nullable'],
         ];
     }
 }

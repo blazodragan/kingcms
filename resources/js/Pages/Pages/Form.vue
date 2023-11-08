@@ -36,6 +36,8 @@
               </template>
             </Modal>
           </div>
+
+          <a class="text-xs pl-1 mt-1 text-blue-600" target="_balnk" :href="form.parent_id ? route('showChild', { parentSlug: form.parent.slug?.[currentLocale], childSlug: form.slug?.[currentLocale]}) : route('showParent', { parentSlug: form.slug?.[currentLocale] })">{{ form.parent_id ? route('showChild', { parentSlug: form.parent.slug?.[currentLocale], childSlug: form.slug?.[currentLocale]}) : route('showParent', { parentSlug: form.slug?.[currentLocale] }) }}</a>
             <Dropzone
                 v-model="form.cover"
                 name="cover"
@@ -200,7 +202,7 @@
 </div>
     </div>
 
-    <div class="col-span-2">     
+    <div class="col-span-4 md:col-span-2">  
       <Card class="mb-4">
         <div class="space-y-4">
             <RadioGroupLink
@@ -215,14 +217,6 @@
               name="template"
               :label="'Template'"
               :options="formattedTemplates"
-              mode="single"
-            />
-
-            <RadioGroupLink
-            v-model="form.template"
-              name="template"
-              :label="'Templates'"
-              :options="tempaltesOptions"
               mode="single"
             />
             <DatePicker
@@ -458,8 +452,6 @@
                 :label="getLabelWithLocale('Og Url')"
                 
             /> 
-
-
 
 
             <Dropzone

@@ -111,7 +111,7 @@
             >Deactivate users
           </template>
 
-          <template #content>"Are you sure you want to deactivate selected users?"</template>
+          <template #content>Are you sure you want to deactivate selected users?</template>
 
           <template #buttons="{ setIsOpen }">
             <Button
@@ -420,7 +420,7 @@ interface Props {
 const { action } = useAction();
 
 const changeActiveStatus = (item: User) => {
-  action("patch", route("users.update", item.id), {
+  action("patch", route("user.activate", item.id), {
     active: !item.active,
   });
 };

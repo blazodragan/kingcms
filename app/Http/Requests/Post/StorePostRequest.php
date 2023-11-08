@@ -3,6 +3,7 @@ namespace App\Http\Requests\Post;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use app\Settings\GeneralSettings;
 
 class StorePostRequest extends FormRequest
 {
@@ -23,9 +24,15 @@ class StorePostRequest extends FormRequest
     */
     public function rules()
     {
+        $settings = app(GeneralSettings::class);
+        $defaultLocale = $settings->default_locale;
         return [
-            'title' => ['required'],
-            'slug' => ['required'],
+            "slug.$defaultLocale" => [
+                'required',
+                'max:255',
+                "unique_locale_slug:posts",
+            ],
+            "title.$defaultLocale" => ['required'],
             'perex' => ['required'],
             'content' => ['required'],
             'meta_title' => ['nullable'],
@@ -41,6 +48,7 @@ class StorePostRequest extends FormRequest
             'status' => ['nullable'],
             'user_id' => ['required','exists:users,id'],
             'published_at' => ['nullable'],
+            'template' => ['nullable'],
             'categories_ids' => ['nullable','array'],
             'faqs.*.question' => ['nullable'],
             'faqs.*.answer' => ['nullable'],

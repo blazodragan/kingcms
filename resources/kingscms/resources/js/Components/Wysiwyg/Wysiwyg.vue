@@ -466,7 +466,6 @@ const setLink = (url: string) => {
   // empty
   if (url === "") {
     editor.value?.chain().focus().extendMarkRange("link").unsetLink().run();
-
     return;
   }
 

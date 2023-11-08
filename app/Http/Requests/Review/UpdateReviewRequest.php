@@ -3,6 +3,7 @@ namespace App\Http\Requests\Review;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use app\Settings\GeneralSettings;
 
 class UpdateReviewRequest extends FormRequest
 {
@@ -23,16 +24,21 @@ class UpdateReviewRequest extends FormRequest
     */
     public function rules()
     {
+        $settings = app(GeneralSettings::class);
+        $defaultLocale = $settings->default_locale;
         return [
-            'title' => ['sometimes'],
-            'slug' => ['sometimes'],
+            "slug.$defaultLocale" => [
+                'sometimes',
+                'max:255',
+            ],
+            "title.$defaultLocale" => ['required'],
+            'status' => ['required'],
+            'template' => ['required'],
             'perex' => ['sometimes'],
             'content' => ['sometimes'],
             'text' => ['sometimes'],
             'why' => ['nullable'],
             'active' => ['sometimes','boolean'],
-            'status' => ['nullable'],
-            'template' => ['nullable'],
             'meta_title' => ['nullable'],
             'meta_description' => ['nullable'],
             'meta_url_canolical' => ['nullable'],

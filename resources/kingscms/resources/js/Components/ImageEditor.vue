@@ -28,6 +28,12 @@
           @click="selectAll"
         >Select whole image
         </Button>
+        <Button
+          variant="outline"
+          :leftIcon="ArrowsPointingOutIcon"
+          @click="bigThumb"
+        >Big Thumbs
+        </Button>
       </div>
 
       <Button @click="crop">Crop image
@@ -93,6 +99,15 @@ const selectAll = () => {
     top: 0,
     width: cropper.value?.getImageData().width,
     height: cropper.value?.getImageData().height,
+  });
+};
+
+const bigThumb = () => {
+  cropper.value?.setCropBoxData({
+    left: 0,
+    top: 0,
+    width: cropper.value?.getImageData().width,
+    height: cropper.value?.getImageData().height/1.5,
   });
 };
 

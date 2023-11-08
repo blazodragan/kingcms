@@ -78,8 +78,8 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  locales: () => ["en"],
-  defaultLocale: "en",
+  locales: () => ["de","en"],
+  defaultLocale: "de",
 });
 
 const form = useForm({

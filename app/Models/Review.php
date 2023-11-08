@@ -116,5 +116,10 @@ class Review extends Model implements HasMedia {
         return Attribute::make(get: fn ($value) => $this->getFirstMediaUrl('cover_review', 'bigThumb'));
     }
 
+    public static function findBySlug($slug)
+{
+    return static::where('slug->' . app()->getLocale(), $slug)->firstOrFail();
+}
+
 
 }

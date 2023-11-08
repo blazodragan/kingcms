@@ -3,6 +3,7 @@ namespace App\Http\Requests\Post;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use app\Settings\GeneralSettings;
 
 class UpdatePostRequest extends FormRequest
 {
@@ -23,9 +24,14 @@ class UpdatePostRequest extends FormRequest
     */
     public function rules()
     {
+        $settings = app(GeneralSettings::class);
+        $defaultLocale = $settings->default_locale;
         return [
-            'title' => ['sometimes'],
-            'slug' => ['sometimes'],
+            "slug.$defaultLocale" => [
+                'sometimes',
+                'max:255',
+            ],
+            "title.$defaultLocale" => ['required'],
             'perex' => ['sometimes'],
             'content' => ['sometimes'],
             'meta_title' => ['nullable'],
@@ -40,6 +46,7 @@ class UpdatePostRequest extends FormRequest
             'og_url' => ['nullable'],
             'user_id' => ['sometimes','exists:users,id'],
             'published_at' => ['nullable'],
+            'template' => ['nullable'],
             'categories_ids' => ['nullable','array'],
             'status' => ['nullable'],
             'faqs.*.question' => ['nullable'],

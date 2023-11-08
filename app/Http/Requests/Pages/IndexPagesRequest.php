@@ -13,7 +13,7 @@ class IndexPagesRequest extends FormRequest
     */
     public function authorize()
     {
-        return Gate::allows("sanctum.news.index");
+        return Gate::allows("sanctum.page.index");
     }
 
     /**

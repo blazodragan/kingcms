@@ -13,7 +13,7 @@ class CreatePagesRequest extends FormRequest
     */
     public function authorize()
     {
-        return Gate::allows("sanctum.news.create");
+        return Gate::allows("sanctum.page.create");
     }
 
     /**

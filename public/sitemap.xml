@@ -6,17 +6,47 @@
         <priority>0.8</priority>
             </url>
     <url>
-        <loc>http://aicms.test/location</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
         <loc>http://aicms.test</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
     <url>
-        <loc>http://aicms.test/allnews</loc>
+        <loc>http://aicms.test/reviews</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://aicms.test/spanien</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://aicms.test/blog</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://aicms.test/loyalty-program</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://aicms.test/spanien/lohnt-sich-alicante-auch-im-winter</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://aicms.test/reviews/main-page-adsad-sada-sd-asd</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://aicms.test/blog/all-inclusive-mietwagen-vermietung-bei-mietwagenparadies</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://aicms.test/author/jamey-pfannerstill</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>

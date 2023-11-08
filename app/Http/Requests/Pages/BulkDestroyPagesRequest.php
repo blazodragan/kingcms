@@ -13,7 +13,7 @@ class BulkDestroyPagesRequest extends FormRequest
     */
     public function authorize()
     {
-        return Gate::allows("sanctum.news.destroy");
+        return Gate::allows("sanctum.page.destroy");
     }
 
     /**

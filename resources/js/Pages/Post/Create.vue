@@ -10,7 +10,7 @@
     </Button>
   </PageHeader>
 
-  <Form :form="form" :submit="submit" :userOptions="userOptions" :categoriesOptions="categoriesOptions" :statusOptions="statusOptions"/>
+  <Form :form="form" :submit="submit" :userOptions="userOptions" :categoriesOptions="categoriesOptions" :statusOptions="statusOptions" :templates="templates"/>
 </AppLayout>
 </template>
 
@@ -33,6 +33,7 @@ interface Props {
   userOptions: Array<{value: string|number, label: string}>;
   categoriesOptions: Array<{value: string|number, label: string}>
   statusOptions: Array<{value: string|number, label: string}>;
+  templates: Array<{value: string, label: string}>;
 }
 
 const props = defineProps<Props>();
@@ -56,6 +57,7 @@ og_url: { ...translatableDefaultValue },
 user_id: "", 
 status: "", 
 published_at: "",
+template: "",
 faqs: [{question: { ...translatableDefaultValue }, answer:{ ...translatableDefaultValue }}],  
 cover: [], 
 og_cover: [], 

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Http\Requests\BulkDestroyUserRequest;
+use App\Http\Requests\ActivateDeactivateUserRequest;
 use App\Http\Requests\DestroyUserRequest;
 use App\Http\Requests\ImpersonalLoginUserRequest;
 use App\Http\Requests\IndexUserRequest;
@@ -155,26 +156,51 @@ class UserController extends Controller
      * @param UpdateUserRequest $request
      * @param User $User
      */
-    public function update(UpdateUserRequest $request, User $User)
+    public function update(Request $request, User $User)
     {
-        $validated = $request->validated();
-        $validated['password'] = Hash::make($validated['password']);
-        dd($validated);
+       
+        // Validate password and email
+        $rules = [
+            'email' => 'required|email',
+            'locale' => 'required',
+            'password' => 'nullable|min:8',
+            'about' => 'nullable',
+            'twitter' => 'nullable',
+            'facebook' => 'nullable',
+            'linkedin' => 'nullable',
+            'slug' => 'nullable',
+        ];
+    
+        // Check if the email is changed
+        if ($request->input('email') !== $User->email) {
+            $rules['email'] = 'required|email|unique:users,email';
+        }
+    
+        $validated = $request->validate($rules);
+       
+        // Check if password is present in the request
+        if (array_key_exists('password', $validated) && !empty($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            // If password is not present or is empty, remove it from the validated data
+            unset($validated['password']);
+        }
+    
         $User->update($validated);
-
+    
         if ($request->input('role_id')) {
             $User->roles()->sync([$request->input('role_id')]);
         }
-
+    
         if ($request->wantsJson()) {
             return response()->json('success');
         }
-
-        return redirect()->route('user.index')->with('toast', [
+    
+        return redirect()->back()->with('toast', [
             'type' => 'success',
-            'message' => __('User has been updated'),
-            'durration' => 2000,]);
-
+            'message' => __('Operation successful'),
+            'duration' => 2000,
+        ]);
     }
 
     /**
@@ -242,6 +268,22 @@ class UserController extends Controller
             'message' => __('Operation successful'),
             'durration' => 2000,]);
     }
+
+      /**
+     * Update the specified resource in user.
+     */
+    public function activate(ActivateDeactivateUserRequest $request, User $user)
+    {
+        $validated = $request->validated();
+        $user->update($validated);
+
+        return redirect()->back()->with('toast', [
+            'type' => 'success',
+            'message' => __('Operation successful'),
+            'durration' => 2000,]);
+
+    }
+
 
     /**
      * Bulk deactivate users.
@@ -334,8 +376,10 @@ class UserController extends Controller
         $data = $request->validated();
         $user = User::whereEmail($data['email'])->first();
         $data['password'] = bcrypt($data['password']);
+        $data['slug'] = Str::slug($data['name']);
         $user->update($data + ['active' => true, 'invitation_accepted_at' => now()]);
         $user->markEmailAsVerified();
+
 
         return redirect()->route('login');
     }

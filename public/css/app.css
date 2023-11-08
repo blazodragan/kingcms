@@ -1455,10 +1455,6 @@ input[type="range"]::-ms-fill-lower {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-\[url\(\'panoramic-aerial-shot-california-bixby-bridge-green-hill-near-beautiful-blue-water\.jpg\'\)\] {
-  background-image: url('panoramic-aerial-shot-california-bixby-bridge-green-hill-near-beautiful-blue-water.jpg');
-}
-
 .bg-cover {
   background-size: cover;
 }

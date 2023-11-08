@@ -1,6 +1,11 @@
 export type UserForm = UserPasswordForm &
   UserProfileForm & {
     locale: string;
+    about: string;
+    facebook: string;
+    twitter: string;
+    linkedin: string;
+    slug: string;
     active: boolean;
     role_id: number | null;
   };
@@ -13,6 +18,11 @@ export type UserPasswordForm = {
 export type UserProfileForm = {
   first_name: string;
   last_name: string;
+  about: string;
+  facebook: string;
+  twitter: string;
+  linkedin: string;
+  slug: string;
   email: string;
   locale: string;
   avatar: [];

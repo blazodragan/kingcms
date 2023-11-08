@@ -3,6 +3,7 @@ namespace App\Http\Requests\Pages;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use app\Settings\GeneralSettings;
 
 class StorePagesRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class StorePagesRequest extends FormRequest
     */
     public function authorize()
     {
-        return Gate::allows("sanctum.news.create");
+        return Gate::allows("sanctum.page.create");
     }
 
     /**
@@ -23,9 +24,19 @@ class StorePagesRequest extends FormRequest
     */
     public function rules()
     {
+        $settings = app(GeneralSettings::class);
+        $defaultLocale = $settings->default_locale;
+
         return [
-            'title' => ['required'],
-            'slug' => ['required'],
+            "slug.$defaultLocale" => [
+                'required',
+                'max:255',
+                "unique_locale_slug:pages",
+            ],
+            "title.$defaultLocale" => ['required'],
+            'template' => ['required'],
+            'status' => ['required'],
+            'user_id' => ['required','exists:users,id'],
             'perex' => ['required'],
             'content' => ['required'],
             'text' => ['nullable'],
@@ -33,7 +44,6 @@ class StorePagesRequest extends FormRequest
             'meta_title' => ['nullable'],
             'meta_description' => ['nullable'],
             'meta_url_canolical' => ['nullable'],
-            'template' => ['nullable'],
             'is_index' => ['required','boolean'],
             'is_parent' => ['required','boolean'],
             'no_index' => ['required','boolean'],
@@ -42,8 +52,6 @@ class StorePagesRequest extends FormRequest
             'og_description' => ['nullable'],
             'og_type' => ['nullable'],
             'og_url' => ['nullable'],
-            'status' => ['nullable'],
-            'user_id' => ['required','exists:users,id'],
             'parent_id' => ['nullable'],
             'published_at' => ['nullable'],
             'faqs.*.question' => ['nullable'],

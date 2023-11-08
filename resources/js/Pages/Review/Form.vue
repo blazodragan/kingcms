@@ -34,7 +34,7 @@
               </template>
             </Modal>
           </div>
-
+          <a class="text-xs pl-1 mt-1 text-blue-600" target="_balnk" :href="route('showReview', {slug: form.slug?.[currentLocale]})">{{ route('showReview', {slug: form.slug?.[currentLocale]}) }}</a>
             <Dropzone
               v-model="form.cover_review"
               name="cover_review"
@@ -183,7 +183,7 @@
       </div>
 
       <!-- Second Column (spanning 2 out of 6) -->
-      <div class="col-span-2">    
+      <div class="col-span-4 md:col-span-2">    
         <Card class="mb-6 w-full">
           <div class="space-y-4">
             <RadioGroupLink

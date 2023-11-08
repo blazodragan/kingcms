@@ -34,6 +34,7 @@ use App\Services\BlockResolver;
 use App\Traits\IconRetriever;
 use Illuminate\Support\Str;
 use App\Traits\HasTemplates;
+use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
@@ -43,12 +44,21 @@ class PagesController extends Controller
     // template folder 
     protected $templatePath = 'pages';
 
-    public function showParent(Page $parentPage)
+    public function showParent($parentSlug)
     {
 
-        $parentPage->load('media');
-        $parentPage->load('faqs');
-        $parentPage->load('tips');
+        $locale = app()->getLocale();
+
+        $page = Page::where('slug->' . $locale, $parentSlug)->firstOrFail();
+        
+        // If the page has a parent_id, it's a child and shouldn't be accessible without its parent slug
+        if ($page->parent_id) {
+            abort(404);
+        }
+
+        $page->load('media');
+        $page->load('faqs');
+        $page->load('tips');
     
         $processedContent = preg_replace_callback('/@block\(\s*\'([^\']+)\'\s*(?:,\s*(\[[^\]]+\]))?\s*\)/', function ($matches) {
             $blockName = $matches[1];
@@ -70,32 +80,35 @@ class PagesController extends Controller
 
             // Use the block resolver to fetch the block content
             return app(\App\Services\BlockResolver::class)->resolve($blockName, $parameters);
-        }, $parentPage->content);
+        }, $page->content);
 
 
-        if ($parentPage->template) {
+        if ($page->template) {
 
-            $templateName = $this->templatePath . '.' . $parentPage->template;
+            $templateName = $this->templatePath . '.' . $page->template;
 
-            return view($templateName, compact('parentPage', 'processedContent'));
+            return view($templateName, compact('page', 'processedContent'));
         } 
         
         // Render the page (e.g., using a view)
-        return view('pages.showParent', compact('parentPage', 'processedContent'));
+        return view('pages.show', compact('page', 'processedContent'));
 
         
     }
 
-    public function showChild(Page $parentPage, Page $childPage)
-    {
+    public function showChild($parentSlug, $childSlug)
+    {      
+        $locale = app()->getLocale();
 
+        $parentPage = Page::where('slug->' . $locale, $parentSlug)->firstOrFail();
+               
+        $page = Page::where('slug->' . $locale, $childSlug)->where('parent_id', $parentPage->id)->firstOrFail();
         
-
-        $childPage->load('media');
-        $childPage->load('faqs');
-        $childPage->load('tips');
+        $page->load('media');
+        $page->load('faqs');
+        $page->load('tips');
+        $page->load('user');
     
-
         $processedContent = preg_replace_callback('/@block\(\s*\'([^\']+)\'\s*(?:,\s*(\[[^\]]+\]))?\s*\)/', function ($matches) {
             $blockName = $matches[1];
             $paramsStr = isset($matches[2]) ? $matches[2] : '';
@@ -116,17 +129,17 @@ class PagesController extends Controller
 
             // Use the block resolver to fetch the block content
             return app(\App\Services\BlockResolver::class)->resolve($blockName, $parameters);
-        }, $childPage->content);
+        }, $page->content);
 
-        if ($childPage->template) {
+        if ($page->template) {
 
-            $templateName = $this->templatePath . '.' . $childPage->template;
+            $templateName = $this->templatePath . '.' . $page->template;
 
-            return view($templateName, compact('childPage', 'processedContent'));
+            return view($templateName, compact('page', 'processedContent'));
         } 
         
         // Render the page (e.g., using a view)
-        return view('pages.show', compact('childPage', 'processedContent'));
+        return view('pages.show', compact('page', 'processedContent'));
 
 
         
@@ -140,6 +153,7 @@ class PagesController extends Controller
         if (!$page) {
             abort(404);
         }
+        
         $page->load('media');
         $page->load('faqs');
         $page->load('tips');
@@ -272,7 +286,7 @@ class PagesController extends Controller
     public function edit(EditPagesRequest $request, Page $page): Response
     {
 
-        $page->load('media','faqs','tips');
+        $page->load('media','faqs','tips','parent');
 
 
         return Inertia::render('Pages/Edit', [
@@ -327,6 +341,28 @@ class PagesController extends Controller
             'message' => __('Pages have been successfully update'),
             'durration' => 2000,
         ]);
+    }
+
+            /**
+     * Update the specified resource in storage.
+     */
+    public function date(Request $request, Page $pages): RedirectResponse
+    {
+            // Validate the 'published_at' attribute
+            $validatedData = $request->validate([
+                'published_at' => 'nullable',
+            ]);
+    
+            // Update the 'published_at' attribute
+            $pages->published_at = $validatedData['published_at'];
+    
+            // Save the changes; this will also update the 'updated_at' timestamp
+            $pages->save();
+    
+            return redirect()->route('pages.index')->with('toast', [
+                'type' => 'success',
+                'message' => __('Date have been successfully update'),
+                'durration' => 2000,]);
     }
 
     /**

@@ -3,6 +3,7 @@ namespace App\Http\Requests\Review;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use app\Settings\GeneralSettings;
 
 class StoreReviewRequest extends FormRequest
 {
@@ -23,17 +24,23 @@ class StoreReviewRequest extends FormRequest
     */
     public function rules()
     {
+        $settings = app(GeneralSettings::class);
+        $defaultLocale = $settings->default_locale;
         return [
-            'title' => ['required'],
-            'slug' => ['required'],
+            "slug.$defaultLocale" => [
+                'required',
+                'max:255',
+                "unique_locale_slug:reviews",
+            ],
+            'status' => ['required'],
+            'template' => ['required'],
+            'rating' => ['required'],
+            "title.$defaultLocale" => ['required'],
             'perex' => ['required'],
             'content' => ['required'],
             'text' => ['required'],
             'why' => ['nullable'],
-            'active' => ['required','boolean'],
-            'status' => ['nullable'],
-            'template' => ['nullable'],
-            'rating' => ['nullable'],
+            'active' => ['nullable'],
             'meta_title' => ['nullable'],
             'meta_description' => ['nullable'],
             'meta_url_canolical' => ['nullable'],

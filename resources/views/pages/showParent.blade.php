@@ -1,24 +1,44 @@
+@php
+
+use app\Settings\GeneralSettings;
+$settings = app(GeneralSettings::class);
+
+@endphp
+
 @extends('layout')
 
-@section('title', $parentPage->title ?? 'Default Title')
+@section('meta')
+
+<x-seo
+:title="$page->meta_title ?: $page->title ?: $settings->default_siteTitle[app()->getLocale()]"
+:description="$page->meta_description ?: $settings->default_siteDescription[app()->getLocale()]"
+:titleog="$page->og_title ?: $page->title ?: $settings->default_siteTitle[app()->getLocale()]"
+:imageog="$page->cover_og_url ?: $page->cover_url ?: asset('images/logo.png')"
+/>
+@if($page && $page->faqs->count() > 0)
+<x-faq-schema :faqs="$page->faqs" />
+@endif
+<x-artical-schema :page="$page" />
+
+@endsection
 
 @section('content')
 
 <section>
-    <div class="bg-[url('panoramic-aerial-shot-california-bixby-bridge-green-hill-near-beautiful-blue-water.jpg')] bg-no-repeat  bg-cover w-full p-5"> <!-- Hero Section -->
+    <div class="bg-search-welcome bg-no-repeat  bg-cover w-full p-5"> <!-- Hero Section -->
         <div class="w-full xl:w-1/2 mx-auto m-auto text-center flex"> <!-- Container Box -->
           <h1 class="text-2xl w-full text-white">{{__('Location Review')}}</h1>         
         </div>
       </div>
 </section>
 <section class="antialiased bg-gray-50 p-12">
-<h1 class="text-4xl mb-10 text-site-blue-dark text-center">{{ $parentPage->title }}</h1>
+<h1 class="text-4xl mb-10 text-site-blue-dark text-center">{{ $page->title }}</h1>
 
     <div class="w-4/5 sm:w-full 2xl:w-3/5 mx-auto bodycontent divtable">
 
-    @if($parentPage->media->first())
+    @if($page->media->first())
     <figure class="relative h-0 pb-[36.25%] overflow-hidden mb-8 rounded">
-    <img class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out" src="{{ $parentPage->media->first()->getUrl() }}" alt="{{ $parentPage->media->first()->custom_properties['name'] ?? '' }}">
+    <img class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out" src="{{ $page->media->first()->getUrl('bigThumb') }}" alt="{{ $page->media->first()->custom_properties['name'] ?? '' }}">
 
         </figure>
     @endif    
@@ -29,14 +49,14 @@
 
 
 
-@if($parentPage && $parentPage->faqs->count() > 0)
+@if($page && $page->faqs->count() > 0)
   <!-- Snippet -->
   <section class="bg-site-bg-gray">
     <div class="w-3/4 lg:w-1/2 mx-auto">
       <div class="text-4xl mb-5 text-site-blue-dark text-center pt-10">{{__('Frequently Asked Questions (FAQ)')}}</div>
       <div class="faq-box">
       
-    @foreach($parentPage->faqs as $faq)
+    @foreach($page->faqs as $faq)
     <div class="faq-item mb-4 rounded-xl border-2 border-site-border-faq bg-white">
           <div class="faq-question cursor-pointer flex justify-between items-center p-4">
             <span class="text-site-blue-ligter font-medium text-xl">{{ $loop->iteration }}. {{ $faq->question }}</span>

@@ -115,9 +115,9 @@
         <ListingHeaderCell>
             Slug
         </ListingHeaderCell> 
-        <ListingHeaderCell sortBy="active">
+        <!-- <ListingHeaderCell sortBy="active">
             Active
-        </ListingHeaderCell> 
+        </ListingHeaderCell>  -->
         <ListingHeaderCell sortBy="user_id">
             User
         </ListingHeaderCell> 
@@ -151,14 +151,14 @@
         <ListingDataCell>
             {{ item.slug?.[currentLocale] }}
         </ListingDataCell> 
-        <ListingDataCell>
+        <!-- <ListingDataCell>
             <ListingToggle name="active" v-model="item.active" :updateUrl="route('reviews.update', item.id)" />
-        </ListingDataCell> 
+        </ListingDataCell>  -->
         <ListingDataCell>
              {{ item.user.name }}
         </ListingDataCell> 
         <ListingDataCell>
-        <Publish :publishedAt="item.published_at" :updateUrl="route('reviews.update', item.id)" columnName="published_at" mode="dateTime"/>
+        <Publish :publishedAt="item.published_at" :updateUrl="route('reviews.date', item.id)" columnName="published_at" mode="dateTime"/>
         </ListingDataCell>
         <ListingDataCell class="text-left">
             <div v-if="item.status == 'Published'">
@@ -183,7 +183,7 @@
           </div>
         </ListingDataCell>
         <ListingDataCell>
-          <div class="flex items-center justify-end gap-3">
+          <div class="flex items-center justify-end gap-1">
             <IconButton
               :as="Link"
               :href="route('review.edit', item)"
@@ -239,6 +239,14 @@
               :icon="DocumentDuplicateIcon"
               v-can="'sanctum.review.edit'"
             />
+            <IconButton
+              :as="Link"
+              :href="route('showReview', {slug: item.slug?.[currentLocale]})"
+              variant="ghost"
+              color="gray"
+              :icon="EyeIcon"
+              v-can="'sanctum.news.edit'"
+            />
           </div>
         </ListingDataCell>
       </template>
@@ -258,7 +266,8 @@ import {
     CheckCircleIcon,
     ExclamationCircleIcon,
     XCircleIcon,
-    DocumentDuplicateIcon
+    DocumentDuplicateIcon,
+    EyeIcon
 } from "@heroicons/vue/24/outline";
 
 import {

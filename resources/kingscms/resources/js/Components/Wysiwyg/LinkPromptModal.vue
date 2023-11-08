@@ -80,8 +80,8 @@ const fetchLinks = async (searchTerm: string) => {
         });
         const data = await response.json();
         links.value = data.map(link => ({
-    label: link.description || link.url, // use the description as the label, but fall back to the url if there's no description
-    value: link.url
+        label: link.description || link.url, // use the description as the label, but fall back to the url if there's no description
+        value: link.url
 }));
     
     } catch (error) {

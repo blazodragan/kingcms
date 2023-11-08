@@ -56,6 +56,11 @@ const form = useForm({
   password: null,
   password_confirmation: null,
   locale: props.User.locale ?? "",
+  about: props.User.about ?? "",
+  twitter: props.User.twitter ?? "",
+  facebook: props.User.facebook ?? "",
+  linkedin: props.User.linkedin ?? "",
+  slug: props.User.slug ?? "",
   active: props.User.active ?? false,
   role_id: props.User.roles
     ? props.User.roles?.[0]?.id

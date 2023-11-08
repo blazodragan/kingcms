@@ -19,6 +19,7 @@ og_url: Record<string, string>;
 user_id: string; 
 status: string;
 published_at: string; 
+template: string; 
 created_at: string; 
 updated_at: string; 
 deleted_at: string
@@ -44,6 +45,7 @@ og_url: Record<string, string>;
 user_id: string; 
 status: string;
 published_at: string; 
+template: string; 
 faqs: Array<{ question: string, answer: string }>;
 cover: Array<UploadedFile>; 
 og_cover: Array<UploadedFile>

@@ -13,7 +13,7 @@ class EditPagesRequest extends FormRequest
     */
     public function authorize()
     {
-        return Gate::allows("sanctum.news.edit");
+        return Gate::allows("sanctum.page.edit");
     }
 
     /**

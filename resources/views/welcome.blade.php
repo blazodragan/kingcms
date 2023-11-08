@@ -1,18 +1,34 @@
-<!-- resources/views/welcome.blade.php -->
+@php
+
+use app\Settings\GeneralSettings;
+$settings = app(GeneralSettings::class);
+
+@endphp
 
 @extends('layout')
 
-@section('title', 'Welcome Page')
+@section('meta')
+<x-seo
+:title="$page->meta_title ?: $page->title ?: $settings->default_siteTitle[app()->getLocale()]"
+:description="$page->meta_description ?: $settings->default_siteDescription[app()->getLocale()]"
+:titleog="$page->og_title ?: $page->title ?: $settings->default_siteTitle[app()->getLocale()]"
+:imageog="$page->cover_og_url ?: $page->cover_url ?: asset('images/logo.png')"
+/>
+<x-logo-schema/>
+@if($page && $page->faqs->count() > 0)
+<x-faq-schema :faqs="$page->faqs" />
+@endif
+    
+@endsection
 
 @section('content')
-
   <section>
-    <div class="bg-[url('panoramic-aerial-shot-california-bixby-bridge-green-hill-near-beautiful-blue-water.jpg')] bg-no-repeat bg-cover w-full p-2 sm:p-8 2xl:p-20"> <!-- Hero Section -->
+    <div class="bg-search-welcome bg-no-repeat bg-cover w-full p-2 sm:p-8 2xl:p-20"> <!-- Hero Section -->
     <div class="w-full 2xl:w-2/3 mx-auto bg-white rounded lg:flex flex-col lg:flex-row"> <!-- Container Box -->
           
           <!-- Left Side -->
           <div class="flex-grow mb-10 p-10 border-r sm:mb-0 relative" style="flex-basis: 70%;">
-            <img src="{{ asset('images/bitmap.png') }}" alt="Under Construction" class="absolute top-0 right-0 z-20">
+            <img src="{{ asset('images/bitmap.png') }}" width="294px" height="222px" alt="Under Construction" class="absolute top-0 right-0 z-20">
             <div class="transparent-white-overlay z-10">
             
 
@@ -115,10 +131,10 @@
                 <!-- Box 1 -->
                 <div
                 class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow mt-4">
-                <a href="#">
+                <a href="#" aria-label="2023 Porsche Panamera">
                   <!-- Image -->
                   <figure class="relative h-0 pb-[56.25%] overflow-hidden mt-5">
-                  <img src="{{ asset('images/2023_Porsche_Panamera.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
+                  <img src="{{ asset('images/2023_Porsche_Panamera.png') }}" alt="2023 Porsche Panamera" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
 
                   </figure>
                   <div class="flex-grow flex flex-col p-5">
@@ -146,10 +162,10 @@
         <!-- Box 1 -->
         <div
           class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow mt-4">
-          <a href="#">
+          <a href="#" aria-label="Minivan">
             <!-- Image -->
             <figure class="relative h-0 pb-[56.25%] overflow-hidden mt-5">
-            <img src="{{ asset('images/minivan.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
+            <img src="{{ asset('images/minivan.png') }}" alt="Minivan" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
 
             </figure>
             <div class="flex-grow flex flex-col p-5">
@@ -178,10 +194,10 @@
         <!-- Box 1 -->
         <div
         class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow mt-4">
-        <a href="#">
+        <a href="#" aria-label="Polo">
           <!-- Image -->
           <figure class="relative h-0 pb-[56.25%] overflow-hidden mt-5">
-          <img src="{{ asset('images/polo.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
+          <img src="{{ asset('images/polo.png') }}" alt="Polo" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
 
           </figure>
           <div class="flex-grow flex flex-col p-5">
@@ -210,10 +226,10 @@
                 <!-- Box 1 -->
                 <div
                 class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow mt-4">
-                <a href="#">
+                <a href="#" aria-label="E-tron">
                   <!-- Image -->
                   <figure class="relative h-0 pb-[56.25%] overflow-hidden mt-5">
-                  <img src="{{ asset('images/e-tron.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
+                  <img src="{{ asset('images/e-tron.png') }}" alt="E-tron" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
 
                   </figure>
                   <div class="flex-grow flex flex-col p-5">
@@ -242,10 +258,10 @@
                 <!-- Box 1 -->
                 <div
                 class="bg-white flex flex-col shadow-sm border border-[#D3DBEB] overflow-hidden rounded-lg transition duration-500 ease-in-out transform glow mt-4">
-                <a href="#">
+                <a href="#" aria-label="Jeta">
                   <!-- Image -->
                   <figure class="relative h-0 pb-[56.25%] overflow-hidden mt-5">
-                  <img src="{{ asset('images/jeta.png') }}" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
+                  <img src="{{ asset('images/jeta.png') }}" alt="Jeta" class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition duration-700 ease-out">
      
                   </figure>
                   <div class="flex-grow flex flex-col p-5">
@@ -353,9 +369,9 @@
   </div>
   
   <div class="map">
-    <button class="active first"></button>
-    <button class="second"></button>
-    <button class="third"></button>
+    <button aria-label="First Review Slide" class="active first"></button>
+    <button aria-label="Second Review Slide" class="second"></button>
+    <button aria-label="Third Review Slide" class="third"></button>
   </div>
 </div>
 
@@ -388,6 +404,7 @@ buttonsWrapper.addEventListener("click", (e) => {
     <div class="w-3/4 lg:w-1/2 mx-auto">
       <div class="text-4xl mb-5 text-site-blue-dark text-center pt-10">{{__('Frequently Asked Questions (FAQ)')}}</div>
       <div class="faq-box">
+       
       @if($page && $page->faqs->count() > 0)
     @foreach($page->faqs as $faq)
     <div class="faq-item mb-4 rounded-xl border-2 border-site-border-faq bg-white">

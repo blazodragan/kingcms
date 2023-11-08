@@ -31,9 +31,42 @@ class Post extends Model  implements HasMedia {
 
 
     protected $table = 'posts';
-    protected $fillable = ['title', 'slug', 'perex', 'content', 'status' ,  'meta_title', 'meta_description', 'meta_url_canolical', 'href_lang', 'no_index', 'no_follow', 'og_title', 'og_description', 'og_type', 'og_url', 'user_id', 'published_at'];
+    protected $fillable = [
+        'title',
+        'slug',
+        'perex',
+        'content',
+        'status' ,
+        'meta_title',
+        'meta_description',
+        'meta_url_canolical',
+        'href_lang',
+        'no_index',
+        'no_follow',
+        'og_title',
+        'og_description',
+        'og_type',
+        'og_url',
+        'user_id',
+        'published_at',
+        'template'
+    ];
     public $searchable = ['title'];
-    public $translatable = ['title', 'slug', 'perex', 'content', 'meta_title', 'meta_description', 'meta_url_canolical', 'href_lang', 'og_title', 'og_description', 'og_type', 'og_url'];
+
+    public $translatable = [
+        'title',
+        'slug',
+        'perex',
+        'content',
+        'meta_title',
+        'meta_description',
+        'meta_url_canolical',
+        'href_lang',
+        'og_title',
+        'og_description',
+        'og_type',
+        'og_url'
+    ];
     protected $appends = [
         'cover_big',
     ];
